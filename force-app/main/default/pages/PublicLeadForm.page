@@ -1,0 +1,244 @@
+<apex:page lightningStylesheets="true" showHeader="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+    <style type="text/css">
+        body {
+            background-image: url(https://wallpaperaccess.com/full/3350072.jpg) !important;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .overallContainer {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #480000;
+            font-family: "Arial", sans-serif;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #480000;
+        }
+
+        @font-face {
+            font-family: 'Salesforce Sans';
+            src: url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.woff') format('woff'),
+            url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
+        }
+
+        body .message,
+        .slds-vf-scope .message {
+            background-color: transparent !important;
+            color: white;
+            border-style: hidden;
+        }
+        body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton{
+            background: transparent;
+        }
+    </style>
+    <!--  ----------------------------------------------------------------------  -->
+    <!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
+    <!--  If necessary, please modify the charset parameter to specify the        -->
+    <!--  character set of your HTML page.                                        -->
+    <!--  ----------------------------------------------------------------------  -->
+
+    <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+
+    <!--  ----------------------------------------------------------------------  -->
+    <!--  NOTE: Please add the following <FORM> element to your page.             -->
+    <!--  ----------------------------------------------------------------------  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+        crossorigin="anonymous" />
+    <apex:slds />
+    <div class="overallContainer slds-align--absolute-center">
+        <article class="slds-card">
+            <div id="contentForm">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title slds-text-heading_large">
+                                <span>Contact us</span>
+                                <span></span>
+                            </h2>
+                            <h2 class="slds-p-around--xx-small slds-text-heading--medium">
+                                <span>We'll reply as soon as possible!</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner">
+                    <div id="formConatiner">
+
+                        <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST" onsuccess="thank()">
+                            <input type="hidden" name="oid" value="00D7R000000uV6A" />
+                            <input type="hidden" name="retURL" value="https://playful-fox-gcuxwm-developer-edition.eu45.force.com/LeadForm?submitted=true"
+                            />
+
+                            <!--  ----------------------------------------------------------------------  -->
+                            <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+                            <!--  these lines if you wish to test in debug mode.                          -->
+                            <!--  <input type="hidden" name="debug" value=1>                              -->
+                            <!--  <input type="hidden" name="debugEmail"                                  -->
+                            <!--  value="hubert.bogusz@britenet.com.pl">                                  -->
+                            <!--  ----------------------------------------------------------------------  -->
+                            <div class="slds-form-element slds-p-around--x-small">
+                                <label class="slds-form-element__label" for="first_name">
+                                    <abbr class="slds-required" title="required">*</abbr>Full Name</label>
+                                <div class="slds-form-element__control slds-grid">
+                                    <div class="slds-col slds-p-horizontal--small">
+                                        <input type="text" id="first_name" maxlength="40" name="first_name" size="20" placeholder="First Name" class="slds-input"
+                                        />
+                                    </div>
+                                    <div class="slds-col slds-p-horizontal--small">
+                                        <input type="text" id="last_name" maxlength="80" name="last_name" size="20" placeholder="Last Name" class="slds-input" required="true"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-p-around--x-small">
+                                        <label class="slds-form-element__label" for="email">
+                                            <abbr class="slds-required" title="required">*</abbr>Email</label>
+                                        <div class="slds-form-element__control slds-p-horizontal--small">
+                                            <input type="email" id="email" maxlength="80" name="email" size="20" placeholder="Email" required="true" class="slds-input"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-p-around--x-small">
+                                        <label class="slds-form-element__label slds-p-horizontal--x-small" for="company">
+                                            Company</label>
+                                        <div class="slds-form-element__control slds-p-horizontal--small">
+                                            <input type="text" id="company" maxlength="40" name="company" size="20" placeholder="Company" required="" class="slds-input"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-p-around--x-small">
+                                        <label class="slds-form-element__label slds-p-horizontal--x-small" for="city">
+                                            City</label>
+                                        <div class="slds-form-element__control slds-p-horizontal--small">
+                                            <input type="text" id="city" maxlength="40" name="city" size="20" placeholder="City" required="" class="slds-input" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-p-around--x-small slds-p-bottom--none">
+                                        <label class="slds-form-element__label slds-p-horizontal--x-small" for="country">
+                                            Country</label>
+                                        <div class="slds-form-element__control slds-p-horizontal--small">
+                                            <input type="text" id="country" maxlength="40" name="country" size="20" placeholder="Country" required="" class="slds-input"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid">
+                                <input class="slds-align--absolute-center slds-button slds-button_success slds-m-vertical--medium" type="submit" name="submit"
+                                />
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </article>
+
+        <div id="contentThank" style="display: none">
+            <article class="slds-card">
+                <div class="slds-card__header slds-grid ">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body slds-media__body slds-p-around--small ">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size--2-of-3">
+                                    <h2 class="slds-card__header-title slds-text-heading_large ">
+                                        <span>Thank you!</span>
+                                    </h2>
+                                </div>
+                                <div class="slds-align--absolute-center slds-col">
+                                    <span class="slds-icon_container slds-icon_container_circle slds-icon-action-approval" title="Success">
+                                        <svg aria-hidden="true" class="slds-icon slds-icon--small">
+
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#approval')}"></use>
+                                        </svg>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <h2 class="slds-card__header-title">
+                                <span>We'll reply as soon as possible!</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+            </article>
+        </div>
+    </div>
+    <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+    <script type='text/javascript'>
+        var initESW = function (gslbBaseURL) {
+            embedded_svc.settings.displayHelpButton = true; //Or false
+            embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+
+            //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+            //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+            //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+            //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+            // Settings for Chat
+            //embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+            // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+            // Returns a valid button ID.
+            //};
+            //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+            //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+            //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+            embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+            embedded_svc.settings.entryFeature = 'LiveAgent';
+
+            embedded_svc.init(
+                'https://playful-fox-gcuxwm-dev-ed.my.salesforce.com',
+                'https://playful-fox-gcuxwm-developer-edition.eu45.force.com/LeadForm',
+                gslbBaseURL,
+                '00D7R000000uV6A',
+                'Chat_Agents',
+                {
+                    baseLiveAgentContentURL: 'https://c.la3-c1-cdg.salesforceliveagent.com/content',
+                    deploymentId: '5727R0000008hT0',
+                    buttonId: '5737R0000008huX',
+                    baseLiveAgentURL: 'https://d.la3-c1-cdg.salesforceliveagent.com/chat',
+                    eswLiveAgentDevName: 'Chat_Agents',
+                    isOfflineSupportEnabled: true
+                }
+            );
+        };
+
+        if (!window.embedded_svc) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://playful-fox-gcuxwm-dev-ed.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+            s.onload = function () {
+                initESW(null);
+            };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://service.force.com');
+        }
+    </script>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const submitted = urlParams.get('submitted');
+        window.onload = thank();
+        function thank() {
+            if (submitted == 'true') {
+                document.getElementById('contentForm').remove();
+                document.getElementById('contentThank').style.display = 'block';
+            }
+
+        }
+    </script>
+
+    </html>
+</apex:page>
