@@ -1,0 +1,71 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global"
+    controller="ProductController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="ProductCreated" type="c:ProductCreated" />
+    <aura:handler event="c:ImagesAdded" action="{!c.closeModal}" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="imgId" type="String" />
+    <aura:attribute name="imgField" type="String" />
+    <aura:attribute name="modalPromise" type="Aura.Action" />
+    <aura:attribute name="description" type="String" />
+    <aura:attribute name="price" type="Decimal" />
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:overlayLibrary aura:id="overlayImg" />
+    <div class="slds-grid">
+        <div class="slds-col slds-size--2-of-3">
+            <lightning:card>
+                <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Product2"
+                    onsuccess="{!c.handleSuccess}" onerror="{!c.handleError}" class="slds-p-around--large"
+                    recordId="{! v.recordId}">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size--1-of-2 slds-p-around--medium">
+                            <lightning:messages />
+                            <lightning:inputField fieldName="Name" class="slds-p-around-small" />
+                            <div class="slds-grid slds-grid_align-spread">
+                                <div class="slds-col slds-size--1-of-2">
+                                    <lightning:inputField fieldName="ProductCode" />
+                                    <lightning:inputField fieldName="Family" />
+                                    <lightning:input value="{!v.price}" label="Standard Price" />
+                                </div>
+                                <div class="slds-col slds-grid slds-size--1-of-4">
+                                    <lightning:inputField fieldName="IsActive" />
+                                    <lightning:inputField fieldName="Image__c" value="{!v.imgField}"
+                                        class="slds-hidden" />
+                                    <lightning:inputField fieldName="Description" value="{!v.description}"
+                                        class="slds-hidden" />
+                                </div>
+                            </div>
+
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label">
+                                    Description</label>
+                                <div class="slds-form-element__control">
+                                    <lightning:inputRichText value="{!v.description}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-align--absolute-center slds-col slds-size--1-of-3">
+                            <div class="slds-p-around--medium">
+                                <img src="{!v.imgId}"
+                                    class="imageBox slds-align--absolute-center slds-m-bottom--small" />
+                                <lightning:button label="Manage images" variant="neutral" type="submit"
+                                    onclick="{! c.manageImg}" class="slds-align--absolute-center">
+                                </lightning:button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid">
+                        <div class="slds-m-top_small slds-align_absolute-center">
+                            <lightning:button class="slds-m-around_small" type="submit"
+                                onclick="{! c.handleSaving}" label="Save" variant="brand" />
+                            <lightning:button class="slds-m-around_small" type="submit"
+                                onclick="{! c.handleSavingNew}" label="Save &amp; New" variant="brand" />
+                        </div>
+                    </div>
+                </lightning:recordEditForm>
+            </lightning:card>
+        </div>
+    </div>
+</aura:component>
