@@ -50,7 +50,28 @@
         component.set('v.imgField', '/sfc/servlet.shepherd/document/download/' + mainImg);
     },
     handleSaving: function (component, event, helper) {
-        helper.addPricebookEntry(component);
+        var recordId = component.get('v.recordId');
+        if(recordId != undefined){  
+            helper.addPricebookEntry(component);
+            var navigation = component.find('navigation');
+            navigation.navigate({
+            'type': 'standard__recordPage',
+            'attributes': {
+                'objectApiName': 'Product2',
+                'recordId': component.get('v.recordId'),
+                'actionName': 'view'
+            }
+        });
+        } else {
+            var toastEvent = $A.get("e.force:showToast");
+            toastEvent.setParams({
+                "title": "Error!",
+                "message": 'You should add some image to be able to save product',
+                "type": "error"
+            });
+            toastEvent.fire();
+        }
+        
     },
     handleSavingNew: function (component, event, helper) {
         helper.addPricebookEntry(component);
