@@ -15,8 +15,9 @@
     <lightning:overlayLibrary aura:id="overlayImg" />
     <div class="slds-grid">
         <div class="slds-col slds-size--2-of-3">
-            <lightning:card>
-                <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Product2"
+            <lightning:card >
+                <span class="slds-p-around--xx-large slds-text-heading--medium slds-text-heading_medium">Fill the form and add images to add new product</span>
+            <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Product2"
                     onsuccess="{!c.handleSuccess}" onerror="{!c.handleError}" class="slds-p-around--large"
                     recordId="{! v.recordId}">
                     <div class="slds-grid">
