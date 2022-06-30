@@ -29,7 +29,7 @@
                                 <div class="slds-col slds-size--1-of-2">
                                     <lightning:inputField fieldName="ProductCode" />
                                     <lightning:inputField fieldName="Family" />
-                                    <lightning:input value="{!v.price}" label="Standard Price" />
+                                    <lightning:input value="{!v.price}" label="Standard Price" required="true" />
                                 </div>
                                 <div class="slds-col slds-grid slds-size--1-of-4">
                                     <lightning:inputField fieldName="IsActive" />

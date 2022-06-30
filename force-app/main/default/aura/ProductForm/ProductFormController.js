@@ -51,17 +51,29 @@
     },
     handleSaving: function (component, event, helper) {
         var recordId = component.get('v.recordId');
-        if(recordId != undefined){  
-            helper.addPricebookEntry(component);
-            var navigation = component.find('navigation');
-            navigation.navigate({
-            'type': 'standard__recordPage',
-            'attributes': {
-                'objectApiName': 'Product2',
-                'recordId': component.get('v.recordId'),
-                'actionName': 'view'
+        if (recordId != undefined) {
+            if (component.get('v.price') == undefined) {
+                var noPriceEvent = $A.get("e.force:showToast");
+                noPriceEvent.setParams({
+                    "title": "Error!",
+                    "message": 'You should add price to be able to save product',
+                    "type": "error"
+                });
+                noPriceEvent.fire();
+            } else {
+                helper.addPricebookEntry(component);
+                var navigation = component.find('navigation');
+                setTimeout(() => {
+                    navigation.navigate({
+                        'type': 'standard__recordPage',
+                        'attributes': {
+                            'objectApiName': 'Product2',
+                            'recordId': component.get('v.recordId'),
+                            'actionName': 'view'
+                        }
+                    });
+                }, "1000")
             }
-        });
         } else {
             var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
@@ -71,7 +83,7 @@
             });
             toastEvent.fire();
         }
-        
+
     },
     handleSavingNew: function (component, event, helper) {
         helper.addPricebookEntry(component);
