@@ -1,7 +1,7 @@
 <template>
     <template if:false={noResults}>
         <div class="slds-scrollable_y">
-            <span class="slds-p-around--large slds-text-heading_large"> Results for "{term}"</span>
+            <span class="slds-p-around--large slds-text-heading_large"> Found {resultsSize} results for "{term}"</span>
           <lightning-layout multiple-rows>
             <template for:each={searchedProducts} for:item="product">
               <lightning-layout-item key={product.id} padding="around-small" size="12" small-device-size="6"
@@ -14,7 +14,7 @@
         </div>
       </template>
       <template if:true={noResults}>
-          <div class="slds-p-around--small">>
+          <div class="slds-p-around--small">
               <span class="slds-p-around--large slds-text-heading_large"> There is no results for {term}.</span>
           </div>
       </template>

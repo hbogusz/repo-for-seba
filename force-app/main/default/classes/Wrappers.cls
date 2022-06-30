@@ -16,4 +16,21 @@ public with sharing class Wrappers {
         @AuraEnabled
         public String image;
     }
+    public class PricebookEntryWrapper{
+        @AuraEnabled
+        public String productId;
+        @AuraEnabled
+        public String productName;
+        @AuraEnabled
+        public String family;
+        @AuraEnabled
+        public String image;
+        @AuraEnabled
+        public Decimal reviewCount;
+        @AuraEnabled
+        public Decimal reviewAverage;
+        @AuraEnabled
+        public Decimal unitPrice;
+    }
+    
 }
