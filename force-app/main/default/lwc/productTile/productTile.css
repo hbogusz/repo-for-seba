@@ -8,3 +8,14 @@
 .name{
     cursor: pointer;
 }
+.imgContainer{
+    position: relative;
+}
+.iconContainer{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.red-star {
+    --sds-c-icon-color-foreground-default: rgb(255, 0, 0);
+}

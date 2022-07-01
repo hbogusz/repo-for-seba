@@ -20,6 +20,17 @@ public with sharing class InternalService {
          wrappers = convertPricebookEntriesToWrappers(products);      
          return wrappers;
      }
+     @AuraEnabled(Cacheable=true)
+     public static List<Wrappers.PricebookEntryWrapper> searchProductsByCategory(String category) {
+         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+         FROM PricebookEntry
+         WHERE Pricebook2.IsActive = TRUE AND Product2.Family = :category
+         WITH SECURITY_ENFORCED];
+ 
+          List<Wrappers.PricebookEntryWrapper> wrappers = new List<Wrappers.PricebookEntryWrapper>();
+          wrappers = convertPricebookEntriesToWrappers(products);      
+          return wrappers;
+      }
 
      public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
         List<Wrappers.ProductWrapper> wrappers = new List<Wrappers.ProductWrapper>();
