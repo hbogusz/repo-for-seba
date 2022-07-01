@@ -5,14 +5,13 @@
     <aura:handler event="c:ProductCreated" action="{!c.onInit}" />
     <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg','.webp']" />
     <aura:attribute name="files" type="ContentDocument[]" />
-    <aura:attribute name="images" type="String[]" />
     <aura:attribute name="productId" type="String" />
     <aura:attribute name="selectedImg" type="String" />
     <aura:attribute name="isSaveDisabled" type="String" />
     <aura:attribute name="hasFiles" type="Boolean" />
     <span class="slds-text-heading--small slds-p-top--medium slds-p-left--medium">Upload images in format 4:5</span>
     <lightning:fileUpload name="fileUploader" multiple="true" accept="{!v.filetype}" recordId="{!v.productId}"
-        onuploadfinished="{!c.UploadFinished}" class="slds-align--absolute-center slds-p-around--medium"  />
+        onuploadfinished="{!c.UploadFinished}" class="slds-align--absolute-center slds-p-around--medium" />
     <div class="slds-box">
         <aura:if isTrue="{!v.hasFiles}">
             <span>Choose main image of product by clicking it.</span>
@@ -23,14 +22,15 @@
                             onclick="{!c.selectImg}">
                             <div href="javascript:void(0)" id="{!f.Id}" onclick="{!c.delFiles}">
                                 <lightning:icon iconName="utility:close" alternativeText="Delete" title="Delete Image"
-                                    class="delete-button" size="small"/>
+                                    class="delete-button" size="small" />
                             </div>
                             <img src="{! '/sfc/servlet.shepherd/document/download/' + f.Id}" class="imageBox" />
                         </div>
                     </lightning:layoutItem>
                 </aura:iteration>
             </lightning:layout>
-            <lightning:button label="Save" variant="neutral" onclick="{! c.handleSaving}" class="slds-align--absolute-center" disabled="{! empty(v.files)}">
+            <lightning:button label="Save" variant="neutral" onclick="{! c.handleSaving}"
+                class="slds-align--absolute-center" disabled="{! empty(v.files)}">
             </lightning:button>
             <aura:set attribute="else">
                 <p>No images added.</p>

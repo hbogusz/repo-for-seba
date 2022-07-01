@@ -42,11 +42,15 @@
             });
     },
     closeModal: function (component, event, helper) {
-        component.get('v.modalPromise').then(function (modal) {
-            modal.close();
-        });
         var mainImg = event.getParam('imgId');
-        component.set('v.imgId', '/sfc/servlet.shepherd/document/download/' + mainImg);
+        if(mainImg == null){
+            component.set('v.imgId', "/resource/1656320785000/addImage");
+        } else {
+            component.get('v.modalPromise').then(function (modal) {
+                modal.close();
+            });
+            component.set('v.imgId', '/sfc/servlet.shepherd/document/download/' + mainImg);
+        }
         component.set('v.imgField', '/sfc/servlet.shepherd/document/download/' + mainImg);
     },
     handleSaving: function (component, event, helper) {
