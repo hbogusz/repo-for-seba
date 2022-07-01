@@ -15,10 +15,6 @@ export default class CategoryPage extends LightningElement {
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         this.currentPageReference = currentPageReference;
-       if (currentPageReference) {
-          this.urlStateParameters = currentPageReference.state;
-          this.actorId = this.currentPageReference.state.c__recordId;
-       }
     }
 
     @wire(searchProductsByCategory, {category: '$category'})
