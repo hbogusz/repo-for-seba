@@ -1,7 +1,5 @@
 ({
     doInit: function (cmp) {
-        // Set the attribute value. 
-        // You could also fire an event here instead.
         cmp.set("v.imgId", "/resource/1656320785000/addImage");
     },
     handleSuccess: function (component, event, helper) {
@@ -28,7 +26,9 @@
     },
     manageImg: function (component, event, helper) {
         var modalBody;
-        $A.createComponent("c:ImgManager", {},
+        var recordId = component.get('v.recordId');
+        if(component.get('v.price') != '' && component.get('v.name') != '' && component.get('v.price') != undefined && component.get('v.name') != undefined){
+            $A.createComponent("c:ImgManager", {},
             function (content, status) {
                 if (status === "SUCCESS") {
                     modalBody = content;
@@ -40,6 +40,7 @@
                     component.set("v.modalPromise", modalPromise);
                 }
             });
+        }
     },
     closeModal: function (component, event, helper) {
         var mainImg = event.getParam('imgId');
@@ -65,10 +66,12 @@
                 });
                 noPriceEvent.fire();
             } else {
+                component.set("v.spinner", true);
                 helper.addPricebookEntry(component);
                 var navigation = component.find('navigation');
                 setTimeout(() => {
-                    navigation.navigate({
+                component.set("v.spinner", false);
+                navigation.navigate({
                         'type': 'standard__recordPage',
                         'attributes': {
                             'objectApiName': 'Product2',
@@ -77,6 +80,7 @@
                         }
                     });
                 }, "1000")
+
             }
         } else {
             var toastEvent = $A.get("e.force:showToast");
