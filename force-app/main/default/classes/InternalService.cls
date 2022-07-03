@@ -45,6 +45,7 @@ public with sharing class InternalService {
         }
         return wrappers;
     }
+
     public static List<Wrappers.PricebookEntryWrapper> convertPricebookEntriesToWrappers(List<PricebookEntry> pricebookEntries){
         List<Wrappers.PricebookEntryWrapper> wrappers = new List<Wrappers.PricebookEntryWrapper>();
         for(PricebookEntry pricebookEntry : pricebookEntries){
