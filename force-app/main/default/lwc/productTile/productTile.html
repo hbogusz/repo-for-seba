@@ -1,0 +1,16 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__body">
+            <div class="tile-wrapper">
+                <img src={product.image} class="tile" />
+                <div class="slds-grid slds-gutters slds-p-horizontal--x-small">
+                    <div class="slds-col slds-size_2-of-3 slds-p-top--x-small">
+                        <div onclick={selectMovie}>
+                            <h1 class="slds-text-heading_medium">{product.name}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</template>
