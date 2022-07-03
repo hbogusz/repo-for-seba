@@ -8,6 +8,7 @@ export default class SearchResults extends LightningElement {
     searchedProducts;
     wiredSearchResult;
     noResults=false;
+    resultsSize=0;
 
     connectedCallback() {
         console.log('initial');
@@ -19,7 +20,9 @@ export default class SearchResults extends LightningElement {
         this.wiredSearchResult = result;
         if (result.data) {
             this.searchedProducts = result.data;
-            if(this.searchedProducts.length == 0){
+            this.resultsSize = this.searchedProducts.length;
+            console.log(this.resultsSize);
+            if(this.resultsSize == 0){
                 this.noResults = true;
             } else {
                 this.noResults = false;

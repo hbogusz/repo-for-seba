@@ -1,16 +1,27 @@
 <template>
-    <article class="slds-card">
-        <div class="slds-card__body">
-            <div class="tile-wrapper">
-                <img src={product.image} class="tile" />
-                <div class="slds-grid slds-gutters slds-p-horizontal--x-small">
-                    <div class="slds-col slds-size_2-of-3 slds-p-top--x-small">
-                        <div onclick={selectMovie}>
-                            <h1 class="slds-text-heading_medium">{product.name}</h1>
-                        </div>
+    <div class="slds-card__body">
+        <div class="tile-wrapper">
+            <div class="imgContainer">
+                <img src={product.image} class="tile" onclick={navigate}/>
+            <div class="iconContainer slds-grid slds-grid_vertical-align-center slds-p-around--x-small">
+                <lightning-icon icon-name="utility:favorite" size="medium" class="red-star">
+                </lightning-icon>
+                <h2 class="slds-p-around--xx-small slds-text-heading_medium">{product.reviewAverage}</h2>
+                <span>({product.reviewCount})</span>
+            </div>
+            </div>
+            
+            <div class="slds-p-horizontal--x-small">
+                <div class="slds-p-vertical--x-small">
+                    <div>
+                        <h1 class="slds-text-heading_medium name" onclick={navigate}>{product.productName}</h1>
                     </div>
+                </div>
+                <div class="slds-align_absolute-center">
+                    <h1 class="slds-text-heading_medium">$
+                    <lightning-formatted-number value={product.unitPrice} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></h1>
                 </div>
             </div>
         </div>
-    </article>
+    </div>
 </template>
