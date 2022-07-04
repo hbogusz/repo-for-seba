@@ -1,0 +1,7 @@
+.family:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.smallImg:hover{
+    cursor: pointer;
+}

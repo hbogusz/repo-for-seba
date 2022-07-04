@@ -22,6 +22,8 @@ public with sharing class Wrappers {
         @AuraEnabled
         public String productName;
         @AuraEnabled
+        public String description;
+        @AuraEnabled
         public String family;
         @AuraEnabled
         public String image;
@@ -31,6 +33,12 @@ public with sharing class Wrappers {
         public Decimal reviewAverage;
         @AuraEnabled
         public Decimal unitPrice;
+    }
+    public class ImageWrapper{
+        @AuraEnabled
+        public String id;
+        @AuraEnabled
+        public String url;
     }
     
 }

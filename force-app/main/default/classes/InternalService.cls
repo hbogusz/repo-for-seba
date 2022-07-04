@@ -5,11 +5,6 @@ public with sharing class InternalService {
     @AuraEnabled(Cacheable=true)
     public static List<Wrappers.PricebookEntryWrapper> searchProducts(String searchTerm) {
         String queryString = '%' + searchTerm + '%';
-        //  List<Product2> products = new List<Product2>();
-        //  products = [ SELECT Id,Name,Description, Image__c, Family
-        //  FROM Product2
-        //  WHERE Name LIKE :queryString
-        //  WITH SECURITY_ENFORCED];
         
         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
         FROM PricebookEntry
@@ -31,6 +26,18 @@ public with sharing class InternalService {
           wrappers = convertPricebookEntriesToWrappers(products);      
           return wrappers;
       }
+
+     @AuraEnabled(Cacheable=true)
+     public static Wrappers.PricebookEntryWrapper getProduct(String recordId) {        
+        PricebookEntry product = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Description, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsActive = TRUE AND Product2.Id = :recordId
+        WITH SECURITY_ENFORCED];
+
+         Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
+         wrapper = convertPricebookEntryToWrapper(product);      
+         return wrapper;
+     }
 
      public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
         List<Wrappers.ProductWrapper> wrappers = new List<Wrappers.ProductWrapper>();
@@ -60,6 +67,19 @@ public with sharing class InternalService {
             wrappers.add(wrapper);
         }
         return wrappers;
+    }
+
+    public static Wrappers.PricebookEntryWrapper convertPricebookEntryToWrapper(PricebookEntry pricebookEntry){
+            Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
+            wrapper.productId = pricebookEntry.Product2.Id;
+            wrapper.productName = pricebookEntry.Product2.Name;
+            wrapper.image = pricebookEntry.Product2.Image__c;
+            wrapper.family = pricebookEntry.Product2.Family;
+            wrapper.description = pricebookEntry.Product2.Description;
+            wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
+            wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
+            wrapper.unitPrice = pricebookEntry.UnitPrice;
+        return wrapper;
     }
 
 }

@@ -4,14 +4,6 @@ export default class ProductTile extends LightningElement {
     product;
         
     navigate(){
-    //   this[NavigationMixin.Navigate]({
-    //     type: 'standard__recordPage',
-    //     attributes: {
-    //         recordId: this.product.productId,
-    //         objectApiName: Product2,
-    //         actionName: 'view'
-    //     },
-    // });
         this.recordIdPageUrl = '/Community/s/product/' + this.product.productName + '/' + this.product.productId;
         location.href = this.recordIdPageUrl;
     }
