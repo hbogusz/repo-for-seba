@@ -5,11 +5,6 @@ public with sharing class InternalService {
     @AuraEnabled(Cacheable=true)
     public static List<Wrappers.PricebookEntryWrapper> searchProducts(String searchTerm) {
         String queryString = '%' + searchTerm + '%';
-        //  List<Product2> products = new List<Product2>();
-        //  products = [ SELECT Id,Name,Description, Image__c, Family
-        //  FROM Product2
-        //  WHERE Name LIKE :queryString
-        //  WITH SECURITY_ENFORCED];
         
         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
         FROM PricebookEntry
