@@ -45,5 +45,13 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.mainImageId = event.target.dataset.id;
         this.mainImage = '/sfc/servlet.shepherd/document/download/' + this.mainImageId;
     }
+    navigateCategory(){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__namedPage',
+            attributes: {
+                pageName: this.product.family.toLowerCase()
+            },
+        });
+    }
 
 }
