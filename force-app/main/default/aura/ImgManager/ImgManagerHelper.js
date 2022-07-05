@@ -1,6 +1,5 @@
 ({
     getuploadedFiles: function (component) {
-        component.set("v.spinner", true);
         var action = component.get("c.getFiles");
         action.setParams({
             "recordId": component.get("v.productId")
@@ -19,6 +18,7 @@
                     sendNoImagesEvent.fire();;
                 } else {
                     component.set("v.hasFiles", true);
+                    component.set('v.isSaveDisabled', false);
                 }
                 component.set("v.spinner", false);
             }
@@ -27,7 +27,6 @@
     },
 
     delUploadedfiles: function (component, documentId) {
-        component.set("v.spinner", true);
         var action = component.get("c.deleteFiles");
         action.setParams({
             "sdocumentId": documentId
