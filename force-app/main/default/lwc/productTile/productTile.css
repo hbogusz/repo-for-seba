@@ -17,5 +17,5 @@
     right: 0;
 }
 .red-star {
-    --sds-c-icon-color-foreground-default: rgb(255, 0, 0);
+    --sds-c-icon-color-foreground-default: rgb(230, 0, 0);
 }

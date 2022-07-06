@@ -40,5 +40,24 @@ public with sharing class Wrappers {
         @AuraEnabled
         public String url;
     }
+    public class InternalResponse{
+        @AuraEnabled
+        public String status;
+        @AuraEnabled
+        public String message;
+    }
+    public class ReviewWrapper{
+        @AuraEnabled
+        public String author;
+        @AuraEnabled
+        public String content;
+        @AuraEnabled
+        public String created_at;
+        @AuraEnabled
+        public String id;
+        @AuraEnabled
+        public String rating;
+    }
+    
     
 }

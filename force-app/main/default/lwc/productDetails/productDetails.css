@@ -5,3 +5,6 @@
 .smallImg:hover{
     cursor: pointer;
 }
+.red-star{
+    --sds-c-icon-color-foreground-default: rgb(230, 0, 0);
+}

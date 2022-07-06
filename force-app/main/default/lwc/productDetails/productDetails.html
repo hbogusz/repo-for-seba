@@ -10,10 +10,9 @@
             <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
                 <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
                     <!-- <template if:true={images}> -->
-                        <template for:each={images} for:item="image">
-                            <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id}
-                                class="smallImg" />
-                        </template>
+                    <template for:each={images} for:item="image">
+                        <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id} class="smallImg" />
+                    </template>
                     <!-- </template> -->
                 </div>
                 <div class="slds-col ">
@@ -27,6 +26,11 @@
                 <div class="slds-p-horizontal--x-small">
                     <div class="slds-p-vertical--x-small">
                         <h1 class="slds-text-heading_large">{product.productName}</h1>
+                    </div>
+                    <div class=" slds-grid slds-float_right">
+                        <lightning-icon icon-name="utility:favorite" size="medium" class="red-star">
+                        </lightning-icon>
+                        <h2 class="slds-p-around--xx-small slds-text-heading_medium">{product.reviewAverage}</h2>
                     </div>
                     <div class="slds-align_absolute-center">
                         <h1 class="slds-text-heading_medium">$
@@ -47,7 +51,71 @@
                 <h3 slot="title">
                     Reviews <span>({product.reviewCount})</span>
                 </h3>
+                <lightning-button label="Write a review" variant="brand" slot="actions" onclick={showReviewForm}>
+                </lightning-button>
+                <template if:true={isReviewFormShown}>
+                    <div class="slds-p-around--small">
+                        <article class="slds-card slds-card slds-p-horizontal--x-large">
+                            <lightning-record-edit-form object-api-name="Review__c">
+                                <lightning-messages> </lightning-messages>
+
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-size--1-of-8">
+                                        <div class="slds-form-element slds-form-element_readonly">
+                                            <span class="slds-form-element__label">Username</span>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-form-element__static">{name}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-region_narrow">
+                                        <div class="slds-float--right slds-p-around--medium">
+                                            <c-rating-stars onrating={handleRating}></c-rating-stars>
+                                        </div>
+                                    </div>
+                                </div>
+                                <lightning-input-rich-text field-name="Content__c" value={review.content}
+                                    variant="standard" onchange={setContent}>
+                                </lightning-input-rich-text>
+                                <footer class="slds-align--absolute-center">
+                                    <lightning-button variant="neutral" class="slds-m-top_small" label="Cancel"
+                                        onclick={closeReviewForm}>
+                                    </lightning-button>
+                                    <lightning-button variant="brand" class="slds-m-top_small" onclick={handleSubmit}
+                                        label="Save">
+                                    </lightning-button>
+                                </footer>
+                            </lightning-record-edit-form>
+                        </article>
+                    </div>
+                </template>
+                <template if:true={reviews}>
+                    <lightning-layout multiple-rows>
+                        <template for:each={reviews} for:item="review">
+                            <lightning-layout-item key={review.id} padding="around-small" size="12"
+                                small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <c-review-tile review={review}></c-review-tile>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </template>
+                <template if:true={noReviews}>
+                    <span>There is no reviews for this film.</span>
+                </template>
             </lightning-card>
         </div>
     </template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <div class="demo-only demo--inverse" style="height:6rem;background-color:#16325c;position:relative">
+                <div class="slds-spinner_container slds-is-fixed">
+                    <div role="status" class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
 </template>

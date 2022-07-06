@@ -1,0 +1,37 @@
+<template>
+  <article class="slds-card">
+    <div class="slds-card__header slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <span class="slds-icon_container">
+            <img src={avatarPath} class="avatar" />
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title">
+            <div class="slds-grid slds-grid--vertical-align-center">
+              <div class="slds-col">
+                <span>{review.author}</span>
+              </div>
+              <div class="slds-col slds-p-horizontal--x-large">
+                <div class="slds-grid slds-grid_vertical-align-center ">
+                  <template if:true={rating}>
+                    <lightning-icon icon-name="utility:favorite" size="medium" class="red-star">
+                    </lightning-icon>
+                    <h2 class="slds-text-heading_medium slds-p-around--x-small">{rating}/5</h2>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </h2>
+        </div>
+      </header>
+      <div>
+        <span>{review.created_at}</span>
+      </div>
+    </div>
+    <div class="slds-card__body slds-card__body_inner">
+      <lightning-formatted-rich-text value={review.content}></lightning-formatted-rich-text>
+    </div>
+  </article>
+</template>
