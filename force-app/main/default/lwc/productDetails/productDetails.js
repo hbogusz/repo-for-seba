@@ -6,14 +6,14 @@ import getImages from '@salesforce/apex/ImageUploadHandler.getImages';
 import getReviews from '@salesforce/apex/InternalService.getReviews';
 import saveReview from '@salesforce/apex/InternalService.saveReview';
 
-import {getRecord} from 'lightning/uiRecordApi';
+import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
 import NAME_FIELD from '@salesforce/schema/User.Name';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import { refreshApex } from '@salesforce/apex';
 
- 
+
 export default class ProductDetails extends NavigationMixin(LightningElement) {
     @api
     recordId;
@@ -38,13 +38,13 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         data
     }) {
         if (error) {
-           this.error = error ; 
+            this.error = error;
         } else if (data) {
             this.name = data.fields.Name.value;
         }
     }
 
-    @wire(getProduct, {recordId: '$recordId'})
+    @wire(getProduct, { recordId: '$recordId' })
     wiredProduct(result) {
         this.wiredProductResult = result;
         if (result.data) {
@@ -55,7 +55,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             console.log('data.error', result.error);
         }
     }
-    @wire(getImages, {recordId: '$recordId'})
+    @wire(getImages, { recordId: '$recordId' })
     wiredImages(result) {
         this.wiredImagesResult = result;
         if (result.data) {
@@ -75,11 +75,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         }
     }
 
-    changeImage(event){
+    changeImage(event) {
         this.mainImageId = event.target.dataset.id;
         this.mainImage = '/sfc/servlet.shepherd/document/download/' + this.mainImageId;
     }
-    navigateCategory(){
+    navigateCategory() {
         this[NavigationMixin.Navigate]({
             type: 'standard__namedPage',
             attributes: {
@@ -96,35 +96,53 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.isReviewFormShown = false;
     }
     handleSubmit() {
-        this.isLoading = true;
-        saveReview({ author: this.name, content: this.review.content, productId: this.recordId, rating: this.review.rating })
-            .then((result) => {
-                this.result = result;
-                this.error = undefined;
-                this.isReviewFormShown = false;
-                this.dispatchEvent(ShowToastEvent({
-                    title: 'Success!',
-                    message: 'Review created!',
-                    variant: 'success'
-                })
-                );
-                this.resetReview();
-                refreshApex(this.wiredReviewsResult);
-                refreshApex(this.wiredProductResult);
-                this.isLoading = false;
-            })
-            .catch((error) => {
-                this.error = error;
-                this.result = undefined;
+        if (this.review.rating == undefined) {
+            const event = new ShowToastEvent({
+                title: 'Error!',
+                message: 'Select rating before saving!',
+                variant: 'error'
+            });
+            this.dispatchEvent(event);
+        } else {
+            if (this.review.content == undefined || this.review.content == '') {
                 const event = new ShowToastEvent({
                     title: 'Error!',
-                    message: 'Unexpected error has occured!',
+                    message: 'Content can\'t be empty!',
                     variant: 'error'
                 });
                 this.dispatchEvent(event);
-                console.log('error', error);
-                this.isLoading = false;
-            });
+            } else {
+                this.isLoading = true;
+                saveReview({ author: this.name, content: this.review.content, productId: this.recordId, rating: this.review.rating })
+                    .then((result) => {
+                        this.result = result;
+                        this.error = undefined;
+                        this.isReviewFormShown = false;
+                        this.dispatchEvent(ShowToastEvent({
+                            title: 'Success!',
+                            message: 'Review created!',
+                            variant: 'success'
+                        })
+                        );
+                        this.resetReview();
+                        refreshApex(this.wiredReviewsResult);
+                        refreshApex(this.wiredProductResult);
+                        this.isLoading = false;
+                    })
+                    .catch((error) => {
+                        this.error = error;
+                        this.result = undefined;
+                        const event = new ShowToastEvent({
+                            title: 'Error!',
+                            message: 'Unexpected error has occured!',
+                            variant: 'error'
+                        });
+                        this.dispatchEvent(event);
+                        console.log('error', error);
+                        this.isLoading = false;
+                    });
+            }
+        }
     }
 
     handleRating(event) {
@@ -136,7 +154,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     setContent(event) {
         this.review.content = event.target.value;
     }
-    resetReview(){
+    resetReview() {
         this.review.content = '';
         this.review.rating = '';
     }
