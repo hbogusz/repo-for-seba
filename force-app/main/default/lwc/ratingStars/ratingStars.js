@@ -53,8 +53,6 @@ export default class RatingStars extends LightningElement {
 
     handleRatingClick(event) {
         this.selectedRating = 1 + +event.target.getAttribute('data-id');
-        console.log('this.selectedRating', this.selectedRating);
-
         const selectedEvent = new CustomEvent(
             'rating',
             { detail: this.selectedRating }

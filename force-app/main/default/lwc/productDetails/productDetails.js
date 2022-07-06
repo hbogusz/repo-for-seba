@@ -41,8 +41,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
            this.error = error ; 
         } else if (data) {
             this.name = data.fields.Name.value;
-        console.log('username', this.username);
-
         }
     }
 
@@ -53,10 +51,8 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             this.product = result.data;
             this.mainImage = this.product.image;
             this.mainImageId = this.mainImage.substring(this.mainImage.length - 19, this.mainImage.length - 1);
-            console.log('success', result.data);
         } else if (result.error) {
-            console.log('data.error');
-            console.log(result.error);
+            console.log('data.error', result.error);
         }
     }
     @wire(getImages, {recordId: '$recordId'})
@@ -64,29 +60,21 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.wiredImagesResult = result;
         if (result.data) {
             this.images = result.data;
-            console.log('images', result.data);
         } else if (result.error) {
-            console.log('data.error');
-            console.log(result.error);
+            console.log('data.error', result.error);
         }
     }
     @wire(getReviews, { productId: '$recordId' })
     wiredReviews(result) {
         this.wiredReviewsResult = result;
-        // this.isLoading = true;
         if (result.data) {
             this.reviews = result.data;
-            console.log('reviews: ', result.data);
         } else if (result.error) {
             this.reviews = null;
-            console.log('data.error')
-            console.log(result.error)
+            console.log('data.error', result.error);
         }
     }
 
-    connectedCallback(){
-        console.log('recordId', this.recordId);
-    }
     changeImage(event){
         this.mainImageId = event.target.dataset.id;
         this.mainImage = '/sfc/servlet.shepherd/document/download/' + this.mainImageId;
@@ -101,15 +89,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     }
 
     showReviewForm() {
-        // this.isLoading = true;
         this.isReviewFormShown = true;
-        // this.isLoading = false;
     }
     closeReviewForm() {
-        // this.isLoading = true;
         this.resetReview();
         this.isReviewFormShown = false;
-        // this.isLoading = false;
     }
     handleSubmit() {
         this.isLoading = true;
