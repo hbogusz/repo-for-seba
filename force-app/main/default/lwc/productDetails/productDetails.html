@@ -2,42 +2,82 @@
     <template if:true={product}>
         <div>
             <span>
-                <span class="family slds-text-heading--small" onclick={navigateCategory}>{product.family}</span> >
+                <span class="link slds-text-heading--small" onclick={navigateCategory}>{product.family}</span> >
                 <span class="slds-text-title_bold slds-truncate"> {product.productName}</span>
             </span>
         </div>
         <div class="slds-grid">
             <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
                 <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
-                    <!-- <template if:true={images}> -->
                     <template for:each={images} for:item="image">
                         <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id} class="smallImg" />
                     </template>
-                    <!-- </template> -->
                 </div>
-                <div class="slds-col ">
-                    <div class="imgContainer ">
+                <div class="slds-col">
+                    <div class="imgContainer">
                         <img src={mainImage} class="tile" />
                     </div>
                 </div>
 
             </div>
-            <div class="slds-col slds-size--1-of-2">
+            <div class="slds-col slds-size--1-of-2 slds-p-around--medium">
                 <div class="slds-p-horizontal--x-small">
-                    <div class="slds-p-vertical--x-small">
-                        <h1 class="slds-text-heading_large">{product.productName}</h1>
-                    </div>
-                    <div class=" slds-grid slds-float_right">
-                        <lightning-icon icon-name="utility:favorite" size="medium" class="red-star">
+                    <h1 class="slds-text-heading_large slds-p-vertical--x-small">{product.productName}</h1>
+                    <div class="slds-grid slds-p-around--medium slds-grid_vertical-align-center">
+                        <lightning-icon icon-name="utility:favorite" size="large" class="red-star">
                         </lightning-icon>
-                        <h2 class="slds-p-around--xx-small slds-text-heading_medium">{product.reviewAverage}</h2>
+                        <h2 class="slds-p-around--xx-small slds-text-heading_large">{product.reviewAverage}</h2>
+                        <h3 class="slds-p-around--xx-small link" onclick={scrollToReviews}>{product.reviewCount} reviews</h3>
                     </div>
-                    <div class="slds-align_absolute-center">
-                        <h1 class="slds-text-heading_medium">$
-                            <lightning-formatted-number value={product.unitPrice} format-style="decimal"
-                                minimum-fraction-digits="2"></lightning-formatted-number>
-                        </h1>
-                    </div>
+                    <lightning-record-edit-form object-api-name="Product2" record-id={recordId}>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size--3-of-5">
+                                <div
+                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                    <label
+                                        class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Flavour</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input-field field-name="Flavour__c" value={item.flavour}
+                                            variant="label-hidden" onchange={setFlavour}>
+                                        </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div
+                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
+                                        for="quantity-field">Quantity</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="number" id="quantity-field" placeholder="" value={item.quantity}
+                                            class="slds-input" onchange={setQuantity} />
+                                    </div>
+                                </div>
+                                <div
+                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                    <label
+                                        class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Price</label>
+                                    <div class="slds-form-element__control">
+                                        <h1 class="slds-text-heading_large">$
+                                            <lightning-formatted-number value={product.unitPrice} format-style="decimal"
+                                                minimum-fraction-digits="2"></lightning-formatted-number>
+                                        </h1>
+                                    </div>
+                                </div>
+                                <div class="slds-p-around--medium slds-align--absolute-center">
+                                    <button
+                                        class="slds-button slds-button_destructive slds-p-around--small slds-text-heading--medium"
+                                        onclick={addToCart}>
+                                        <lightning-icon icon-name="utility:cart" class="cart slds-p-right--medium">
+                                        </lightning-icon>Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning-input-field field-name="Family" value={product.family} variant="standard"
+                                    hidden>
+                                </lightning-input-field>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
                 </div>
             </div>
         </div>
@@ -47,7 +87,7 @@
                     <lightning-formatted-rich-text value={product.description}></lightning-formatted-rich-text>
                 </div>
             </lightning-card>
-            <lightning-card icon-name="action:new_group">
+            <lightning-card icon-name="action:new_group" data-id="reviewsCard">
                 <h3 slot="title">
                     Reviews <span>({product.reviewCount})</span>
                 </h3>
@@ -57,8 +97,6 @@
                     <div class="slds-p-around--small">
                         <article class="slds-card slds-card slds-p-horizontal--x-large">
                             <lightning-record-edit-form object-api-name="Review__c">
-                                <lightning-messages> </lightning-messages>
-
                                 <div class="slds-grid">
                                     <div class="slds-col slds-size--1-of-8">
                                         <div class="slds-form-element slds-form-element_readonly">

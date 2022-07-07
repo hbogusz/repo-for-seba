@@ -1,0 +1,48 @@
+<template>
+    <template if:true={product}>
+        <div class="slds-card__body slds-box">
+            <div class="slds-grid slds-grid_vertical-align-center">
+                <div class="imgContainer slds-size--1-of-8">
+                    <img src={product.image} class="tile" onclick={navigate} />
+                </div>
+                <div class="slds-size-- slds-p-horizontal--x-small slds-size--1-of-2">
+                    <div class="slds-p-vertical--x-small">
+                        <div>
+                            <h1 class="slds-text-heading_medium " onclick={navigate}>{product.productName}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-p-horizontal--x-small slds-size--1-of-12">
+
+                </div>
+                <div class="slds-form-element slds-size--1-of-12">
+                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Price</label>
+                    <div class="slds-form-element__control">
+                        <h1 class="slds-text-heading_medium">$
+                            <lightning-formatted-number value={product.unitPrice} format-style="decimal"
+                                minimum-fraction-digits="2"></lightning-formatted-number>
+                        </h1>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-size--1-of-12">
+                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
+                        for="quantity-field">Quantity</label>
+                    <div class="slds-form-element__control slds-size--1-of-2">
+                        <input type="number" id="quantity-field" placeholder="" value={item.quantity}
+                            class="slds-input slds-m-left--small" onchange={setQuantity} />
+                    </div>
+                </div>
+                <div class="slds-form-element slds-size--1-of-12">
+                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Subtotal</label>
+                    <div class="slds-form-element__control">
+                        <h1 class="slds-text-heading_medium">$
+                            <lightning-formatted-number value={subtotal} format-style="decimal"
+                                minimum-fraction-digits="2"></lightning-formatted-number>
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</template>

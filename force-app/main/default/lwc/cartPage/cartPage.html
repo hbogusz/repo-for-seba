@@ -1,0 +1,20 @@
+<template>
+    <span class="slds-align--absolute-center slds-p-top--large slds-text-heading_large slds-text-title_caps" style="font-size: x-large;">Cart</span>
+    <template if:true={items}>
+        <div class="slds-scrollable_y">
+          <lightning-layout multiple-rows>
+            <template for:each={items} for:item="item">
+              <lightning-layout-item key={item.productId} padding="around-small" size="12" small-device-size="12"
+                medium-device-size="12" large-device-size="12">
+                <c-cart-item item-id={item.productId} item={item}></c-cart-item>
+              </lightning-layout-item>
+            </template>
+          </lightning-layout>
+        </div>
+      </template>
+      <template if:true={noResults}>
+          <div class="slds-p-around--small">
+              <span class="slds-p-around--large slds-text-heading_large"> Cart is empty.</span>
+          </div>
+      </template>
+</template>

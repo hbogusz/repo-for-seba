@@ -58,6 +58,16 @@ public with sharing class Wrappers {
         @AuraEnabled
         public String rating;
     }
+    public class CartItemWrapper{
+        @AuraEnabled
+        public String flavour;
+        @AuraEnabled
+        public Decimal price;
+        @AuraEnabled
+        public String productId;
+        @AuraEnabled
+        public Integer quantity;
+    }
     
     
 }

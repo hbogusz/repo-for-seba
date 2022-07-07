@@ -5,6 +5,8 @@ import getProduct from '@salesforce/apex/InternalService.getProduct';
 import getImages from '@salesforce/apex/ImageUploadHandler.getImages';
 import getReviews from '@salesforce/apex/InternalService.getReviews';
 import saveReview from '@salesforce/apex/InternalService.saveReview';
+import addToCart from '@salesforce/apex/CartController.addProductToCart';
+import getItemsFromCart from '@salesforce/apex/CartController.getItemsFromCart';
 
 import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
@@ -24,6 +26,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     mainImageId;
     isReviewFormShown;
     review = new Array();
+    item = {productId: "", quantity: 1, flavour: "", price: 0.0};
     wiredReviewsResult;
     reviews;
     isLoading;
@@ -75,6 +78,9 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         }
     }
 
+    connectedCallback() {
+        this.item.quantity = 1;
+    }
     changeImage(event) {
         this.mainImageId = event.target.dataset.id;
         this.mainImage = '/sfc/servlet.shepherd/document/download/' + this.mainImageId;
@@ -158,5 +164,57 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.review.content = '';
         this.review.rating = '';
     }
+    setFlavour(event) {
+        this.item.flavour = event.target.value;
+    }
+    setQuantity(event) {
+        event.target.value = Math.round(event.target.value);
+        this.item.quantity = event.target.value;
+    }
 
+    addToCart() {
+        this.isLoading = true;
+        this.item.productId = this.recordId;
+        this.item.price = this.product.unitPrice;
+        const myJSON = JSON.stringify(this.item)
+        sessionStorage.setItem('items',myJSON);
+        addToCart({price: this.item.price, productId: this.recordId, flavour: this.item.flavour, quantity: this.item.quantity })
+            .then(() => {
+                this.dispatchEvent(ShowToastEvent({
+                    title: 'Success!',
+                    message: 'Product added to cart!',
+                    variant: 'success'
+                })
+                );
+                this.isLoading = false;
+            })
+            .catch((error) => {
+                console.error(error);
+                const event = new ShowToastEvent({
+                    title: 'Error!',
+                    message: 'Unexpected error has occured: ' + error.message,
+                    variant: 'error'
+                });
+                this.dispatchEvent(event);
+                this.isLoading = false;
+            });
+            getItemsFromCart()
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.error(error);
+                const event = new ShowToastEvent({
+                    title: 'Error!',
+                    message: 'Unexpected error has occured: ' + error.message,
+                    variant: 'error'
+                });
+                this.dispatchEvent(event);
+                this.isLoading = false;
+            });
+    }
+    scrollToReviews() {
+        const reviewsCard = this.template.querySelector('[data-id="reviewsCard"]');
+        reviewsCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    }
 }
