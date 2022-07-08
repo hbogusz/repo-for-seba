@@ -22,7 +22,6 @@ export default class CartItem extends LightningElement {
         if (result.data) {
             this.product = result.data;
             this.subtotal = this.product.unitPrice * this.item.quantity;
-            console.log('product', result.data);
         } else if (result.error) {
             console.log('data.error', result.error);
         }

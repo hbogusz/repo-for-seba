@@ -26,8 +26,6 @@ export default class CartPage extends LightningElement {
             this.items.forEach(item => {
                 this.totalPrice += item.price * item.quantity;
             });
-            console.log('totalPrice', this.totalPrice);
-            console.log('success', JSON.parse(result.data));
         } else if (result.error) {
             console.log('data.error');
             console.log(result.error);
