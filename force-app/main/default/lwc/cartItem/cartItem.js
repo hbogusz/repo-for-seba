@@ -1,6 +1,9 @@
-import { api, LightningElement,wire } from 'lwc';
+import { api, LightningElement,track,wire } from 'lwc';
 
 import getProduct from '@salesforce/apex/InternalService.getProduct';
+import deleteItemFromCart from '@salesforce/apex/CartController.deleteItemFromCart';
+import changeQuantity from '@salesforce/apex/CartController.changeQuantity';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
 export default class CartItem extends LightningElement {
@@ -10,6 +13,7 @@ export default class CartItem extends LightningElement {
     item;
     wiredProductResult;
     product;
+    @track
     subtotal;
 
     @wire(getProduct, { recordId: '$itemId' })
@@ -24,10 +28,38 @@ export default class CartItem extends LightningElement {
         }
     }
     setQuantity(event){
-        this.item.quantity = event.target.value;
-        this.subtotal  = this.product.unitPrice * this.item.quantity;
+        changeQuantity({productId: this.itemId, quantity: event.target.value })
+            .then(() => {
+                const refreshCart = new CustomEvent('refreshcart');
+                this.dispatchEvent(refreshCart);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
-
+    deleteFromCart() {
+        deleteItemFromCart({productId: this.itemId })
+            .then(() => {
+                this.dispatchEvent(ShowToastEvent({
+                    title: 'Success!',
+                    message: 'Product removed from cart!',
+                    variant: 'success'
+                })
+                );
+                const refreshCart = new CustomEvent('refreshcart');
+                this.dispatchEvent(refreshCart);
+            })
+            .catch((error) => {
+                console.error(error);
+                const event = new ShowToastEvent({
+                    title: 'Error!',
+                    message: 'Unexpected error has occured: ' + error,
+                    variant: 'error'
+                });
+                this.dispatchEvent(event);
+            });
+            
+    }
     
         
     

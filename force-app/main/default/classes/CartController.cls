@@ -35,8 +35,40 @@ public with sharing class CartController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled
+    public static void deleteItemFromCart(String productId){
+        Map<String,CartItem> cartItems = new Map<String,CartItem>();
 
-
+        Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');
+        if((Map<String,CartItem>)sessionPart.get('cart') != null)
+        cartItems = (Map<String,CartItem>)sessionPart.get('cart');
+        if(cartItems.keySet().contains(productId)){
+            cartItems.remove(productId);              
+         }
+        sessionPart.put('cart', cartItems);
+    }
+    @AuraEnabled
+    public static void changeQuantity(String productId, Integer quantity){
+        Map<String,CartItem> cartItems = new Map<String,CartItem>();
+        Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');
+        if((Map<String,CartItem>)sessionPart.get('cart') != null)
+        cartItems = (Map<String,CartItem>)sessionPart.get('cart');
+        if(cartItems.keySet().contains(productId)){
+            CartItem dupCartItem = cartItems.get(productId);
+            dupCartItem.quantity = quantity;   
+            cartItems.put(productId,dupCartItem);
+         }
+        sessionPart.put('cart', cartItems);
+    }
+    @AuraEnabled
+    public static void clearCart(){
+        Map<String,CartItem> cartItems = new Map<String,CartItem>();
+        Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');
+        if((Map<String,CartItem>)sessionPart.get('cart') != null)
+        cartItems = (Map<String,CartItem>)sessionPart.get('cart');
+        cartItems.clear();
+        sessionPart.put('cart', cartItems);
+    }
 
     public class CartItem{
         String flavour;

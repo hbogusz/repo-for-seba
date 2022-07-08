@@ -12,10 +12,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="slds-p-horizontal--x-small slds-size--1-of-12">
-
-                </div>
-                <div class="slds-form-element slds-size--1-of-12">
+                <div class="slds-form-element slds-size--1-of-12 slds-text-align--center">
                     <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Price</label>
                     <div class="slds-form-element__control">
                         <h1 class="slds-text-heading_medium">$
@@ -24,22 +21,23 @@
                         </h1>
                     </div>
                 </div>
-                <div class="slds-form-element slds-size--1-of-12">
-                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
+                <div class="slds-form-element slds-size--1-of-12 slds-text-align--center">
+                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Flavour</label>
+                    <div class="slds-form-element__control">
+                        <h1 class="slds-text-heading_small">{item.flavour}</h1>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-size--1-of-12 slds-p-left--medium">
+                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold "
                         for="quantity-field">Quantity</label>
-                    <div class="slds-form-element__control slds-size--1-of-2">
-                        <input type="number" id="quantity-field" placeholder="" value={item.quantity}
+                    <div class="slds-form-element__control slds-size--3-of-5">
+                        <input min="1" type="number" id="quantity-field" placeholder="" value={item.quantity}
                             class="slds-input slds-m-left--small" onchange={setQuantity} />
                     </div>
                 </div>
-                <div class="slds-form-element slds-size--1-of-12">
-                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Subtotal</label>
-                    <div class="slds-form-element__control">
-                        <h1 class="slds-text-heading_medium">$
-                            <lightning-formatted-number value={subtotal} format-style="decimal"
-                                minimum-fraction-digits="2"></lightning-formatted-number>
-                        </h1>
-                    </div>
+                <div class="iconContainer slds-align--absolute-center slds-p-around--x-small">
+                    <lightning-icon icon-name="action:close" size="small" onclick={deleteFromCart} class="icon">
+                    </lightning-icon>
                 </div>
 
             </div>

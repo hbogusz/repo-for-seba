@@ -30,6 +30,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     wiredReviewsResult;
     reviews;
     isLoading;
+    showFlavour;
 
     @track error;
     @track name;
@@ -54,6 +55,12 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             this.product = result.data;
             this.mainImage = this.product.image;
             this.mainImageId = this.mainImage.substring(this.mainImage.length - 19, this.mainImage.length - 1);
+            if(this.product.family == "Vitamins" || this.product.family == "Equipment"){
+                this.showFlavour = false;
+                this.item.flavour = "-";
+            } else {
+                this.showFlavour = true;
+            }
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -176,8 +183,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.isLoading = true;
         this.item.productId = this.recordId;
         this.item.price = this.product.unitPrice;
-        const myJSON = JSON.stringify(this.item)
-        sessionStorage.setItem('items',myJSON);
         addToCart({price: this.item.price, productId: this.recordId, flavour: this.item.flavour, quantity: this.item.quantity })
             .then(() => {
                 this.dispatchEvent(ShowToastEvent({
@@ -187,20 +192,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
                 })
                 );
                 this.isLoading = false;
-            })
-            .catch((error) => {
-                console.error(error);
-                const event = new ShowToastEvent({
-                    title: 'Error!',
-                    message: 'Unexpected error has occured: ' + error.message,
-                    variant: 'error'
-                });
-                this.dispatchEvent(event);
-                this.isLoading = false;
-            });
-            getItemsFromCart()
-            .then((result) => {
-                console.log(result);
             })
             .catch((error) => {
                 console.error(error);
