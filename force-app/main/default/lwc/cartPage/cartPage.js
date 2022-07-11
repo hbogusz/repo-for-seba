@@ -59,8 +59,16 @@ export default class CartPage extends LightningElement {
                 variant: 'success'
             })
             );
+            emptyCart()
+            .then(() => {
             this.isLoading = false;
             location.href =  '/Community/s/orders';
+            })
+            .catch((error) => {
+                console.error(error);
+                this.isLoading = false;
+            });
+            
         })
     .catch((error) => {
         console.error(error);
