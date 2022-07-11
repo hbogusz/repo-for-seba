@@ -70,6 +70,42 @@ public with sharing class InternalService {
         return reviewWrappers;
     }
 
+    @AuraEnabled(Cacheable=true)
+    public static List<Order> getOrders() {
+        String userId = UserInfo.getUserId();
+        List<Order> orders = [Select Id, Pricebook2Id, OwnerId, Status, EffectiveDate, OrderNUmber
+        FROM Order
+        WHERE OwnerId = :userId
+        ORDER BY EffectiveDate DESC];
+        // Set<Id> ids = new Set<Id>();
+        // for (Order order : orders) {
+        //     ids.add(order.id);
+        // }
+        // List<OrderItem> orderItems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice
+        // FROM OrderItem
+        // WHERE Order.OwnerId = :userId
+        // WITH SECURITY_ENFORCED];
+         return orders;
+     }
+     @AuraEnabled(Cacheable=true)
+     public static List<Wrappers.OrderItemWrapper> getOrderItemsforOrder(String orderId) {
+         String userId = UserInfo.getUserId();
+         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c
+         FROM OrderItem
+         WHERE OrderId = :orderId
+         WITH SECURITY_ENFORCED];
+         // Set<Id> ids = new Set<Id>();
+         // for (Order order : orders) {
+         //     ids.add(order.id);
+         // }
+         // List<OrderItem> orderItems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice
+         // FROM OrderItem
+         // WHERE Order.OwnerId = :userId
+         // WITH SECURITY_ENFORCED];
+         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
+          return itemWrappers;
+      }
+
 
 //////////////////////////////              HELPER                    //////////////////////////////////////////////
      public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
@@ -127,4 +163,55 @@ public with sharing class InternalService {
         }
         return reviewWrappers;
     }
+    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items){
+        List<Wrappers.OrderItemWrapper> itemsWrappers = new List<Wrappers.OrderItemWrapper>();
+        for(OrderItem item : items){
+            Wrappers.OrderItemWrapper wrapper = new Wrappers.OrderItemWrapper();
+            wrapper.id = item.Id;
+            wrapper.orderId = item.Order.Id;
+            wrapper.quantity = item.Quantity;
+            wrapper.unitPrice = item.UnitPrice;
+            wrapper.family = item.Product2.Family;
+            wrapper.flavour = item.Product2.Flavour__c;
+            wrapper.productName = item.Product2.Name;
+            itemsWrappers.add(wrapper);
+        }
+        return itemsWrappers;
+    }
+    // public static List<Wrappers.OrderWrapper> convertOrdersToWrapper(List<OrderItem> items){
+    //     List<Wrappers.OrderWrapper> orderWrappers = new List<Wrappers.OrderWrapper>();
+    //     Set<id> ids = new Set<Id>();
+    //     for(OrderItem item : items){
+    //         if (ids.contains(item.OrderId)) {
+    //             Wrappers.OrderWrapper currentWrapper = orderWrappers.get(arg0);
+    //         } else {
+    //             Wrappers.OrderWrapper wrapper = new Wrappers.OrderWrapper();
+    //             wrapper.id = item.Order.Id;
+    //             wrapper.pricebook2Id = item.Order.Pricebook2Id;
+    //             wrapper.status = item.Order.Status;
+    //             wrapper.effectiveDate = item.Order.EffectiveDate;
+    //             ids.add(item.OrderId);
+
+    //             wrapper.itemWrappers = new List<Wrappers.OrderItemWrapper>();
+    //             Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
+    //             itemWrapper.id = item.Id;
+    //             itemWrapper.orderId = item.OrderId;
+    //             itemWrapper.quantity = item.Quantity;
+    //             itemWrapper.unitPrice = item.UnitPrice;
+    //             wrapper.orderitems = item.Order.EffectiveDate;
+    //             wrapper.itemWrappers.add(itemWrapper);
+    //             orderWrappers.add(wrapper);
+    //         }
+            
+
+    //         Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
+    //         itemWrapper.id = item.Id;
+    //         itemWrapper.orderId = item.OrderId;
+    //         itemWrapper.quantity = item.Quantity;
+    //         itemWrapper.unitPrice = item.UnitPrice;
+    //         wrapper.orderitems = item.Order.EffectiveDate;
+    //         orderWrappers.add(itemWrapper);
+    //     }
+    //     return reviewWrappers;
+    // }
 }

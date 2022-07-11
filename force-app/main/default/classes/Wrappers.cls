@@ -68,6 +68,36 @@ public with sharing class Wrappers {
         @AuraEnabled
         public Integer quantity;
     }
+    public class OrderItemWrapper{
+        @AuraEnabled
+        public String id;
+        @AuraEnabled
+        public String orderId;
+        @AuraEnabled
+        public Decimal quantity;
+        @AuraEnabled
+        public Decimal unitPrice;
+        @AuraEnabled
+        public String family;
+        @AuraEnabled
+        public String flavour;
+        @AuraEnabled
+        public String productName;
+    }
+    public class OrderWrapper{
+        @AuraEnabled
+        public String id;
+        @AuraEnabled
+        public List<OrderItemWrapper> orderitems;
+        @AuraEnabled
+        public Decimal pricebook2Id;
+        @AuraEnabled
+        public String status;
+        @AuraEnabled
+        public Date effectiveDate;
+        @AuraEnabled
+        public Integer orderNumber;
+    }
     
     
 }

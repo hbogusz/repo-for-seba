@@ -69,6 +69,41 @@ public with sharing class CartController {
         cartItems.clear();
         sessionPart.put('cart', cartItems);
     }
+    @AuraEnabled
+    public static void createOrder(){
+        try {
+            Id pbId = [SELECT Id FROM Pricebook2 WHERE IsActive = TRUE LIMIT 1].Id;
+            Order order = new Order();
+            Date currentDate = Date.today();
+
+            order.AccountId = [SELECT Id FROM Account WHERE Name = 'DHL' LIMIT 1].Id;
+            order.Pricebook2Id = pbId;
+            order.OwnerId = UserInfo.getUserId();
+            order.Status = 'Draft';
+            order.EffectiveDate = currentDate;
+
+            insert order;
+            
+            List<OrderItem> orderItems = new List<OrderItem>();
+            List<CartItem> cartItems= new List<CartItem>();
+            cartItems = (List<CartItem>) JSON.deserialize(getItemsFromCart(), List<CartItem>.class);
+
+            for(CartItem cartItem : cartItems){
+                OrderItem orderItem = new OrderItem();
+                orderItem.OrderId = order.Id;
+                orderItem.PricebookEntryId =  [SELECT Id FROM PricebookEntry WHERE Product2Id = :cartItem.productId AND Pricebook2Id = :pbId LIMIT 1].Id;
+                orderItem.Quantity = cartItem.quantity;
+                orderItem.UnitPrice = cartItem.price;
+                orderItems.add(orderItem);
+            }
+
+            insert orderItems;
+            
+
+        } catch(Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
     public class CartItem{
         String flavour;

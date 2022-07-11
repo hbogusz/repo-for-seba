@@ -6,7 +6,6 @@ import getImages from '@salesforce/apex/ImageUploadHandler.getImages';
 import getReviews from '@salesforce/apex/InternalService.getReviews';
 import saveReview from '@salesforce/apex/InternalService.saveReview';
 import addToCart from '@salesforce/apex/CartController.addProductToCart';
-import getItemsFromCart from '@salesforce/apex/CartController.getItemsFromCart';
 
 import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';

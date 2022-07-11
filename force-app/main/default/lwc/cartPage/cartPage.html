@@ -30,7 +30,7 @@
         </button>
         <button
           class="slds-button slds-button_destructive slds-p-around--small slds-text-heading--medium slds-m-around--small"
-          onclick={createOrder}>
+          onclick={makeOrder}>
           Order
         </button>
       </div>
@@ -43,7 +43,6 @@
   </template>
   <div class="spinner">
     <template if:true={isLoading}>
-      <div class="demo-only demo--inverse" style="height:6rem;background-color:#16325c;position:relative">
         <div class="slds-spinner_container slds-is-fixed">
           <div role="status" class="slds-spinner slds-spinner_medium">
             <span class="slds-assistive-text">Loading</span>
@@ -51,7 +50,6 @@
             <div class="slds-spinner__dot-b"></div>
           </div>
         </div>
-      </div>
     </template>
   </div>
 </template>

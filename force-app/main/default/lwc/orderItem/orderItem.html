@@ -1,0 +1,80 @@
+<template>
+    <div>
+        <div class="slds-grid">
+            <div class="slds-col slds-size--1-of-2">
+                <dl class="slds-dl_horizontal slds-dl_horizontal slds-text-heading--small slds-p-horizontal--small">
+                    <dt class="slds-dl_horizontal__label slds-text-title_bold slds-p-around--xx-small">
+                        Status:</dt>
+                    <dd class="slds-dl_horizontal__detail slds-p-around--xx-small">{status}</dd>
+                    <dt class="slds-dl_horizontal__label slds-text-title_bold slds-p-around--xx-small">
+                        Total price:</dt>
+                    <dd class="slds-dl_horizontal__detail slds-p-around--xx-small">${totalPrice}</dd>
+                </dl>
+            </div>
+            <div class="slds-col slds-size--1-of-2">
+                <dl class="slds-dl_horizontal slds-dl_horizontal slds-text-heading--small slds-p-horizontal--small">
+                    <dt class="slds-dl_horizontal__label slds-text-title_bold slds-p-around--xx-small">
+                        Date of order:</dt>
+                    <dd class="slds-dl_horizontal__detail slds-p-around--xx-small">{order.EffectiveDate}</dd>
+                </dl>
+            </div>
+        </div>
+
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <span>Details</span>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                    aria-labelledby="element-with-table-label other-element-with-table-label">
+                    <thead>
+                        <tr class="slds-line-height_reset slds-text-title--caps">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Product Name">Product Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Family">Family</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Flavour">Flavour</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Price">Price</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Quantity">Quantity</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={items} for:item="item">
+                            <tr class="slds-hint-parent" key={item.id}>
+                                <th data-label="Product Name" scope="row">
+                                    <div class="slds-truncate">{item.productName}</div>
+                                </th>
+                                <td data-label="Family">
+                                    <div class="slds-truncate">{item.family}</div>
+                                </td>
+                                <td data-label="Flavour">
+                                    <div class="slds-truncate">{item.flavour}</div>
+                                </td>
+                                <td data-label="Price">
+                                    <div class="slds-truncate">${item.unitPrice}</div>
+                                </td>
+                                <td data-label="Quantity">
+                                    <div class="slds-truncate">{item.quantity}</div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div slot="footer" class="slds-p-around--none slds-m-around--none">
+                </div>
+            </div>
+    </div>
+</template>
