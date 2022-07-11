@@ -77,14 +77,6 @@ public with sharing class InternalService {
         FROM Order
         WHERE OwnerId = :userId
         ORDER BY EffectiveDate DESC];
-        // Set<Id> ids = new Set<Id>();
-        // for (Order order : orders) {
-        //     ids.add(order.id);
-        // }
-        // List<OrderItem> orderItems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice
-        // FROM OrderItem
-        // WHERE Order.OwnerId = :userId
-        // WITH SECURITY_ENFORCED];
          return orders;
      }
      @AuraEnabled(Cacheable=true)
@@ -94,17 +86,30 @@ public with sharing class InternalService {
          FROM OrderItem
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
-         // Set<Id> ids = new Set<Id>();
-         // for (Order order : orders) {
-         //     ids.add(order.id);
-         // }
-         // List<OrderItem> orderItems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice
-         // FROM OrderItem
-         // WHERE Order.OwnerId = :userId
-         // WITH SECURITY_ENFORCED];
          List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
           return itemWrappers;
       }
+      @AuraEnabled(Cacheable=false)
+     public static Wrappers.InternalResponse saveCase(String subject, String reason, String description, String productId) {
+        Wrappers.InternalResponse response = new Wrappers.InternalResponse();
+        Case complaint = new Case();
+        complaint.Subject = subject;
+        complaint.Reason = reason;
+        complaint.Description = description;
+        complaint.Status = 'New';
+        complaint.Origin = 'Web';
+        complaint.Product__c = productId;
+
+        try {
+            insert complaint;
+            response.status = 'success';
+        } catch (Exception e) {
+            response.status = 'error';
+            response.message = e.getMessage();
+        }
+        return response;
+      }
+
 
 
 //////////////////////////////              HELPER                    //////////////////////////////////////////////
@@ -174,6 +179,7 @@ public with sharing class InternalService {
             wrapper.family = item.Product2.Family;
             wrapper.flavour = item.Product2.Flavour__c;
             wrapper.productName = item.Product2.Name;
+            wrapper.productId = item.Product2.Id;
             itemsWrappers.add(wrapper);
         }
         return itemsWrappers;

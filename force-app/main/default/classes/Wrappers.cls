@@ -83,6 +83,9 @@ public with sharing class Wrappers {
         public String flavour;
         @AuraEnabled
         public String productName;
+        @AuraEnabled
+        public String productId;
+
     }
     public class OrderWrapper{
         @AuraEnabled

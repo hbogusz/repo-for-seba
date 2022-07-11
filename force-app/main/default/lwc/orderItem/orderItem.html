@@ -20,61 +20,106 @@
             </div>
         </div>
 
-            <div class="slds-card__header slds-grid">
-                <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                        <h2 class="slds-card__header-title">
-                            <span>Details</span>
-                        </h2>
-                    </div>
-                </header>
-            </div>
-            <div class="slds-card__body slds-card__body_inner">
-                <table class="slds-table slds-table_cell-buffer slds-table_bordered"
-                    aria-labelledby="element-with-table-label other-element-with-table-label">
-                    <thead>
-                        <tr class="slds-line-height_reset slds-text-title--caps">
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Product Name">Product Name</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Family">Family</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Flavour">Flavour</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Price">Price</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Quantity">Quantity</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template for:each={items} for:item="item">
-                            <tr class="slds-hint-parent" key={item.id}>
-                                <th data-label="Product Name" scope="row">
-                                    <div class="slds-truncate">{item.productName}</div>
-                                </th>
-                                <td data-label="Family">
-                                    <div class="slds-truncate">{item.family}</div>
-                                </td>
-                                <td data-label="Flavour">
-                                    <div class="slds-truncate">{item.flavour}</div>
-                                </td>
-                                <td data-label="Price">
-                                    <div class="slds-truncate">${item.unitPrice}</div>
-                                </td>
-                                <td data-label="Quantity">
-                                    <div class="slds-truncate">{item.quantity}</div>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-                <div slot="footer" class="slds-p-around--none slds-m-around--none">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Details</span>
+                    </h2>
                 </div>
-            </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                aria-labelledby="element-with-table-label other-element-with-table-label">
+                <thead>
+                    <tr class="slds-line-height_reset slds-text-title--caps">
+                        <th class="" scope="col">
+                            <div class="slds-truncate " title="Product Name">Product Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center" title="Family">Family</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center"  title="Flavour">Flavour</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center" title="Price">Price</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center" title="Quantity">Quantity</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={items} for:item="item">
+                        <tr class="slds-hint-parent" key={item.id}>
+                            <th data-label="Product Name" scope="row">
+                                <div class="slds-truncate ">{item.productName}</div>
+                            </th>
+                            <td data-label="Family">
+                                <div class="slds-truncate slds-text-align--center">{item.family}</div>
+                            </td>
+                            <td data-label="Flavour">
+                                <div class="slds-truncate slds-text-align--center">{item.flavour}</div>
+                            </td>
+                            <td data-label="Price">
+                                <div class="slds-truncate slds-text-align--center">${item.unitPrice}</div>
+                            </td>
+                            <td data-label="Quantity">
+                                <div class="slds-truncate slds-text-align--center">{item.quantity}</div>
+                            </td>
+                            <td>
+                                <lightning-button variant="brand" label="Complaint" data-record-id={item.productId}
+                                    data-product-name={item.productName} title="Primary action" onclick={openModal}
+                                    class="slds-m-left_x-small"></lightning-button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Make a complaint</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Product</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" readonly="" placeholder="" class="slds-input" value={itemName} />
+                        </div>
+                    </div>
+                    <lightning-record-edit-form object-api-name="Case">
+                        <lightning-messages> </lightning-messages>
+                        <lightning-input-field field-name="Subject" value={complaint.subject} onchange={setSubject}>
+                        </lightning-input-field>
+                        <lightning-input-field field-name="Reason" value={complaint.reason} onchange={setReason}>
+                        </lightning-input-field>
+                        <lightning-input-field field-name="Description" value={complaint.desciption}
+                            onchange={setDescription}> </lightning-input-field>
+                    </lightning-record-edit-form>
+
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitComplaint}
+                        title="Submit">Submit</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>
