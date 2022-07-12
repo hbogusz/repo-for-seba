@@ -3,3 +3,6 @@
     height: 375px;
     border: groove;
 }
+.THIS .priceError {
+    color: rgb(234, 0, 30);
+}
