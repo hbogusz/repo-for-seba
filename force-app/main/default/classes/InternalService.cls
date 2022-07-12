@@ -96,7 +96,7 @@ public with sharing class InternalService {
         complaint.Subject = subject;
         complaint.Reason = reason;
         complaint.Description = description;
-        complaint.Status = 'New';
+        complaint.Status = 'Sent';
         complaint.Origin = 'Web';
         complaint.Product__c = productId;
         complaint.FitStore__c = true;

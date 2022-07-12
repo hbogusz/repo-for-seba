@@ -18,6 +18,7 @@ export default class OrderItem extends LightningElement {
     isModalOpen;
     itemId;
     itemName;
+    isLoading;
 
 
     @wire(getOrderItems, { orderId: '$orderId' })
@@ -53,6 +54,7 @@ export default class OrderItem extends LightningElement {
                             variant: 'success'
                         })
                         );
+                        this.closeModal();
                         this.resetComplaint();
                         this.isLoading = false;
                     })
