@@ -1,8 +1,8 @@
 <template>
-    <span class="slds-align--absolute-center slds-p-top--large slds-text-heading_large slds-text-title_caps"
+    <span class="slds-align--absolute-center slds-p-vertical--medium slds-text-heading_large slds-text-title_caps"
         style="font-size: x-large;">Orders</span>
     <template if:true={orders}>
-        <lightning-accordion active-section-name="B">
+        <lightning-accordion active-section-name="B" class="slds-box--border">
             <template for:each={orders} for:item="order">
                 <lightning-accordion-section name="A" label={order.OrderNumber} key={order.Id}>
                     <c-order-item order-id={order.Id} order={order}></c-order-item>

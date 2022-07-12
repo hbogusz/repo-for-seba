@@ -23,8 +23,6 @@ export default class CategoryPage extends LightningElement {
         if (result.data) {
             this.products = result.data;
             this.productAmount = this.products.length;
-            console.log(this.resultsSize);
-            console.log('success', result.data);
         } else if (result.error) {
             console.log('data.error');
             console.log(result.error);

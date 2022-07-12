@@ -99,6 +99,7 @@ public with sharing class InternalService {
         complaint.Status = 'New';
         complaint.Origin = 'Web';
         complaint.Product__c = productId;
+        complaint.FitStore__c = true;
 
         try {
             insert complaint;
@@ -109,6 +110,16 @@ public with sharing class InternalService {
         }
         return response;
       }
+
+      @AuraEnabled(Cacheable=true)
+      public static List<Case> getComplaints() {
+          List<Case> cases = [Select Id, Product__r.Name, Status, Subject, 
+          Description, Reason, CaseNumber, CreatedDate
+          FROM Case
+          WHERE FitStore__c = true
+          ORDER BY CreatedDate DESC];
+            return cases;
+       }
 
 
 

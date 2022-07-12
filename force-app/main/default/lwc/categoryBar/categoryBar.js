@@ -18,8 +18,6 @@ export default class CategoryBar extends LightningElement {
             this.familyPicklistResult = result;
             if (result.data) {
                 this.familyPicklist = result.data;
-                console.log('success', result.data);
-                console.log("familyPicklist" , this.familyPicklist.values);
             } else if (result.error) {
                 console.log('data.error');
                 console.log(result.error);
