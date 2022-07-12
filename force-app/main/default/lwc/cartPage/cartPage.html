@@ -1,0 +1,55 @@
+<template>
+  <span class="slds-align--absolute-center slds-p-top--large slds-text-heading_large slds-text-title_caps"
+    style="font-size: x-large;">Cart</span>
+  <template if:false={noResults}>
+    <div class="slds-scrollable_y">
+      <lightning-layout multiple-rows>
+        <template for:each={items} for:item="item">
+          <lightning-layout-item key={item.productId} size="12" small-device-size="12" medium-device-size="12"
+            large-device-size="12">
+            <c-cart-item item-id={item.productId} item={item} onrefreshcart={refreshCart}></c-cart-item>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+      <div class="slds-grid">
+        <div class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium slds-size--1-of-3">
+          <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Total price:</label>
+          <div class="slds-form-element__control">
+            <h1 class="slds-text-heading_large">$
+              <lightning-formatted-number value={totalPrice} format-style="decimal" minimum-fraction-digits="2">
+              </lightning-formatted-number>
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="slds-p-around--medium slds-align--absolute-center">
+        <button
+          class="slds-button slds-button_neutral slds-p-around--small slds-text-heading--medium slds-m-around--small"
+          onclick={clearCart}>
+          Clear
+        </button>
+        <button
+          class="slds-button slds-button_destructive slds-p-around--small slds-text-heading--medium slds-m-around--small"
+          onclick={makeOrder}>
+          Order
+        </button>
+      </div>
+    </div>
+  </template>
+  <template if:true={noResults}>
+    <div class="slds-p-around--small">
+      <span class="slds-p-around--large slds-text-heading_large"> Cart is empty.</span>
+    </div>
+  </template>
+  <div class="spinner">
+    <template if:true={isLoading}>
+        <div class="slds-spinner_container slds-is-fixed">
+          <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+    </template>
+  </div>
+</template>

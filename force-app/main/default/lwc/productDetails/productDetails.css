@@ -1,0 +1,14 @@
+.link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.smallImg:hover{
+    cursor: pointer;
+}
+.red-star{
+    --sds-c-icon-color-foreground-default: rgb(230, 0, 0);
+}
+.cart {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: transparent;
+}
