@@ -1,5 +1,5 @@
 public class ImageUploadHandler {
-    @AuraEnabled(Cacheable=true)
+    @AuraEnabled
     public static List<ContentDocument> getFiles(string recordId){ 
         Set<Id> recordIds=new Set<Id>{recordId};
         Set<Id> documentIds = new Set<Id>(); 

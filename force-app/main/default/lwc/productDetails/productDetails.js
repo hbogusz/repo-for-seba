@@ -6,7 +6,6 @@ import getImages from '@salesforce/apex/ImageUploadHandler.getImages';
 import getReviews from '@salesforce/apex/InternalService.getReviews';
 import saveReview from '@salesforce/apex/InternalService.saveReview';
 import addToCart from '@salesforce/apex/CartController.addProductToCart';
-import getItemsFromCart from '@salesforce/apex/CartController.getItemsFromCart';
 
 import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
@@ -31,6 +30,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     reviews;
     isLoading;
     showFlavour;
+    isAddReviewDisabled=false;
 
     @track error;
     @track name;
@@ -79,6 +79,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.wiredReviewsResult = result;
         if (result.data) {
             this.reviews = result.data;
+            this.reviews.forEach(review => {
+                if(review.author == this.name){
+                    this.isAddReviewDisabled = true;
+                }
+            });
         } else if (result.error) {
             this.reviews = null;
             console.log('data.error', result.error);

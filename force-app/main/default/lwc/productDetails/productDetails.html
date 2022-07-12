@@ -93,7 +93,7 @@
                 <h3 slot="title">
                     Reviews <span>({product.reviewCount})</span>
                 </h3>
-                <lightning-button label="Write a review" variant="brand" slot="actions" onclick={showReviewForm}>
+                <lightning-button label="Write a review" variant="brand" slot="actions" onclick={showReviewForm} disabled={isAddReviewDisabled}>
                 </lightning-button>
                 <template if:true={isReviewFormShown}>
                     <div class="slds-p-around--small">
