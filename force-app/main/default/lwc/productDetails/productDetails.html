@@ -9,9 +9,10 @@
         <div class="slds-grid">
             <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
                 <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
-                    <template for:each={images} for:item="image">
-                        <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id} class="smallImg" />
-                    </template>
+                        <template for:each={images} for:item="image">
+                            <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id}
+                                class="smallImg" />
+                        </template>
                 </div>
                 <div class="slds-col">
                     <div class="imgContainer">
@@ -27,30 +28,31 @@
                         <lightning-icon icon-name="utility:favorite" size="large" class="red-star">
                         </lightning-icon>
                         <h2 class="slds-p-around--xx-small slds-text-heading_large">{product.reviewAverage}</h2>
-                        <h3 class="slds-p-around--xx-small link" onclick={scrollToReviews}>{product.reviewCount} reviews</h3>
+                        <h3 class="slds-p-around--xx-small link" onclick={scrollToReviews}>{product.reviewCount} reviews
+                        </h3>
                     </div>
                     <lightning-record-edit-form object-api-name="Product2" record-id={recordId}>
                         <div class="slds-grid">
                             <div class="slds-col slds-size--3-of-5">
                                 <template if:true={showFlavour}>
-                                <div
-                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
-                                    <label
-                                        class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Flavour</label>
-                                    <div class="slds-form-element__control">
-                                        <lightning-input-field field-name="Flavour__c" value={item.flavour}
-                                            variant="label-hidden" onchange={setFlavour}>
-                                        </lightning-input-field>
+                                    <div
+                                        class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                        <label
+                                            class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Flavour</label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input-field field-name="Flavour__c" value={item.flavour}
+                                                variant="label-hidden" onchange={setFlavour}>
+                                            </lightning-input-field>
+                                        </div>
                                     </div>
-                                </div>
-                            </template>
+                                </template>
                                 <div
                                     class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
                                     <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
                                         for="quantity-field">Quantity</label>
                                     <div class="slds-form-element__control">
-                                        <input type="number" id="quantity-field" placeholder="" value={item.quantity}
-                                            class="slds-input" onchange={setQuantity} />
+                                        <input type="number" min="1" id="quantity-field" placeholder=""
+                                            value={item.quantity} class="slds-input" onchange={setQuantity} />
                                     </div>
                                 </div>
                                 <div
@@ -147,13 +149,13 @@
     </template>
     <div class="spinner">
         <template if:true={isLoading}>
-                <div class="slds-spinner_container slds-is-fixed">
-                    <div role="status" class="slds-spinner slds-spinner_medium">
-                        <span class="slds-assistive-text">Loading</span>
-                        <div class="slds-spinner__dot-a"></div>
-                        <div class="slds-spinner__dot-b"></div>
-                    </div>
+            <div class="slds-spinner_container slds-is-fixed">
+                <div role="status" class="slds-spinner slds-spinner_medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
                 </div>
+            </div>
         </template>
     </div>
 </template>
