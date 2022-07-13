@@ -1,5 +1,5 @@
 public class ImageUploadHandler {
-    @AuraEnabled  
+    @AuraEnabled
     public static List<ContentDocument> getFiles(string recordId){ 
         Set<Id> recordIds=new Set<Id>{recordId};
         Set<Id> documentIds = new Set<Id>(); 
@@ -8,6 +8,18 @@ public class ImageUploadHandler {
             documentIds.add(cdLink.ContentDocumentId);  
         }      
         return [SELECT Id,Title,FileType FROM ContentDocument WHERE id IN: documentIds];  
+    } 
+    @AuraEnabled(Cacheable=true)
+    public static List<Wrappers.ImageWrapper> getImages(string recordId){ 
+        List<ContentDocument> docs = getFiles(recordId);
+        List<Wrappers.ImageWrapper> imagesUrls = new List<Wrappers.ImageWrapper> ();
+        for (ContentDocument doc : docs) {
+            Wrappers.ImageWrapper wrapper = new Wrappers.ImageWrapper();
+            wrapper.id = doc.Id;
+            wrapper.url = '/sfc/servlet.shepherd/document/download/' + doc.Id;
+            imagesUrls.add(wrapper);
+        }
+        return imagesUrls;
     } 
     
     @AuraEnabled  
