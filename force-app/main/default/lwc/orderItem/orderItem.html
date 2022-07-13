@@ -40,7 +40,7 @@
                             <div class="slds-truncate slds-text-align--center" title="Family">Family</div>
                         </th>
                         <th class="" scope="col">
-                            <div class="slds-truncate slds-text-align--center"  title="Flavour">Flavour</div>
+                            <div class="slds-truncate slds-text-align--center" title="Flavour">Flavour</div>
                         </th>
                         <th class="" scope="col">
                             <div class="slds-truncate slds-text-align--center" title="Price">Price</div>
@@ -70,8 +70,12 @@
                             </td>
                             <td>
                                 <lightning-button variant="brand" label="Complaint" data-record-id={item.productId}
-                                    data-product-name={item.productName} title="Primary action" onclick={openModal}
-                                    class="slds-m-left_x-small"></lightning-button>
+                                    data-product-name={item.productName} onclick={openModal}
+                                    class="slds-m-left_x-small" disabled={item.hasComplaint}></lightning-button>
+                                <template if:true={item.hasComplaint}>
+                                <lightning-button variant="neutral" label="View" data-record-id={item.productId}
+                                    onclick={navigateToComplaints} class="slds-m-left_x-small" ></lightning-button>
+                                </template>
                             </td>
                         </tr>
                     </template>
@@ -113,9 +117,10 @@
                 </div>
                 <footer class="slds-modal__footer">
                     <div class="slds-align_absolute-center">
-                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
-                    <button class="slds-button slds-button_brand" onclick={submitComplaint}
-                        title="Submit">Submit</button>
+                        <button class="slds-button slds-button_neutral" onclick={closeModal}
+                            title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={submitComplaint}
+                            title="Submit">Submit</button>
                     </div>
                 </footer>
             </div>

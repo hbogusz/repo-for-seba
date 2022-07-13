@@ -85,7 +85,8 @@ public with sharing class Wrappers {
         public String productName;
         @AuraEnabled
         public String productId;
-
+        @AuraEnabled
+        public Boolean hasComplaint;
     }
     public class OrderWrapper{
         @AuraEnabled

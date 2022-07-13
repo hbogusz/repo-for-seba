@@ -82,11 +82,19 @@ public with sharing class InternalService {
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.OrderItemWrapper> getOrderItemsforOrder(String orderId) {
          String userId = UserInfo.getUserId();
-         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c
+         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c, Product2.Id
          FROM OrderItem
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
-         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
+         Set<Id> ids = new Set<Id>();
+         List<Case> cases = [Select Product__r.Id
+         FROM Case
+         WHERE FitStore__c = true
+         WITH SECURITY_ENFORCED];
+         for (Case cs : cases) {
+            ids.add(cs.Product__r.Id);
+         }
+         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems, ids);
           return itemWrappers;
       }
       @AuraEnabled(Cacheable=false)
@@ -179,7 +187,7 @@ public with sharing class InternalService {
         }
         return reviewWrappers;
     }
-    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items){
+    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items, Set<Id> ids){
         List<Wrappers.OrderItemWrapper> itemsWrappers = new List<Wrappers.OrderItemWrapper>();
         for(OrderItem item : items){
             Wrappers.OrderItemWrapper wrapper = new Wrappers.OrderItemWrapper();
@@ -191,44 +199,13 @@ public with sharing class InternalService {
             wrapper.flavour = item.Product2.Flavour__c;
             wrapper.productName = item.Product2.Name;
             wrapper.productId = item.Product2.Id;
+            if (ids.contains(wrapper.productId)) {
+                wrapper.hasComplaint = true;
+            } else{
+                wrapper.hasComplaint = false;
+            }
             itemsWrappers.add(wrapper);
         }
         return itemsWrappers;
     }
-    // public static List<Wrappers.OrderWrapper> convertOrdersToWrapper(List<OrderItem> items){
-    //     List<Wrappers.OrderWrapper> orderWrappers = new List<Wrappers.OrderWrapper>();
-    //     Set<id> ids = new Set<Id>();
-    //     for(OrderItem item : items){
-    //         if (ids.contains(item.OrderId)) {
-    //             Wrappers.OrderWrapper currentWrapper = orderWrappers.get(arg0);
-    //         } else {
-    //             Wrappers.OrderWrapper wrapper = new Wrappers.OrderWrapper();
-    //             wrapper.id = item.Order.Id;
-    //             wrapper.pricebook2Id = item.Order.Pricebook2Id;
-    //             wrapper.status = item.Order.Status;
-    //             wrapper.effectiveDate = item.Order.EffectiveDate;
-    //             ids.add(item.OrderId);
-
-    //             wrapper.itemWrappers = new List<Wrappers.OrderItemWrapper>();
-    //             Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
-    //             itemWrapper.id = item.Id;
-    //             itemWrapper.orderId = item.OrderId;
-    //             itemWrapper.quantity = item.Quantity;
-    //             itemWrapper.unitPrice = item.UnitPrice;
-    //             wrapper.orderitems = item.Order.EffectiveDate;
-    //             wrapper.itemWrappers.add(itemWrapper);
-    //             orderWrappers.add(wrapper);
-    //         }
-            
-
-    //         Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
-    //         itemWrapper.id = item.Id;
-    //         itemWrapper.orderId = item.OrderId;
-    //         itemWrapper.quantity = item.Quantity;
-    //         itemWrapper.unitPrice = item.UnitPrice;
-    //         wrapper.orderitems = item.Order.EffectiveDate;
-    //         orderWrappers.add(itemWrapper);
-    //     }
-    //     return reviewWrappers;
-    // }
 }
