@@ -1,22 +1,24 @@
 ({
     onInit: function (component, event, helper) {
         component.set('v.hasFiles', false);
+        component.set('v.isSaveDisabled', false);
+        component.set('v.spinner', false);
         var productId = event.getParam('productId');
         component.set('v.productId', productId);
         helper.getuploadedFiles(component);
-        component.set('v.isSaveDisabled', false);
-        
     },
 
     UploadFinished: function (component, event, helper) {
+        component.set("v.spinner", true);
         helper.getuploadedFiles(component);
-        component.set('v.isSaveDisabled', false);
+
     },
 
     delFiles: function (component, event, helper) {
+        component.set("v.spinner", true);
         var documentId = event.currentTarget.id;
         helper.delUploadedfiles(component, documentId);
-        
+
     },
 
     selectImg: function (component, event, helper) {

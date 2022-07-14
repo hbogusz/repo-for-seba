@@ -32,19 +32,19 @@
         onuploadfinished="{!c.UploadFinished}" class="slds-align--absolute-center slds-p-around--medium" />
     <div class="slds-box">
         <aura:if isTrue="{!v.hasFiles}">
-            <aura:if isTrue="{!v.files.length > 1}">
+            <aura:if isTrue="{!v.files.length > 1}"> 
             <span>Choose main image of product by clicking it.</span>     
         </aura:if>
         <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
                 <aura:iteration items="{!v.files}" var="f">
                     <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box">
                         <div class="imgContainer" aura:id="imgItem" data-id="{!f.Id}" id="{!f.Id}"
-                            onclick="{!c.selectImg}">
+                            >
                             <div href="javascript:void(0)" id="{!f.Id}" onclick="{!c.delFiles}">
                                 <lightning:icon iconName="utility:close" alternativeText="Delete" title="Delete Image"
                                     class="delete-button" size="small" />
                             </div>
-                            <img src="{! '/sfc/servlet.shepherd/document/download/' + f.Id}" class="imageBox" />
+                            <img src="{! '/sfc/servlet.shepherd/document/download/' + f.Id}" class="imageBox" onclick="{!c.selectImg}" id="{!f.Id}" data-id="{!f.Id}"/>
                         </div>
                     </lightning:layoutItem>
                 </aura:iteration>
@@ -55,6 +55,6 @@
             <aura:set attribute="else">
                 <p>No images added.</p>
             </aura:set>
-        </aura:if>
+        </aura:if>  
     </div>
 </aura:component>
