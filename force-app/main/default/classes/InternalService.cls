@@ -129,10 +129,20 @@ public with sharing class InternalService {
             return cases;
        }
 
-
+       @AuraEnabled(Cacheable=true)
+       public static void saveComplaintId(String complaintId){
+           Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');            
+           sessionPart.put('complaintId', complaintId);
+       }
+       @AuraEnabled(Cacheable=true)
+       public static String getComplaintId(){
+           Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');            
+           return (String)sessionPart.get('complaintId');
+       }
 
 //////////////////////////////              HELPER                    //////////////////////////////////////////////
-     public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
+     
+public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
         List<Wrappers.ProductWrapper> wrappers = new List<Wrappers.ProductWrapper>();
         for(Product2 product : products){
             Wrappers.ProductWrapper wrapper = new Wrappers.ProductWrapper();
