@@ -1,13 +1,15 @@
-import { LightningElement,wire } from 'lwc';
+import { LightningElement,wire,track} from 'lwc';
 
 import getComplaints from '@salesforce/apex/InternalService.getComplaints';
 import getComplaintId from '@salesforce/apex/InternalService.getComplaintId';
+import { refreshApex } from '@salesforce/apex';
 
 
 export default class Complaints extends LightningElement {
     wiredComplaintsResult;
     complaints;
     activeComplaint='';
+    @track
     activeComplaintResult;
 
 
@@ -16,7 +18,6 @@ export default class Complaints extends LightningElement {
         this.wiredComplaintsResult = result;
         if (result.data) {
             this.complaints = result.data;
-            console.log('complaints', this.complaints);
 
         } else if (result.error) {
             console.log('data.error', result.error);
@@ -27,10 +28,12 @@ export default class Complaints extends LightningElement {
         this.activeComplaintResult = result;
         if (result.data) {
             this.activeComplaint = result.data;
-            console.log('complaintId', this.activeComplaint);
 
         } else if (result.error) {
             console.log('data.error', result.error);
         }
+    }
+    connectedCallback(){
+        refreshApex(this.activeComplaintResult);
     }
 }
