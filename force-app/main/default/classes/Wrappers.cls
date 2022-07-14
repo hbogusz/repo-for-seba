@@ -22,6 +22,8 @@ public with sharing class Wrappers {
         @AuraEnabled
         public String productName;
         @AuraEnabled
+        public String productCode;
+        @AuraEnabled
         public String description;
         @AuraEnabled
         public String family;

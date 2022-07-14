@@ -1,0 +1,52 @@
+<aura:component controller="PricebookController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+    <aura:handler event="c:PricebookSelected" action="{!c.onPricebookSelect}" />
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:attribute name="items" type="PricebookEntry[]" />
+    <aura:attribute name="noResult" type="Boolean" default="true" />
+    <aura:attribute name="showDiscount" type="Boolean" default="false" />
+    <aura:attribute name="discount" type="Integer" default="0" />
+
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="errors" type="Object" default="[]"/>
+    <aura:attribute name="draftValues" type="PriceBookEntry" default="[]"/>
+
+    <lightning:card class="slds-m-bottom--none" title="Price Book Items" iconName="standard:price_book_entries">
+        <aura:set attribute="actions">
+            <lightning:button label="Set Discount" onclick="{!c.setDiscount}" disabled="{!v.noResult}" />
+        </aura:set>
+        <aura:if isTrue="{!v.noResult}">
+            <p class="slds-p-horizontal--large">No pricebook selected.</p>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.showDiscount}">
+                    <div class="slds-grid">
+                        <div class="slds-align_absolute-center slds-size--1-of-6">
+                            <div class="slds-form-element slds-form-element_horizontal slds-p-left--xx-small slds-p-right--xxx-small"
+                                aura:id="discountInput">
+                                <label class="slds-form-element__label">
+                                    Discount(%)</label>
+                                <div class="slds-form-element__control slds-input-has-fixed-addon">
+                                    <lightning:input variant="label-hidden" type="number" min="0" step="1" max="99"
+                                        value="{!v.discount}" id="discountInput" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <div style="height: 300px">
+                    <lightning:datatable
+                        columns="{! v.columns }"
+                        data="{! v.items }"
+                        keyField="Id"
+                        errors="{! v.errors }"
+                        draftValues="{! v.draftValues }"
+                        onsave="{! c.handleSaveEdition }"
+                        column-widths-mode="fixed"
+                    />
+                </div>
+                
+            </aura:set>
+        </aura:if>
+    </lightning:card>
+</aura:component>
