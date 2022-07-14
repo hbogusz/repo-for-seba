@@ -21,6 +21,8 @@ public with sharing class Wrappers {
         public String productId;
         @AuraEnabled
         public String productName;
+        @AuraEnabled        
+        public String productCode;
         @AuraEnabled
         public String description;
         @AuraEnabled
@@ -85,7 +87,8 @@ public with sharing class Wrappers {
         public String productName;
         @AuraEnabled
         public String productId;
-
+        @AuraEnabled
+        public Boolean hasComplaint;
     }
     public class OrderWrapper{
         @AuraEnabled
