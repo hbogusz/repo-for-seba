@@ -31,7 +31,6 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
             this.items.forEach(item => {
                 this.totalPrice += item.quantity * item.unitPrice;
             });
-            console.log('success',this.items );
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -111,7 +110,6 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
         this.itemId = event.target.dataset.recordId;
         saveComplaintId({ complaintId: this.itemId})
         .then((result) => {
-            console.log(this.itemId);
            this[NavigationMixin.Navigate]({
             type: 'standard__namedPage',
             attributes: {
