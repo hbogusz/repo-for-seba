@@ -1,17 +1,13 @@
 ({
-    clonePricebookEntries : function(component,pricebookId) {
+    clonePricebookEntries: function (component, pricebookId) {
         var action = component.get("c.addPricebookEntries");
-        console.log("pricebookId", pricebookId);
         action.setParams({
             "pricebookId": pricebookId
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
-            console.log("state", state);
-            console.log("response", response);
             if (state == 'SUCCESS') {
                 var result = response.getReturnValue();
-                console.log("result", result);
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                     "title": "Success!",
@@ -19,8 +15,55 @@
                     "type": "success"
                 });
                 toastEvent.fire();
+                $A.get("e.c:PricebookEdited").fire();
+
             }
         });
         $A.enqueueAction(action);
-    }
+    },
+    handleUpdate: function (component, pricebookId) {
+        var action = component.get("c.handleActive");
+        action.setParams({
+            "pricebookId": pricebookId
+        });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state == 'SUCCESS') {
+                var result = response.getReturnValue();
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "Success!",
+                    "message": "Price Book edited successfuly",
+                    "type": "success"
+                });
+                toastEvent.fire();
+                $A.get("e.c:PricebookEdited").fire();
+
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    handleDelete: function (component, pricebookId) {
+        var action = component.get("c.deletePricebook");
+        action.setParams({
+            "pricebookId": pricebookId
+        });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state == 'SUCCESS') {
+                var result = response.getReturnValue();
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "Success!",
+                    "message": "Price Book deleted successfuly",
+                    "type": "success"
+                });
+                toastEvent.fire();
+                component.set("v.recordId", null);
+                $A.get("e.c:PricebookEdited").fire();
+                $A.get("e.c:PricebookDeleted").fire();
+            }
+        });
+        $A.enqueueAction(action);
+    },
 })

@@ -4,43 +4,51 @@
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="spinner" type="Boolean" />
     <aura:handler event="c:PricebookSelected" action="{!c.onPricebookSelect}" />
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:attribute name="standardId" type="String" />
+    <aura:attribute name="isNotStandard" type="Boolean" default="true" />
+    <aura:registerEvent name="PricebookEdited" type="c:PricebookEdited" />
+    <aura:registerEvent name="PricebookDeleted" type="c:PricebookDeleted" />
 
     <lightning:notificationsLibrary aura:id="notifLib" />
 
     <lightning:card class="slds-m-bottom--none" title="Create/Edit Price Book" iconName="standard:pricebook">
         <aura:set attribute="actions">
-            <lightning:button label="New" onclick="{!c.handleNew}"/>
+            <lightning:button label="New" onclick="{!c.handleNew}" />
         </aura:set>
         <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Pricebook2" onsuccess="{!c.handleSuccess}"
             onerror="{!c.handleError}" class="slds-p-around--small" recordId="{! v.recordId}">
-            <div class="slds-align--absolute-center slds-grid slds-size--3-of-4">
+            <div class="slds-align--absolute-center">
                 <div class="slds-col slds-p-around--medium">
                     <lightning:messages />
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size--3-of-4">
-                            <lightning:inputField fieldName="Name" class="slds-p-around-small" />
+                            <lightning:inputField fieldName="Name" class="slds-p-around-small" aura:id="field"  />
                         </div>
                         <div class="slds-col">
-                            <lightning:inputField fieldName="IsActive" />
+                            <lightning:inputField fieldName="IsActive" aura:id="field"  />
                         </div>
                     </div>
-                    <div class="slds-grid">
-                        <div class="slds-col slds-size--1-of-3">
-                            <lightning:inputField fieldName="Start_Date__c" />
+                    <aura:if isTrue="{!v.isNotStandard}">
+                        <div class="slds-grid slds-grid--align-spread">
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning:inputField fieldName="Start_Date__c" aura:id="field" />
+                            </div>
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning:inputField fieldName="Expiration_Date__c" aura:id="field"  />
+                            </div>
                         </div>
-                        <div class="slds-col slds-size--1-of-3">
-                            <lightning:inputField fieldName="End_Date__c" />
-                        </div>
-                    </div>
-                    <lightning:inputField fieldName="Description" />
+                    </aura:if>
                 </div>
             </div>
             <div class="slds-grid">
                 <div class="slds-align_absolute-center">
-                    <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleCancel}"
+                    <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleDelete}"
+                        label="Delete" variant="destructive" disabled="{! !v.isNotStandard}"/>
+                    <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleReset}"
                         label="Cancel" variant="neutral" />
-                    <lightning:button class="slds-m-around_small slds-m-bottom_none" type="submit"
-                     label="Save" variant="brand" />
+                    <lightning:button class="slds-m-around_small slds-m-bottom_none" type="submit" label="Save"
+                        variant="brand" />
                 </div>
             </div>
         </lightning:recordEditForm>

@@ -5,7 +5,6 @@
     },
     onRowAction: function (component, event, helper) {
         var recordId = event.currentTarget.getAttribute("id");
-        console.log(recordId);
         var event = $A.get("e.c:PricebookSelected");
         event.setParams({
             "selectedId": recordId
