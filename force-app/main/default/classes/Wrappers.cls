@@ -35,6 +35,10 @@ public with sharing class Wrappers {
         public Decimal reviewAverage;
         @AuraEnabled
         public Decimal unitPrice;
+        @AuraEnabled
+        public Decimal standardPrice;  
+        @AuraEnabled
+        public Boolean hasDiscount;        
     }
     public class ImageWrapper{
         @AuraEnabled

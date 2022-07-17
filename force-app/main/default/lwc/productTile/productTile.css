@@ -19,3 +19,9 @@
 .red-star {
     --sds-c-icon-color-foreground-default: rgb(230, 0, 0);
 }
+.standardPrice{
+    text-decoration: line-through;
+}
+.discount{
+    color: rgb(230, 0, 0);
+}

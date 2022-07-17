@@ -11,6 +11,11 @@ public with sharing class InternalService {
         WHERE Pricebook2.IsActive = TRUE AND Product2.Name LIKE :queryString
         WITH SECURITY_ENFORCED];
 
+        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsStandard = TRUE AND Product2.Name LIKE :queryString
+        WITH SECURITY_ENFORCED];
+
          List<Wrappers.PricebookEntryWrapper> wrappers = new List<Wrappers.PricebookEntryWrapper>();
          wrappers = convertPricebookEntriesToWrappers(products);      
          return wrappers;
@@ -151,20 +156,24 @@ public with sharing class InternalService {
             wrapper.unitPrice = pricebookEntry.UnitPrice;
             wrappers.add(wrapper);
         }
+        wrappers = getStandardPrices(wrappers);
         return wrappers;
     }
 
     public static Wrappers.PricebookEntryWrapper convertPricebookEntryToWrapper(PricebookEntry pricebookEntry){
-            Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
-            wrapper.productId = pricebookEntry.Product2.Id;
-            wrapper.productName = pricebookEntry.Product2.Name;
-            wrapper.image = pricebookEntry.Product2.Image__c;
-            wrapper.family = pricebookEntry.Product2.Family;
-            wrapper.description = pricebookEntry.Product2.Description;
-            wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
-            wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
-            wrapper.unitPrice = pricebookEntry.UnitPrice;
-        return wrapper;
+        List<PricebookEntry> pricebookEntries = new List<PricebookEntry>();
+        pricebookEntries.add(pricebookEntry);
+        List<Wrappers.PricebookEntryWrapper> wrappers = convertPricebookEntriesToWrappers(pricebookEntries);
+            // Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
+            // wrapper.productId = pricebookEntry.Product2.Id;
+            // wrapper.productName = pricebookEntry.Product2.Name;
+            // wrapper.image = pricebookEntry.Product2.Image__c;
+            // wrapper.family = pricebookEntry.Product2.Family;
+            // wrapper.description = pricebookEntry.Product2.Description;
+            // wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
+            // wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
+            // wrapper.unitPrice = pricebookEntry.UnitPrice;
+        return wrappers.get(0);
     }
 
     public static List<Wrappers.ReviewWrapper> convertReviewToWrapper(List<Review__c> reviews){
@@ -195,40 +204,21 @@ public with sharing class InternalService {
         }
         return itemsWrappers;
     }
-    // public static List<Wrappers.OrderWrapper> convertOrdersToWrapper(List<OrderItem> items){
-    //     List<Wrappers.OrderWrapper> orderWrappers = new List<Wrappers.OrderWrapper>();
-    //     Set<id> ids = new Set<Id>();
-    //     for(OrderItem item : items){
-    //         if (ids.contains(item.OrderId)) {
-    //             Wrappers.OrderWrapper currentWrapper = orderWrappers.get(arg0);
-    //         } else {
-    //             Wrappers.OrderWrapper wrapper = new Wrappers.OrderWrapper();
-    //             wrapper.id = item.Order.Id;
-    //             wrapper.pricebook2Id = item.Order.Pricebook2Id;
-    //             wrapper.status = item.Order.Status;
-    //             wrapper.effectiveDate = item.Order.EffectiveDate;
-    //             ids.add(item.OrderId);
-
-    //             wrapper.itemWrappers = new List<Wrappers.OrderItemWrapper>();
-    //             Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
-    //             itemWrapper.id = item.Id;
-    //             itemWrapper.orderId = item.OrderId;
-    //             itemWrapper.quantity = item.Quantity;
-    //             itemWrapper.unitPrice = item.UnitPrice;
-    //             wrapper.orderitems = item.Order.EffectiveDate;
-    //             wrapper.itemWrappers.add(itemWrapper);
-    //             orderWrappers.add(wrapper);
-    //         }
-            
-
-    //         Wrappers.OrderItemWrapper itemWrapper = new Wrappers.OrderItemWrapper();
-    //         itemWrapper.id = item.Id;
-    //         itemWrapper.orderId = item.OrderId;
-    //         itemWrapper.quantity = item.Quantity;
-    //         itemWrapper.unitPrice = item.UnitPrice;
-    //         wrapper.orderitems = item.Order.EffectiveDate;
-    //         orderWrappers.add(itemWrapper);
-    //     }
-    //     return reviewWrappers;
-    // }
+    public static List<Wrappers.PricebookEntryWrapper> getStandardPrices(List<Wrappers.PricebookEntryWrapper> wrappers){
+        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsStandard = TRUE
+        WITH SECURITY_ENFORCED];
+        Map<String,PricebookEntry> standardPricesMap = new Map<String,PricebookEntry>();
+        for (PricebookEntry standardPrice : standardPrices) {
+            standardPricesMap.put(standardPrice.Product2.Id, standardPrice);
+        }
+        for (Wrappers.PricebookEntryWrapper wrapper : wrappers) {
+            wrapper.standardPrice = standardPricesMap.get(wrapper.productId).UnitPrice;
+            if (wrapper.standardPrice != wrapper.unitPrice) {
+                wrapper.hasDiscount = true;
+            }
+        }
+        return wrappers;
+    }
 }
