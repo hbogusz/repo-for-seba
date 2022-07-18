@@ -1,15 +1,13 @@
 ({
-    onPricebookSelect : function(component, event, helper) {
-        let pricebookId = event.getParam( 'selectedId' )
+    onPricebookSelect: function (component, event, helper) {
+        let pricebookId = event.getParam('selectedId')
         component.set("v.recordId", pricebookId);
-        component.set("v.isNotStandard", pricebookId != component.get("v.standardId") ? true :false);
+        component.set("v.isNotStandard", pricebookId != component.get("v.standardId") ? true : false);
     },
-    handleNew : function(component, event, helper) {
+    handleNew: function (component, event, helper) {
         component.set("v.recordId", null);
     },
-    handleSaving: function(component, event, helper) {
-    },
-    handleError: function(component, event, helper) {
+    handleError: function (component, event, helper) {
         var errorMessage = event.getParam("message");
         toastEvent.setParams({
             "title": "Error!",
@@ -18,23 +16,24 @@
         });
         toastEvent.fire();
     },
-    handleSuccess: function(component, event, helper) {
+    handleSuccess: function (component, event, helper) {
+        $A.get("e.c:SpinnerOn").fire();
         let pricebook = event.getParams().response;
         let recordId = component.get("v.recordId");
-        if(recordId == undefined || recordId == null){
-            helper.clonePricebookEntries(component,pricebook.id);
+        if (recordId == undefined || recordId == null) {
+            helper.clonePricebookEntries(component, pricebook.id);
         } else {
-            helper.handleUpdate(component,pricebook.id);
+            helper.handleUpdate(component, pricebook.id);
         }
-        
-        
+
+
     },
-    handleReset: function(cmp, event, helper) {
-        cmp.find('field').forEach(function(f) {
+    handleReset: function (cmp, event, helper) {
+        cmp.find('field').forEach(function (f) {
             f.reset();
         });
     },
-    doInit : function(component, event, helper) {
+    doInit: function (component, event, helper) {
         var action = component.get("c.getStandardPricebookId");
         action.setCallback(this, function (response) {
             var state = response.getState();
@@ -45,9 +44,9 @@
         });
         $A.enqueueAction(action);
     },
-    handleDelete: function(component, event, helper) {
+    handleDelete: function (component, event, helper) {
         let recordId = component.get("v.recordId");
-        helper.handleDelete(component,recordId);
+        helper.handleDelete(component, recordId);
     },
-    
+
 })

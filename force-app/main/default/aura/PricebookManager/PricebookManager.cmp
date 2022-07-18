@@ -1,17 +1,9 @@
 <aura:component
     implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
     access="global">
-    <!-- <div class="slds-grid">
-    <div class="slds-col slds-size-1-of-2 slds-p-right-xx-small">
-        <c:createPricebook></c:createPricebook>
-    </div>
-    <div class="slds-col slds-size-1-of-2 slds-p-left-xx-small">
-        <c:pricebookSelect></c:pricebookSelect>
-    </div>
-</div>
-<div class="slds-p-vertical-x-small">
-    <c:PricebookContent></c:PricebookContent>
-</div> -->
+    <aura:handler event="c:SpinnerOn" action="{!c.spinnerOn}" />
+    <aura:handler event="c:SpinnerOff" action="{!c.spinnerOff}" />
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
     <div class="slds-grid">
         <div class="slds-col slds-size--2-of-5 slds-p-right--xx-small">
             <c:createPricebook></c:createPricebook>
@@ -23,4 +15,7 @@
             <c:PricebookContent></c:PricebookContent>
         </div>
     </div>
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner variant="brand" size="medium" class="slds-is-fixed"/>
+    </aura:if>
 </aura:component>

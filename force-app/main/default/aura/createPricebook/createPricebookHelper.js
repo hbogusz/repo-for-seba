@@ -16,7 +16,7 @@
                 });
                 toastEvent.fire();
                 $A.get("e.c:PricebookEdited").fire();
-
+                $A.get("e.c:SpinnerOff").fire();
             }
         });
         $A.enqueueAction(action);
@@ -38,12 +38,13 @@
                 });
                 toastEvent.fire();
                 $A.get("e.c:PricebookEdited").fire();
-
+                $A.get("e.c:SpinnerOff").fire();
             }
         });
         $A.enqueueAction(action);
     },
     handleDelete: function (component, pricebookId) {
+        $A.get("e.c:SpinnerOn").fire();
         var action = component.get("c.deletePricebook");
         action.setParams({
             "pricebookId": pricebookId
@@ -62,6 +63,7 @@
                 component.set("v.recordId", null);
                 $A.get("e.c:PricebookEdited").fire();
                 $A.get("e.c:PricebookDeleted").fire();
+                $A.get("e.c:SpinnerOff").fire();
             }
         });
         $A.enqueueAction(action);

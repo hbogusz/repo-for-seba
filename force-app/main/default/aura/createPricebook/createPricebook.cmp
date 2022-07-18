@@ -9,6 +9,8 @@
     <aura:attribute name="isNotStandard" type="Boolean" default="true" />
     <aura:registerEvent name="PricebookEdited" type="c:PricebookEdited" />
     <aura:registerEvent name="PricebookDeleted" type="c:PricebookDeleted" />
+    <aura:registerEvent name="SpinnerOn" type="c:SpinnerOn" />
+    <aura:registerEvent name="SpinnerOff" type="c:SpinnerOff" />
 
     <lightning:notificationsLibrary aura:id="notifLib" />
 
@@ -19,7 +21,7 @@
         <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Pricebook2" onsuccess="{!c.handleSuccess}"
             onerror="{!c.handleError}" class="slds-p-around--small" recordId="{! v.recordId}">
             <div class="slds-align--absolute-center">
-                <div class="slds-col slds-p-around--medium">
+                <div class="slds-col slds-p-horizontal--medium">
                     <lightning:messages />
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size--3-of-4">
@@ -44,7 +46,7 @@
             <div class="slds-grid">
                 <div class="slds-align_absolute-center">
                     <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleDelete}"
-                        label="Delete" variant="destructive" disabled="{! !v.isNotStandard}"/>
+                        label="Delete" variant="destructive" disabled="{! !v.isNotStandard || v.recordId == null}"/>
                     <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleReset}"
                         label="Cancel" variant="neutral" />
                     <lightning:button class="slds-m-around_small slds-m-bottom_none" type="submit" label="Save"
@@ -52,14 +54,5 @@
                 </div>
             </div>
         </lightning:recordEditForm>
-        <aura:if isTrue="{!v.spinner}">
-            <div aura:id="spinnerId" class="slds-spinner_container">
-                <div class="slds-spinner--brand  slds-spinner slds-spinner--medium slds-is-relative" role="alert">
-                    <span class="slds-assistive-text">Loading...</span>
-                    <div class="slds-spinner__dot-a"></div>
-                    <div class="slds-spinner__dot-b"></div>
-                </div>
-            </div>
-        </aura:if>
     </lightning:card>
 </aura:component>

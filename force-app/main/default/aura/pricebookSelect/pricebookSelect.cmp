@@ -4,7 +4,6 @@
     <aura:registerEvent name="PricebookSelected" type="c:PricebookSelected" />
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
     <aura:handler event="c:PricebookEdited" action="{!c.onInit}" />
-
     <aura:attribute name="pricebooks" type="PriceBook2[]" />
     <lightning:card class="slds-m-bottom--none" title="Price Books List" iconName="standard:price_books">
         <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-p-horizontal--small">
