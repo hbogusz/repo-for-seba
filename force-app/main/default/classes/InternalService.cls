@@ -11,6 +11,11 @@ public with sharing class InternalService {
         WHERE Pricebook2.IsActive = TRUE AND Product2.Name LIKE :queryString
         WITH SECURITY_ENFORCED];
 
+        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsStandard = TRUE AND Product2.Name LIKE :queryString
+        WITH SECURITY_ENFORCED];
+
          List<Wrappers.PricebookEntryWrapper> wrappers = new List<Wrappers.PricebookEntryWrapper>();
          wrappers = convertPricebookEntriesToWrappers(products);      
          return wrappers;
@@ -82,19 +87,11 @@ public with sharing class InternalService {
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.OrderItemWrapper> getOrderItemsforOrder(String orderId) {
          String userId = UserInfo.getUserId();
-         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c, Product2.Id
+         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c
          FROM OrderItem
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
-         Set<Id> ids = new Set<Id>();
-         List<Case> cases = [Select Product__r.Id
-         FROM Case
-         WHERE FitStore__c = true
-         WITH SECURITY_ENFORCED];
-         for (Case cs : cases) {
-            ids.add(cs.Product__r.Id);
-         }
-         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems, ids);
+         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
           return itemWrappers;
       }
       @AuraEnabled(Cacheable=false)
@@ -104,7 +101,7 @@ public with sharing class InternalService {
         complaint.Subject = subject;
         complaint.Reason = reason;
         complaint.Description = description;
-        complaint.Status = 'Sent';
+        complaint.Status = 'New';
         complaint.Origin = 'Web';
         complaint.Product__c = productId;
         complaint.FitStore__c = true;
@@ -159,20 +156,24 @@ public with sharing class InternalService {
             wrapper.unitPrice = pricebookEntry.UnitPrice;
             wrappers.add(wrapper);
         }
+        wrappers = getStandardPrices(wrappers);
         return wrappers;
     }
 
     public static Wrappers.PricebookEntryWrapper convertPricebookEntryToWrapper(PricebookEntry pricebookEntry){
-            Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
-            wrapper.productId = pricebookEntry.Product2.Id;
-            wrapper.productName = pricebookEntry.Product2.Name;
-            wrapper.image = pricebookEntry.Product2.Image__c;
-            wrapper.family = pricebookEntry.Product2.Family;
-            wrapper.description = pricebookEntry.Product2.Description;
-            wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
-            wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
-            wrapper.unitPrice = pricebookEntry.UnitPrice;
-        return wrapper;
+        List<PricebookEntry> pricebookEntries = new List<PricebookEntry>();
+        pricebookEntries.add(pricebookEntry);
+        List<Wrappers.PricebookEntryWrapper> wrappers = convertPricebookEntriesToWrappers(pricebookEntries);
+            // Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
+            // wrapper.productId = pricebookEntry.Product2.Id;
+            // wrapper.productName = pricebookEntry.Product2.Name;
+            // wrapper.image = pricebookEntry.Product2.Image__c;
+            // wrapper.family = pricebookEntry.Product2.Family;
+            // wrapper.description = pricebookEntry.Product2.Description;
+            // wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
+            // wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
+            // wrapper.unitPrice = pricebookEntry.UnitPrice;
+        return wrappers.get(0);
     }
 
     public static List<Wrappers.ReviewWrapper> convertReviewToWrapper(List<Review__c> reviews){
@@ -187,7 +188,7 @@ public with sharing class InternalService {
         }
         return reviewWrappers;
     }
-    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items, Set<Id> ids){
+    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items){
         List<Wrappers.OrderItemWrapper> itemsWrappers = new List<Wrappers.OrderItemWrapper>();
         for(OrderItem item : items){
             Wrappers.OrderItemWrapper wrapper = new Wrappers.OrderItemWrapper();
@@ -199,13 +200,25 @@ public with sharing class InternalService {
             wrapper.flavour = item.Product2.Flavour__c;
             wrapper.productName = item.Product2.Name;
             wrapper.productId = item.Product2.Id;
-            if (ids.contains(wrapper.productId)) {
-                wrapper.hasComplaint = true;
-            } else{
-                wrapper.hasComplaint = false;
-            }
             itemsWrappers.add(wrapper);
         }
         return itemsWrappers;
+    }
+    public static List<Wrappers.PricebookEntryWrapper> getStandardPrices(List<Wrappers.PricebookEntryWrapper> wrappers){
+        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsStandard = TRUE
+        WITH SECURITY_ENFORCED];
+        Map<String,PricebookEntry> standardPricesMap = new Map<String,PricebookEntry>();
+        for (PricebookEntry standardPrice : standardPrices) {
+            standardPricesMap.put(standardPrice.Product2.Id, standardPrice);
+        }
+        for (Wrappers.PricebookEntryWrapper wrapper : wrappers) {
+            wrapper.standardPrice = standardPricesMap.get(wrapper.productId).UnitPrice;
+            if (wrapper.standardPrice != wrapper.unitPrice) {
+                wrapper.hasDiscount = true;
+            }
+        }
+        return wrappers;
     }
 }

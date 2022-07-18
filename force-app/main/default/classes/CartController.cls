@@ -6,6 +6,7 @@ public with sharing class CartController {
         newItem.price = price;
         newItem.flavour = flavour;
         newItem.quantity = quantity;
+        newItem.hasDiscount = false;
         Map<String,CartItem> cartItems = new Map<String,CartItem>();
         Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');
         if((Map<String,CartItem>)sessionPart.get('cart') != null){
@@ -104,11 +105,46 @@ public with sharing class CartController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled(Cacheable=true)
+    public static Decimal checkDiscountCode(String discountCode){
+       discountCode = discountCode.replaceAll( '\\s+', '');
+       Decimal discount = 0;
+       Decimal totalPrice = 0;
+       List<Discount_Code__c> codesFromDb = new List<Discount_Code__c>();
+       codesFromDb = [SELECT Id,Name,Start_Date__c, Expiration_Date__c, Percent_Value__c FROM Discount_Code__c WHERE isActive__c = true];
+       for (Discount_Code__c code : codesFromDb) {
+            if (code.Name == discountCode) {
+                discount = code.Percent_Value__c;
+                //totalPrice = changePrices(discount);
+            }
+       }
+       return discount;
+    }
+    @AuraEnabled
+    public static Decimal changePrices(Decimal discount){
+        Map<String,CartItem> cartItems = new Map<String,CartItem>();
+        Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');
+        if((Map<String,CartItem>)sessionPart.get('cart') != null)
+        cartItems = (Map<String,CartItem>)sessionPart.get('cart');
+        Decimal totalPrice = 0;
+        if (discount > 0) {
+            for (CartItem item : cartItems.values()) {
+            item.standardPrice = item.price;
+            item.price = ((100 - discount) / 100 * item.price).setScale(2);
+            item.hasDiscount = true;
+            totalPrice += item.quantity * item.price;
+            }
+        }
+        sessionPart.put('cart', cartItems);
+        return totalPrice;
+    }
 
     public class CartItem{
         String flavour;
         Decimal price;
         String productId;
         Integer quantity;
+        Boolean hasDiscount;
+        Decimal standardPrice;
     }
 }
