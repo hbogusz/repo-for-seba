@@ -2,9 +2,10 @@ import { api, LightningElement, track, wire } from 'lwc';
 
 import getOrderItems from '@salesforce/apex/InternalService.getOrderItemsforOrder';
 import saveCase from '@salesforce/apex/InternalService.saveCase';
+import saveComplaintId from '@salesforce/apex/InternalService.saveComplaintId';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-
+import { refreshApex } from '@salesforce/apex';
 
 export default class OrderItem extends NavigationMixin(LightningElement) {
     @api
@@ -30,7 +31,6 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
             this.items.forEach(item => {
                 this.totalPrice += item.quantity * item.unitPrice;
             });
-            console.log('success',this.items );
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -49,13 +49,13 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
                 this.isLoading = true;
                 saveCase({ subject: this.complaint.subject, reason: this.complaint.reason, description: this.complaint.description, productId: this.itemId})
                     .then((result) => {
-                        console.log('result', result);
                         this.dispatchEvent(ShowToastEvent({
                             title: 'Success!',
                             message: 'Complaint sent!',
                             variant: 'success'
                         })
                         );
+                        refreshApex(this.wiredItemsResult);
                         this.closeModal();
                         this.resetComplaint();
                         this.isLoading = false;
@@ -106,13 +106,22 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
     submitDetails() {
         this.isModalOpen = false;
     }
-    navigateToComplaints() {
-        this[NavigationMixin.Navigate]({
+    navigateToComplaints(event) {
+        this.itemId = event.target.dataset.recordId;
+        saveComplaintId({ complaintId: this.itemId})
+        .then((result) => {
+           this[NavigationMixin.Navigate]({
             type: 'standard__namedPage',
             attributes: {
                 pageName: 'complaints'
             },
         });
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
+        
+       
     }
 
 }

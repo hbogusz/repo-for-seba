@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement,track, wire } from 'lwc';
 
 import getItemsFromCart from '@salesforce/apex/CartController.getItemsFromCart';
 import emptyCart from '@salesforce/apex/CartController.clearCart';
@@ -19,6 +19,9 @@ export default class CartPage extends LightningElement {
     discountCode;
     noDiscount = true;
     discount = 0;
+    @track
+    codes = [];
+    codesMap = new Map();
 
     @wire(getItemsFromCart)
     wiredProducts(result) {
@@ -34,14 +37,6 @@ export default class CartPage extends LightningElement {
             this.items.forEach(item => {
                 this.totalPrice += item.price * item.quantity;
             });
-            if (this.discount > 0) {
-                this.items.forEach(item => {
-                    this.totalPriceWithDiscount += (100 - this.discount) / 100 * item.price * item.quantity;
-                });
-            }
-
-
-
         } else if (result.error) {
             console.log('data.error');
             console.log(result.error);
@@ -64,7 +59,7 @@ export default class CartPage extends LightningElement {
     }
     makeOrder() {
         this.isLoading = true;
-        createOrder()
+        createOrder({ discount: this.discount })
             .then(() => {
                 this.dispatchEvent(ShowToastEvent({
                     title: 'Success!',
@@ -99,7 +94,16 @@ export default class CartPage extends LightningElement {
     }
     useDiscountCode() {
         this.isLoading = true;
-        checkDiscountCode({ discountCode: this.discountCode, })
+        if(this.codesMap.has(this.discountCode)){
+            this.dispatchEvent(ShowToastEvent({
+                title: 'Error!',
+                message: 'This code is already in use!',
+                variant: 'error'
+            })
+            );
+        this.isLoading = false;
+        } else {
+        checkDiscountCode({ discountCode: this.discountCode })
             .then((result) => {
                 if (result > 0) {
                     this.dispatchEvent(ShowToastEvent({
@@ -110,7 +114,11 @@ export default class CartPage extends LightningElement {
                     );
                     this.noDiscount = false;
                     this.discount = result;
-                    refreshApex(this.wiredItemsResult);
+                    this.items.forEach(item => {
+                        this.totalPriceWithDiscount += ((100 - this.discount) / 100 * item.price).toFixed(2) * item.quantity;
+                    });
+                    this.codesMap.set(this.discountCode, this.discount);
+                    this.codes.push({value:this.discount, key:this.discountCode}); 
                 } else {
                     const event = new ShowToastEvent({
                         title: 'Error!',
@@ -132,5 +140,6 @@ export default class CartPage extends LightningElement {
                 this.dispatchEvent(event);
                 this.isLoading = false;
             });
+        }
     }
 }

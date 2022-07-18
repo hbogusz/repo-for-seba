@@ -71,7 +71,7 @@ public with sharing class CartController {
         sessionPart.put('cart', cartItems);
     }
     @AuraEnabled
-    public static void createOrder(){
+    public static void createOrder(Decimal discount){
         try {
             Id pbId = [SELECT Id FROM Pricebook2 WHERE IsActive = TRUE LIMIT 1].Id;
             Order order = new Order();
@@ -88,14 +88,25 @@ public with sharing class CartController {
             List<OrderItem> orderItems = new List<OrderItem>();
             List<CartItem> cartItems= new List<CartItem>();
             cartItems = (List<CartItem>) JSON.deserialize(getItemsFromCart(), List<CartItem>.class);
-
-            for(CartItem cartItem : cartItems){
-                OrderItem orderItem = new OrderItem();
-                orderItem.OrderId = order.Id;
-                orderItem.PricebookEntryId =  [SELECT Id FROM PricebookEntry WHERE Product2Id = :cartItem.productId AND Pricebook2Id = :pbId LIMIT 1].Id;
-                orderItem.Quantity = cartItem.quantity;
-                orderItem.UnitPrice = cartItem.price;
-                orderItems.add(orderItem);
+            if(discount > 0){
+                for(CartItem cartItem : cartItems){
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.OrderId = order.Id;
+                    orderItem.PricebookEntryId =  [SELECT Id FROM PricebookEntry WHERE Product2Id = :cartItem.productId AND Pricebook2Id = :pbId LIMIT 1].Id;
+                    orderItem.Quantity = cartItem.quantity;
+                    orderItem.UnitPrice = cartItem.price;
+                    orderItem.UnitPrice = ((100 - discount) / 100 * orderItem.UnitPrice).setScale(2);
+                    orderItems.add(orderItem);
+                }
+            } else {
+                for(CartItem cartItem : cartItems){
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.OrderId = order.Id;
+                    orderItem.PricebookEntryId =  [SELECT Id FROM PricebookEntry WHERE Product2Id = :cartItem.productId AND Pricebook2Id = :pbId LIMIT 1].Id;
+                    orderItem.Quantity = cartItem.quantity;
+                    orderItem.UnitPrice = cartItem.price;
+                    orderItems.add(orderItem);
+                }
             }
 
             insert orderItems;

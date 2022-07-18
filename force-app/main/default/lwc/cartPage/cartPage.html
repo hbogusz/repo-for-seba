@@ -38,11 +38,22 @@
           </div>
         </div>
       </div>
-      <div class="slds-size--1-of-2 slds-grid slds-grid_vertical-align-end">
-        <lightning-input type="text" label="Use discount code" value={discountCode} onchange={setDiscount}>
-        </lightning-input>
-        <lightning-button variant="destructive" label="Use" onclick={useDiscountCode} disabled={disableUse}>
-        </lightning-button>
+      <div class="slds-grid">
+        <div class="slds-size--1-of-2 slds-grid slds-grid_vertical-align-end">
+          <lightning-input type="text" label="Use discount code" value={discountCode} onchange={setDiscount}>
+          </lightning-input>
+          <lightning-button variant="destructive" label="Use" onclick={useDiscountCode} disabled={disableUse}>
+          </lightning-button>
+          <template if:false={noDiscount}>
+            <div>
+              <template for:each={codes} for:item="code">
+                <div class="slds-box slds-box--xx-small slds-m-horizontal--large" key={code.key}><span class="slds-text-heading_small">{code.key}
+                    -{code.value}%</span> </div>
+              </template>
+            </div>
+          </template>
+        </div>
+
       </div>
       <div class="slds-p-around--medium slds-align--absolute-center">
         <button

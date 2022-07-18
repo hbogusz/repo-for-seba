@@ -81,7 +81,7 @@ public with sharing class InternalService {
         List<Order> orders = [Select Id, Pricebook2Id, OwnerId, Status, EffectiveDate, OrderNUmber
         FROM Order
         WHERE OwnerId = :userId
-        ORDER BY EffectiveDate DESC];
+        ORDER BY OrderNumber DESC];
          return orders;
      }
      @AuraEnabled(Cacheable=true)
