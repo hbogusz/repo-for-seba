@@ -6,9 +6,14 @@ public with sharing class InternalService {
     public static List<Wrappers.PricebookEntryWrapper> searchProducts(String searchTerm) {
         String queryString = '%' + searchTerm + '%';
         
-        List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+        List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c,Product2.Description, UnitPrice
         FROM PricebookEntry
         WHERE Pricebook2.IsActive = TRUE AND Product2.Name LIKE :queryString
+        WITH SECURITY_ENFORCED];
+        
+        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
+        FROM PricebookEntry
+        WHERE Pricebook2.IsStandard = TRUE AND Product2.Name LIKE :queryString
         WITH SECURITY_ENFORCED];
 
         List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
@@ -22,7 +27,7 @@ public with sharing class InternalService {
      }
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.PricebookEntryWrapper> searchProductsByCategory(String category) {
-         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c,Product2.Description, UnitPrice
          FROM PricebookEntry
          WHERE Pricebook2.IsActive = TRUE AND Product2.Family = :category
         ];
@@ -126,10 +131,20 @@ public with sharing class InternalService {
             return cases;
        }
 
-
+       @AuraEnabled(Cacheable=true)
+       public static void saveComplaintId(String complaintId){
+           Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');            
+           sessionPart.put('complaintId', complaintId);
+       }
+       @AuraEnabled(Cacheable=true)
+       public static String getComplaintId(){
+           Cache.SessionPartition sessionPart = Cache.Session.getPartition('local.cartStorage');            
+           return (String)sessionPart.get('complaintId');
+       }
 
 //////////////////////////////              HELPER                    //////////////////////////////////////////////
-     public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
+     
+public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Product2> products){
         List<Wrappers.ProductWrapper> wrappers = new List<Wrappers.ProductWrapper>();
         for(Product2 product : products){
             Wrappers.ProductWrapper wrapper = new Wrappers.ProductWrapper();
@@ -154,6 +169,7 @@ public with sharing class InternalService {
             wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
             wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
             wrapper.unitPrice = pricebookEntry.UnitPrice;
+            wrapper.description = pricebookEntry.Product2.Description;
             wrappers.add(wrapper);
         }
         wrappers = getStandardPrices(wrappers);
@@ -164,15 +180,6 @@ public with sharing class InternalService {
         List<PricebookEntry> pricebookEntries = new List<PricebookEntry>();
         pricebookEntries.add(pricebookEntry);
         List<Wrappers.PricebookEntryWrapper> wrappers = convertPricebookEntriesToWrappers(pricebookEntries);
-            // Wrappers.PricebookEntryWrapper wrapper = new Wrappers.PricebookEntryWrapper();
-            // wrapper.productId = pricebookEntry.Product2.Id;
-            // wrapper.productName = pricebookEntry.Product2.Name;
-            // wrapper.image = pricebookEntry.Product2.Image__c;
-            // wrapper.family = pricebookEntry.Product2.Family;
-            // wrapper.description = pricebookEntry.Product2.Description;
-            // wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
-            // wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
-            // wrapper.unitPrice = pricebookEntry.UnitPrice;
         return wrappers.get(0);
     }
 

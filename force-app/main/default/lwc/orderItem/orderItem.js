@@ -27,6 +27,7 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
     wiredItems(result) {
         this.wiredItemsResult = result;
         if (result.data) {
+            this.totalPrice = 0;
             this.items = result.data;
             this.items.forEach(item => {
                 this.totalPrice += item.quantity * item.unitPrice;
@@ -99,6 +100,7 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
         this.itemId = event.target.dataset.recordId;
         this.itemName = event.target.dataset.productName;
         this.isModalOpen = true;
+        this.isLoading = true;
     }
     closeModal() {
         this.isModalOpen = false;
@@ -120,8 +122,10 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
         .catch((error) => {
             console.log('error', error);
         });
-        
-       
     }
+    disableSpinner() {
+        this.isLoading = false;
+    }
+ 
 
 }

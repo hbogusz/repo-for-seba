@@ -2,10 +2,10 @@
     <span class="slds-align--absolute-center slds-p-vertical--medium slds-text-heading_large slds-text-title_caps"
         style="font-size: x-large;">Complaints</span>
     <template if:true={complaints}>
-        <lightning-accordion active-section-name="B" class="slds-box--border">
+        <lightning-accordion active-section-name={activeComplaint} class="slds-box--border">
             <template for:each={complaints} for:item="comp">
-                <lightning-accordion-section name="A" label={comp.CaseNumber} key={comp.Id} class="slds-box">
-                    <lightning-record-view-form object-api-name="Case" record-id={comp.Id}>
+                <lightning-accordion-section name={comp.Product__c} label={comp.CaseNumber} key={comp.Id} class="slds-box">
+                    <lightning-record-view-form object-api-name="Case" record-id={comp.Id} onload={disableSpinner}>
                         <div class="slds-p-horizontal--large">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size--1-of-2">
@@ -71,7 +71,18 @@
     </template>
     <template if:false={complaints}>
         <div class="slds-p-around--small">
-            <span class="slds-p-around--large slds-text-heading_large">You haven't sent any compalints yet.</span>
+            <span class="slds-p-around--large slds-text-heading_large">You haven't sent any complaints yet.</span>
         </div>
     </template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container slds-is-fixed">
+                <div role="status" class="slds-spinner slds-spinner_medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </template>
+    </div>
 </template>
