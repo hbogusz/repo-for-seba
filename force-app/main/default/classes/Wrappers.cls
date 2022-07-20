@@ -24,6 +24,8 @@ public with sharing class Wrappers {
         @AuraEnabled        
         public String productCode;
         @AuraEnabled
+        public String productCode;
+        @AuraEnabled
         public String description;
         @AuraEnabled
         public String family;
@@ -39,6 +41,7 @@ public with sharing class Wrappers {
         public Boolean hasDiscount;        
         @AuraEnabled
         public Decimal standardPrice;
+
     }
     public class ImageWrapper{
         @AuraEnabled
