@@ -45,7 +45,7 @@ public with sharing class PricebookController {
         return response;
     }
     @AuraEnabled
-    public static List<Wrappers.PricebookEntryWrapper> updatePricebookItemsForSelected(String pricebookId, String newItems, Integer discount){
+    public static List<Wrappers.PricebookEntryWrapper> updatePricebookItemsForSelected(String pricebookId, String newItems, Integer discount, String type){
         List<Wrappers.PricebookEntryWrapper> newItemsWrappers = (List<Wrappers.PricebookEntryWrapper>) JSON.deserialize(newItems, List<Wrappers.PricebookEntryWrapper>.class);
         Map<String,Wrappers.PricebookEntryWrapper> newItemsMap = new Map<String,Wrappers.PricebookEntryWrapper>();
         for (Wrappers.PricebookEntryWrapper item : newItemsWrappers) {
@@ -57,11 +57,21 @@ public with sharing class PricebookController {
         WHERE Pricebook2.Id = :pricebookId
         ORDER BY Product2.ProductCode ASC
        ];
-       for (PricebookEntry pricebookEntry : pricebookEntries) {
-        if (newItemsMap.containsKey(pricebookEntry.Product2.Id)) {
-            pricebookEntry.UnitPrice = (pricebookEntry.UnitPrice*(100-discount)/100).setScale(2);
-        }
+       System.debug('type ' + type);
+       if (type == 'percent') {
+        for (PricebookEntry pricebookEntry : pricebookEntries) {
+            if (newItemsMap.containsKey(pricebookEntry.Product2.Id)) {
+                pricebookEntry.UnitPrice = (pricebookEntry.UnitPrice*(100-discount)/100).setScale(2);
+            }
+           }
+       } else if (type == 'value') {
+        for (PricebookEntry pricebookEntry : pricebookEntries) {
+            if (newItemsMap.containsKey(pricebookEntry.Product2.Id)) {
+                pricebookEntry.UnitPrice -= discount;
+            }
+           }
        }
+       
        try {
         update pricebookEntries;
     } catch (Exception e) {

@@ -1,9 +1,4 @@
 ({
-    onPricebookSelect: function (component, event, helper) {
-        let pricebookId = event.getParam('selectedId')
-        component.set("v.recordId", pricebookId);
-        component.set("v.isNotStandard", pricebookId != component.get("v.standardId") ? true : false);
-    },
     handleNew: function (component, event, helper) {
         component.set("v.recordId", null);
     },
@@ -29,20 +24,7 @@
 
     },
     handleReset: function (cmp, event, helper) {
-        cmp.find('field').forEach(function (f) {
-            f.reset();
-        });
-    },
-    doInit: function (component, event, helper) {
-        var action = component.get("c.getStandardPricebookId");
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            if (state == 'SUCCESS') {
-                var result = response.getReturnValue();
-                component.set("v.standardId", result);
-            }
-        });
-        $A.enqueueAction(action);
+        $A.get("e.c:PricebookEdited").fire();
     },
     handleDelete: function (component, event, helper) {
         let recordId = component.get("v.recordId");

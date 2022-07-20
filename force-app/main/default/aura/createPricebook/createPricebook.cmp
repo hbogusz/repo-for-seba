@@ -3,8 +3,6 @@
     access="global">
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="spinner" type="Boolean" />
-    <aura:handler event="c:PricebookSelected" action="{!c.onPricebookSelect}" />
-    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
     <aura:attribute name="standardId" type="String" />
     <aura:attribute name="isNotStandard" type="Boolean" default="true" />
     <aura:registerEvent name="PricebookEdited" type="c:PricebookEdited" />
@@ -14,7 +12,7 @@
 
     <lightning:notificationsLibrary aura:id="notifLib" />
 
-    <lightning:card class="slds-m-bottom--none" title="Create/Edit Price Book" iconName="standard:pricebook">
+   <article class="slds-card__body">
         <aura:set attribute="actions">
             <lightning:button label="New" onclick="{!c.handleNew}" />
         </aura:set>
@@ -45,8 +43,6 @@
             </div>
             <div class="slds-grid">
                 <div class="slds-align_absolute-center">
-                    <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleDelete}"
-                        label="Delete" variant="destructive" disabled="{! !v.isNotStandard || v.recordId == null}"/>
                     <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleReset}"
                         label="Cancel" variant="neutral" />
                     <lightning:button class="slds-m-around_small slds-m-bottom_none" type="submit" label="Save"
@@ -54,5 +50,5 @@
                 </div>
             </div>
         </lightning:recordEditForm>
-    </lightning:card>
+    </article>
 </aura:component>
