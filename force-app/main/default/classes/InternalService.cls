@@ -6,7 +6,7 @@ public with sharing class InternalService {
     public static List<Wrappers.PricebookEntryWrapper> searchProducts(String searchTerm) {
         String queryString = '%' + searchTerm + '%';
         
-        List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+        List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c,Product2.Description, UnitPrice
         FROM PricebookEntry
         WHERE Pricebook2.IsActive = TRUE AND Product2.Name LIKE :queryString
         WITH SECURITY_ENFORCED];
@@ -22,7 +22,7 @@ public with sharing class InternalService {
      }
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.PricebookEntryWrapper> searchProductsByCategory(String category) {
-         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c, UnitPrice
+         List<PricebookEntry> products = [ Select Product2.Id, Product2.Name, Product2.ProductCode, Product2.Family, Product2.Image__c, Product2.Review_Count__c, Product2.Review_Average__c,Product2.Description, UnitPrice
          FROM PricebookEntry
          WHERE Pricebook2.IsActive = TRUE AND Product2.Family = :category
         ];

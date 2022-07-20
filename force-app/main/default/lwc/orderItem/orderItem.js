@@ -27,6 +27,7 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
     wiredItems(result) {
         this.wiredItemsResult = result;
         if (result.data) {
+            this.totalPrice = 0;
             this.items = result.data;
             this.items.forEach(item => {
                 this.totalPrice += item.quantity * item.unitPrice;
