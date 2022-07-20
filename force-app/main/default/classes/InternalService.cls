@@ -81,25 +81,17 @@ public with sharing class InternalService {
         List<Order> orders = [Select Id, Pricebook2Id, OwnerId, Status, EffectiveDate, OrderNUmber
         FROM Order
         WHERE OwnerId = :userId
-        ORDER BY EffectiveDate DESC];
+        ORDER BY OrderNumber DESC];
          return orders;
      }
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.OrderItemWrapper> getOrderItemsforOrder(String orderId) {
          String userId = UserInfo.getUserId();
-         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c, Product2.Id
+         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c
          FROM OrderItem
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
-         Set<Id> ids = new Set<Id>();
-         List<Case> cases = [Select Product__r.Id
-         FROM Case
-         WHERE FitStore__c = true
-         WITH SECURITY_ENFORCED];
-         for (Case cs : cases) {
-            ids.add(cs.Product__r.Id);
-         }
-         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems, ids);
+         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
           return itemWrappers;
       }
       @AuraEnabled(Cacheable=false)
@@ -109,7 +101,7 @@ public with sharing class InternalService {
         complaint.Subject = subject;
         complaint.Reason = reason;
         complaint.Description = description;
-        complaint.Status = 'Sent';
+        complaint.Status = 'New';
         complaint.Origin = 'Web';
         complaint.Product__c = productId;
         complaint.FitStore__c = true;
@@ -196,7 +188,7 @@ public with sharing class InternalService {
         }
         return reviewWrappers;
     }
-    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items, Set<Id> ids){
+    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items){
         List<Wrappers.OrderItemWrapper> itemsWrappers = new List<Wrappers.OrderItemWrapper>();
         for(OrderItem item : items){
             Wrappers.OrderItemWrapper wrapper = new Wrappers.OrderItemWrapper();
@@ -208,11 +200,6 @@ public with sharing class InternalService {
             wrapper.flavour = item.Product2.Flavour__c;
             wrapper.productName = item.Product2.Name;
             wrapper.productId = item.Product2.Id;
-            if (ids.contains(wrapper.productId)) {
-                wrapper.hasComplaint = true;
-            } else{
-                wrapper.hasComplaint = false;
-            }
             itemsWrappers.add(wrapper);
         }
         return itemsWrappers;
@@ -234,5 +221,5 @@ public with sharing class InternalService {
         }
         return wrappers;
     }
-
 }
+
