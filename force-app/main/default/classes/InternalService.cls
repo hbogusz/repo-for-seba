@@ -172,6 +172,7 @@ public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Produ
             wrapper.reviewCount = pricebookEntry.Product2.Review_Count__c;
             wrapper.reviewAverage = pricebookEntry.Product2.Review_Average__c;
             wrapper.unitPrice = pricebookEntry.UnitPrice;
+            wrapper.description = pricebookEntry.Product2.Description;
             wrappers.add(wrapper);
         }
         wrappers = getStandardPrices(wrappers);
