@@ -1,4 +1,4 @@
-import { LightningElement,track, wire } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 
 import getItemsFromCart from '@salesforce/apex/CartController.getItemsFromCart';
 import emptyCart from '@salesforce/apex/CartController.clearCart';
@@ -55,7 +55,12 @@ export default class CartPage extends LightningElement {
             });
     }
     refreshCart() {
-        refreshApex(this.wiredItemsResult);
+        refreshApex(this.wiredItemsResult).then(() => {
+            if (this.discount > 0) {
+                this.getTotalPriceWithDiscount();
+            }
+        });
+
     }
     makeOrder() {
         this.isLoading = true;
@@ -94,52 +99,58 @@ export default class CartPage extends LightningElement {
     }
     useDiscountCode() {
         this.isLoading = true;
-        if(this.codesMap.has(this.discountCode)){
+        if (this.codesMap.has(this.discountCode)) {
             this.dispatchEvent(ShowToastEvent({
                 title: 'Error!',
                 message: 'This code is already in use!',
                 variant: 'error'
             })
             );
-        this.isLoading = false;
+            this.isLoading = false;
         } else {
-        checkDiscountCode({ discountCode: this.discountCode })
-            .then((result) => {
-                if (result > 0) {
-                    this.dispatchEvent(ShowToastEvent({
-                        title: 'Success!',
-                        message: 'Discount code is correct!',
-                        variant: 'success'
-                    })
-                    );
-                    this.noDiscount = false;
-                    this.discount = result;
-                    this.items.forEach(item => {
-                        this.totalPriceWithDiscount += ((100 - this.discount) / 100 * item.price).toFixed(2) * item.quantity;
-                    });
-                    this.codesMap.set(this.discountCode, this.discount);
-                    this.codes.push({value:this.discount, key:this.discountCode}); 
-                } else {
+            checkDiscountCode({ discountCode: this.discountCode })
+                .then((result) => {
+                    if (result > 0) {
+                        this.dispatchEvent(ShowToastEvent({
+                            title: 'Success!',
+                            message: 'Discount code is correct!',
+                            variant: 'success'
+                        })
+                        );
+                        this.noDiscount = false;
+                        this.discount = result;
+                        this.items.forEach(item => {
+                            this.totalPriceWithDiscount += ((100 - this.discount) / 100 * item.price).toFixed(2) * item.quantity;
+                        });
+                        this.codesMap.set(this.discountCode, this.discount);
+                        this.codes.push({ value: this.discount, key: this.discountCode });
+                    } else {
+                        const event = new ShowToastEvent({
+                            title: 'Error!',
+                            message: 'Provided discount code is incorrect. Check spelling',
+                            variant: 'error'
+                        });
+                        this.dispatchEvent(event);
+                        this.noDiscount = true;
+                    }
+                    this.isLoading = false;
+                })
+                .catch((error) => {
+                    console.error(error);
                     const event = new ShowToastEvent({
                         title: 'Error!',
-                        message: 'Provided discount code is incorrect. Check spelling',
+                        message: 'Unexpected error: ' + error,
                         variant: 'error'
                     });
                     this.dispatchEvent(event);
-                    this.noDiscount = true;
-                }
-                this.isLoading = false;
-            })
-            .catch((error) => {
-                console.error(error);
-                const event = new ShowToastEvent({
-                    title: 'Error!',
-                    message: 'Unexpected error: ' + error,
-                    variant: 'error'
+                    this.isLoading = false;
                 });
-                this.dispatchEvent(event);
-                this.isLoading = false;
-            });
         }
+    }
+    getTotalPriceWithDiscount() {
+        this.totalPriceWithDiscount = 0;
+        this.items.forEach(item => {
+            this.totalPriceWithDiscount += ((100 - this.discount) / 100 * item.price).toFixed(2) * item.quantity;
+        });
     }
 }
