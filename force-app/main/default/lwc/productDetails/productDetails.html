@@ -59,11 +59,23 @@
                                     class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
                                     <label
                                         class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Price</label>
-                                    <div class="slds-form-element__control">
-                                        <h1 class="slds-text-heading_large">$
-                                            <lightning-formatted-number value={product.unitPrice} format-style="decimal"
-                                                minimum-fraction-digits="2"></lightning-formatted-number>
-                                        </h1>
+                                    <div class="slds-form-element__control slds-grid">
+                                        <template if:true={product.hasDiscount}>
+                                            <h1 class="slds-text-heading_small">$
+                                                <lightning-formatted-number value={product.standardPrice} format-style="decimal"
+                                                    minimum-fraction-digits="2" class="standardPrice"></lightning-formatted-number>
+                                            </h1>
+                                            <h1 class="slds-p-horizontal--medium slds-text-heading_large discount">$
+                                                <lightning-formatted-number value={product.unitPrice} format-style="decimal"
+                                                    minimum-fraction-digits="2"></lightning-formatted-number>
+                                            </h1>
+                                        </template>
+                                        <template if:false={product.hasDiscount}>
+                                            <h1 class="slds-text-heading_medium">$
+                                                <lightning-formatted-number value={product.unitPrice} format-style="decimal"
+                                                    minimum-fraction-digits="2"></lightning-formatted-number>
+                                            </h1>
+                                        </template>
                                     </div>
                                 </div>
                                 <div class="slds-p-around--medium slds-align--absolute-center">
