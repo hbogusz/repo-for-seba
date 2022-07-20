@@ -12,3 +12,9 @@
     --sds-c-icon-color-foreground-default: white;
     --sds-c-icon-color-background: transparent;
 }
+.standardPrice{
+    text-decoration: line-through;
+}
+.discount{
+    color: rgb(230, 0, 0);
+}

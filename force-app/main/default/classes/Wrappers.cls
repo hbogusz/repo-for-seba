@@ -21,6 +21,10 @@ public with sharing class Wrappers {
         public String productId;
         @AuraEnabled
         public String productName;
+        @AuraEnabled        
+        public String productCode;
+        @AuraEnabled
+        public String productCode;
         @AuraEnabled
         public String description;
         @AuraEnabled
@@ -33,6 +37,11 @@ public with sharing class Wrappers {
         public Decimal reviewAverage;
         @AuraEnabled
         public Decimal unitPrice;
+        @AuraEnabled
+        public Boolean hasDiscount;        
+        @AuraEnabled
+        public Decimal standardPrice;
+
     }
     public class ImageWrapper{
         @AuraEnabled
@@ -94,7 +103,7 @@ public with sharing class Wrappers {
         @AuraEnabled
         public List<OrderItemWrapper> orderitems;
         @AuraEnabled
-        public Decimal pricebook2Id;
+        public String pricebook2Id;
         @AuraEnabled
         public String status;
         @AuraEnabled
@@ -102,6 +111,11 @@ public with sharing class Wrappers {
         @AuraEnabled
         public Integer orderNumber;
     }
-    
+    public class DiscountResponseWrapper{
+        @AuraEnabled
+        public Boolean hasDiscount;
+        @AuraEnabled
+        public Decimal totalPrice;
+    }
     
 }
