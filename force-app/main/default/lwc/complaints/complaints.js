@@ -1,4 +1,4 @@
-import { LightningElement,wire,track} from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
 
 import getComplaints from '@salesforce/apex/InternalService.getComplaints';
 import getComplaintId from '@salesforce/apex/InternalService.getComplaintId';
@@ -8,9 +8,10 @@ import { refreshApex } from '@salesforce/apex';
 export default class Complaints extends LightningElement {
     wiredComplaintsResult;
     complaints;
-    activeComplaint='';
+    activeComplaint = '';
     @track
     activeComplaintResult;
+    isLoading = true;
 
 
     @wire(getComplaints)
@@ -18,11 +19,13 @@ export default class Complaints extends LightningElement {
         this.wiredComplaintsResult = result;
         if (result.data) {
             this.complaints = result.data;
-
+            if (this.complaints.length == 0) {
+                this.isLoading = false;
+            }
         } else if (result.error) {
             console.log('data.error', result.error);
         }
-    }    
+    }
     @wire(getComplaintId)
     wiredComplaintId(result) {
         this.activeComplaintResult = result;
@@ -33,7 +36,10 @@ export default class Complaints extends LightningElement {
             console.log('data.error', result.error);
         }
     }
-    connectedCallback(){
+    connectedCallback() {
         refreshApex(this.activeComplaintResult);
+    }
+    disableSpinner() {
+        this.isLoading = false;
     }
 }
