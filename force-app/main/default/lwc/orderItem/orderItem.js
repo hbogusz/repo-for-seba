@@ -3,9 +3,10 @@ import { api, LightningElement, track, wire } from 'lwc';
 import getOrderItems from '@salesforce/apex/InternalService.getOrderItemsforOrder';
 import saveCase from '@salesforce/apex/InternalService.saveCase';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 
 
-export default class OrderItem extends LightningElement {
+export default class OrderItem extends NavigationMixin(LightningElement) {
     @api
     orderId
     @api
@@ -18,6 +19,7 @@ export default class OrderItem extends LightningElement {
     isModalOpen;
     itemId;
     itemName;
+    isLoading;
 
 
     @wire(getOrderItems, { orderId: '$orderId' })
@@ -28,6 +30,7 @@ export default class OrderItem extends LightningElement {
             this.items.forEach(item => {
                 this.totalPrice += item.quantity * item.unitPrice;
             });
+            console.log('success',this.items );
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -53,6 +56,7 @@ export default class OrderItem extends LightningElement {
                             variant: 'success'
                         })
                         );
+                        this.closeModal();
                         this.resetComplaint();
                         this.isLoading = false;
                     })
@@ -101,6 +105,14 @@ export default class OrderItem extends LightningElement {
     }
     submitDetails() {
         this.isModalOpen = false;
+    }
+    navigateToComplaints() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__namedPage',
+            attributes: {
+                pageName: 'complaints'
+            },
+        });
     }
 
 }
