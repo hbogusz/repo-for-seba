@@ -31,20 +31,20 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     isLoading;
     showFlavour;
     isAddReviewDisabled=false;
+    wiredUserResult
 
     @track error;
     @track name;
     @wire(getRecord, {
         recordId: USER_ID,
         fields: [NAME_FIELD]
-    }) wireuser({
-        error,
-        data
-    }) {
-        if (error) {
-            this.error = error;
-        } else if (data) {
-            this.name = data.fields.Name.value;
+    }) 
+    wireuser(result) {
+        this.wiredUserResult = result;
+        if (result.error) {
+            this.error = result.error;
+        } else if (result.data) {
+            this.name = result.data.fields.Name.value;
         }
     }
 
@@ -61,6 +61,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             } else {
                 this.showFlavour = true;
             }
+            refreshApex(this.wiredImagesResult);
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -79,11 +80,14 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.wiredReviewsResult = result;
         if (result.data) {
             this.reviews = result.data;
-            this.reviews.forEach(review => {
+            refreshApex(this.wiredUserResult).then(() => {
+                this.reviews.forEach(review => {
                 if(review.author == this.name){
                     this.isAddReviewDisabled = true;
                 }
             });
+            });
+            
         } else if (result.error) {
             this.reviews = null;
             console.log('data.error', result.error);
