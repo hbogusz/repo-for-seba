@@ -1,28 +1,33 @@
 <template>
-    <template if:true={product}>
-        <div>
+
+    <div>
+        <template if:true={product}>
             <span>
                 <span class="link slds-text-heading--small" onclick={navigateCategory}>{product.family}</span> >
                 <span class="slds-text-title_bold slds-truncate"> {product.productName}</span>
             </span>
-        </div>
-        <div class="slds-grid">
-            <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
-                <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
-                    <template if:true={images}>
-                        <template for:each={images} for:item="image">
-                            <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id}
-                                class="smallImg" />
-                        </template>
+        </template>
+    </div>
+    <div class="slds-grid">
+        <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
+            <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
+                <template if:true={images}>
+                    <template for:each={images} for:item="image">
+                        <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id} class="smallImg" />
                     </template>
-                </div>
+                </template>
+            </div>
+            <template if:true={product}>
+
                 <div class="slds-col">
                     <div class="imgContainer">
                         <img src={mainImage} class="tile" />
                     </div>
                 </div>
 
-            </div>
+            </template>
+        </div>
+        <template if:true={product}>
             <div class="slds-col slds-size--1-of-2 slds-p-around--medium">
                 <div class="slds-p-horizontal--x-small">
                     <h1 class="slds-text-heading_large slds-p-vertical--x-small">{product.productName}</h1>
@@ -101,11 +106,14 @@
                     </lightning-record-edit-form>
                 </div>
             </div>
-        </div>
+        </template>
+    </div>
+    <template if:true={product}>
         <div>
             <lightning-card title="Description" icon-name="action:description" class="slds-p-around_small">
                 <div class="slds-p-horizontal--large">
-                    <lightning-formatted-rich-text value={product.description}></lightning-formatted-rich-text>
+                    <lightning-formatted-rich-text value={product.description} style="text-align: justify;">
+                    </lightning-formatted-rich-text>
                 </div>
             </lightning-card>
             <lightning-card icon-name="action:new_group" data-id="reviewsCard">
@@ -161,10 +169,10 @@
                                     <template if:false={review.isApproved}>
                                         <div class="overlay">
                                             <span class="info">Waiting for approval...</span>
-                                        <div class="overlayReview">
-                                            <c-review-tile review={review}></c-review-tile>
+                                            <div class="overlayReview">
+                                                <c-review-tile review={review}></c-review-tile>
+                                            </div>
                                         </div>
-                                    </div>
 
                                     </template>
                                 </template>
@@ -176,6 +184,7 @@
                     <span>There is no reviews for this film.</span>
                 </template>
             </lightning-card>
+
         </div>
     </template>
     <div class="spinner">

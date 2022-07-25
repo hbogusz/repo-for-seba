@@ -24,13 +24,15 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
     mainImage;
     mainImageId;
     isReviewFormShown;
+    images;
     review = new Array();
     item = {productId: "", quantity: 1, flavour: "", price: 0.0};
     wiredReviewsResult;
     reviews;
     isLoading;
     showFlavour;
-    isAddReviewDisabled=false;
+    @track
+    isAddReviewDisabled;
     wiredUserResult
 
     @track error;
@@ -45,6 +47,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             this.error = result.error;
         } else if (result.data) {
             this.name = result.data.fields.Name.value;
+            refreshApex(this.wiredReviewsResult);
         }
     }
 
@@ -61,7 +64,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
             } else {
                 this.showFlavour = true;
             }
-            refreshApex(this.wiredImagesResult);
         } else if (result.error) {
             console.log('data.error', result.error);
         }
@@ -80,12 +82,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
         this.wiredReviewsResult = result;
         if (result.data) {
             this.reviews = result.data;
-            refreshApex(this.wiredUserResult).then(() => {
+            this.isAddReviewDisabled = false;
                 this.reviews.forEach(review => {
                 if(review.author == this.name){
                     this.isAddReviewDisabled = true;
                 }
-            });
             });
             
         } else if (result.error) {
