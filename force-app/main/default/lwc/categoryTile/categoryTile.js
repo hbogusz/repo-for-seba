@@ -15,13 +15,10 @@ export default class CategoryTile extends NavigationMixin(LightningElement) {
         const catArray = [['Protein', protein ], ['Pre-Workout', preWorkout],
          ['Vitamins', vitamins ], ['Creatine', creatine], ['Equipment', equipment]]
          const catMap = new Map(catArray)
-         console.log('category', this.category);
-         console.log('category', catMap.has(this.category));
         return catMap.get(this.category);
     }
     
     navigateToPage() {
-        console.log('navigate');
         this[NavigationMixin.Navigate]({
             type: 'standard__namedPage',
             attributes: {

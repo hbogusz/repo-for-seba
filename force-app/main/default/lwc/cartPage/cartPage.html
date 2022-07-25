@@ -12,15 +12,48 @@
         </template>
       </lightning-layout>
       <div class="slds-grid">
-        <div class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium slds-size--1-of-3">
+        <div
+          class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium slds-size--1-of-3">
           <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Total price:</label>
           <div class="slds-form-element__control">
-            <h1 class="slds-text-heading_large">$
-              <lightning-formatted-number value={totalPrice} format-style="decimal" minimum-fraction-digits="2">
-              </lightning-formatted-number>
-            </h1>
+            <template if:true={noDiscount}>
+              <h1 class="slds-text-heading_medium">$
+                <lightning-formatted-number value={totalPrice} format-style="decimal" minimum-fraction-digits="2">
+                </lightning-formatted-number>
+              </h1>
+            </template>
+            <template if:false={noDiscount}>
+              <div class="slds-grid">
+                <h1 class="slds-text-heading_medium oldTotalPrice">$
+                  <lightning-formatted-number value={totalPrice} format-style="decimal" minimum-fraction-digits="2">
+                  </lightning-formatted-number>
+                </h1>
+                <h1 class="slds-text-heading_large newTotalPrice slds-p-horizontal--medium">$
+                  <lightning-formatted-number value={totalPriceWithDiscount} format-style="decimal"
+                    minimum-fraction-digits="2">
+                  </lightning-formatted-number>
+                </h1>
+              </div>
+            </template>
           </div>
         </div>
+      </div>
+      <div class="slds-grid">
+        <div class="slds-size--1-of-2 slds-grid slds-grid_vertical-align-end">
+          <lightning-input type="text" label="Use discount code" value={discountCode} onchange={setDiscount}>
+          </lightning-input>
+          <lightning-button variant="destructive" label="Use" onclick={useDiscountCode} disabled={disableUse}>
+          </lightning-button>
+          <template if:false={noDiscount}>
+            <div>
+              <template for:each={codes} for:item="code">
+                <div class="slds-box slds-box--xx-small slds-m-horizontal--large" key={code.key}><span class="slds-text-heading_small">{code.key}
+                    -{code.value}%</span> </div>
+              </template>
+            </div>
+          </template>
+        </div>
+
       </div>
       <div class="slds-p-around--medium slds-align--absolute-center">
         <button
@@ -30,7 +63,7 @@
         </button>
         <button
           class="slds-button slds-button_destructive slds-p-around--small slds-text-heading--medium slds-m-around--small"
-          onclick={createOrder}>
+          onclick={makeOrder}>
           Order
         </button>
       </div>
@@ -43,13 +76,11 @@
   </template>
   <div class="spinner">
     <template if:true={isLoading}>
-      <div class="demo-only demo--inverse" style="height:6rem;background-color:#16325c;position:relative">
-        <div class="slds-spinner_container slds-is-fixed">
-          <div role="status" class="slds-spinner slds-spinner_medium">
-            <span class="slds-assistive-text">Loading</span>
-            <div class="slds-spinner__dot-a"></div>
-            <div class="slds-spinner__dot-b"></div>
-          </div>
+      <div class="slds-spinner_container slds-is-fixed">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+          <span class="slds-assistive-text">Loading</span>
+          <div class="slds-spinner__dot-a"></div>
+          <div class="slds-spinner__dot-b"></div>
         </div>
       </div>
     </template>

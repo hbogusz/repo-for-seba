@@ -1,7 +1,6 @@
 ({
     addPricebookEntry: function (component) {
         var action = component.get("c.addPricebookEntry");
-        console.log('id received for pb:', component.get("v.recordId"));
         action.setParams({
             "productId": component.get("v.recordId"),
             "unitPrice": component.get("v.price")
