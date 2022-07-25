@@ -16,11 +16,6 @@ public with sharing class InternalService {
         WHERE Pricebook2.IsStandard = TRUE AND Product2.Name LIKE :queryString
         WITH SECURITY_ENFORCED];
 
-        List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
-        FROM PricebookEntry
-        WHERE Pricebook2.IsStandard = TRUE AND Product2.Name LIKE :queryString
-        WITH SECURITY_ENFORCED];
-
          List<Wrappers.PricebookEntryWrapper> wrappers = new List<Wrappers.PricebookEntryWrapper>();
          wrappers = convertPricebookEntriesToWrappers(products);      
          return wrappers;
@@ -57,6 +52,7 @@ public with sharing class InternalService {
         review.Author__c = author;
         review.Rating__c = Integer.valueOf(rating);
         review.Created_at__c = Date.today();
+        review.Status__c = 'New';
         try {
             insert review;
             response.status = 'success';
@@ -69,10 +65,10 @@ public with sharing class InternalService {
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.ReviewWrapper> getReviews(String productId) {
         List <Review__c> reviews = new List<Review__c>();
-        reviews = [ SELECT Name,Author__c, Content__c, Created_at__c, ProductId__c,Rating__c
+        reviews = [ SELECT Name,Author__c, Content__c, Created_at__c, ProductId__c,Rating__c, Status__c
         FROM Review__c
-        WHERE ProductId__c = :productId
-        WITH SECURITY_ENFORCED];
+        WHERE ProductId__c = :productId AND Status__c != 'Rejected'
+        ];
         List<Wrappers.ReviewWrapper> reviewWrappers = new List<Wrappers.ReviewWrapper>();
         if(reviewWrappers != null){
             reviewWrappers = convertReviewToWrapper(reviews);
@@ -92,11 +88,19 @@ public with sharing class InternalService {
      @AuraEnabled(Cacheable=true)
      public static List<Wrappers.OrderItemWrapper> getOrderItemsforOrder(String orderId) {
          String userId = UserInfo.getUserId();
-         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c
+         List<OrderItem> orderitems = [Select Id, OrderId, Order.Id, Order.Pricebook2Id, Order.Status, Order.EffectiveDate, Quantity, UnitPrice, Product2.Family,Product2.Name,Product2.Flavour__c, Product2.Id
          FROM OrderItem
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
-         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems);
+         Set<Id> ids = new Set<Id>();
+         List<Case> cases = [Select Product__r.Id
+         FROM Case
+         WHERE FitStore__c = true
+         WITH SECURITY_ENFORCED];
+         for (Case cs : cases) {
+            ids.add(cs.Product__r.Id);
+         }
+         List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems, ids);
           return itemWrappers;
       }
       @AuraEnabled(Cacheable=false)
@@ -106,7 +110,7 @@ public with sharing class InternalService {
         complaint.Subject = subject;
         complaint.Reason = reason;
         complaint.Description = description;
-        complaint.Status = 'New';
+        complaint.Status = 'Sent';
         complaint.Origin = 'Web';
         complaint.Product__c = productId;
         complaint.FitStore__c = true;
@@ -191,11 +195,12 @@ public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Produ
             wrapper.author = review.Author__c;
             wrapper.created_at = String.valueOf(review.Created_at__c);
             wrapper.rating = String.valueOf(review.Rating__c);
+            wrapper.isApproved = review.Status__c == 'Approved' ? true : false;
             reviewWrappers.add(wrapper);
         }
         return reviewWrappers;
     }
-    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items){
+    public static List<Wrappers.OrderItemWrapper> convertOrderItemToWrapper(List<OrderItem> items, Set<Id> ids){
         List<Wrappers.OrderItemWrapper> itemsWrappers = new List<Wrappers.OrderItemWrapper>();
         for(OrderItem item : items){
             Wrappers.OrderItemWrapper wrapper = new Wrappers.OrderItemWrapper();
@@ -207,6 +212,11 @@ public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Produ
             wrapper.flavour = item.Product2.Flavour__c;
             wrapper.productName = item.Product2.Name;
             wrapper.productId = item.Product2.Id;
+            if (ids.contains(wrapper.productId)) {
+                wrapper.hasComplaint = true;
+            } else{
+                wrapper.hasComplaint = false;
+            }
             itemsWrappers.add(wrapper);
         }
         return itemsWrappers;
@@ -214,8 +224,7 @@ public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Produ
     public static List<Wrappers.PricebookEntryWrapper> getStandardPrices(List<Wrappers.PricebookEntryWrapper> wrappers){
         List<PricebookEntry> standardPrices = [ Select Product2.Id, UnitPrice
         FROM PricebookEntry
-        WHERE Pricebook2.IsStandard = TRUE
-        WITH SECURITY_ENFORCED];
+        WHERE Pricebook2.IsStandard = TRUE];
         Map<String,PricebookEntry> standardPricesMap = new Map<String,PricebookEntry>();
         for (PricebookEntry standardPrice : standardPrices) {
             standardPricesMap.put(standardPrice.Product2.Id, standardPrice);

@@ -18,3 +18,15 @@
 .discount{
     color: rgb(230, 0, 0);
 }
+.overlay{
+    position: relative;
+}
+.info{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.overlayReview{
+    opacity: 0.5;
+}
+

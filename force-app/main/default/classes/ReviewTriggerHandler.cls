@@ -10,11 +10,14 @@ public with sharing class ReviewTriggerHandler implements ITriggerHandler {
         public void BeforeDelete(Map<Id, SObject> oldItems) {
         }
         public void AfterInsert(Map<Id, SObject> newItems) {
+        }
+        public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
             Decimal amount;
             Decimal average;
             List <Review__c> newReviews = newItems.values();
             String productId = newReviews.get(0).ProductId__c;
-            Product2 product = [SELECT Id, Name, Review_Average__c, Review_Count__c FROM Product2 WHERE Id=:productId];
+            if(newReviews.get(0).Status__c == 'Approved'){
+                 Product2 product = [SELECT Id, Name, Review_Average__c, Review_Count__c FROM Product2 WHERE Id=:productId];
             amount = product.Review_Count__c;
             average = product.Review_Average__c * amount;
             for (Review__c review : newReviews){
@@ -28,14 +31,15 @@ public with sharing class ReviewTriggerHandler implements ITriggerHandler {
             } catch (Exception e) {
                 System.debug(e.getMessage());
             }
-        }
-        public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+            }
+           
         }
         public void AfterDelete(Map<Id, SObject> oldItems) {
             Decimal amount;
             Decimal average;
             List <Review__c> oldReviews = oldItems.values();
             String productId = oldReviews.get(0).ProductId__c;
+            if(oldReviews.get(0).Status__c == 'Approved'){
             Product2 product = [SELECT Id, Name, Review_Average__c, Review_Count__c FROM Product2 WHERE Id=:productId];
             amount = product.Review_Count__c;
             average = product.Review_Average__c * amount;
@@ -50,6 +54,7 @@ public with sharing class ReviewTriggerHandler implements ITriggerHandler {
             } catch (Exception e) {
                 System.debug(e.getMessage());
             }
+        }
         }
         public void AfterUndelete(Map<Id, SObject> oldItems) {
         }
