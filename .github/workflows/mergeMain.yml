@@ -31,12 +31,12 @@ jobs:
           run: 'echo ${{ secrets.SECRET_URL}} > SFDX_QA'
           
         - name: 'Authenticate to Integration Org'
-          run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a vscodeOrg
+          run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a poductionOrg
 
 
         - name: 'Deploy source'
           id: Deploy
-          run: node_modules/sfdx-cli/bin/run force:source:deploy -p force-app -u vscodeOrg --json --loglevel fatal
+          run: node_modules/sfdx-cli/bin/run force:source:deploy -p force-app -u poductionOrg --json --loglevel fatal
 
 
 
