@@ -1,0 +1,32 @@
+.link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.smallImg:hover{
+    cursor: pointer;
+}
+.red-star{
+    --sds-c-icon-color-foreground-default: rgb(230, 0, 0);
+}
+.cart {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: transparent;
+}
+.standardPrice{
+    text-decoration: line-through;
+}
+.discount{
+    color: rgb(230, 0, 0);
+}
+.overlay{
+    position: relative;
+}
+.info{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.overlayReview{
+    opacity: 0.5;
+}
+
