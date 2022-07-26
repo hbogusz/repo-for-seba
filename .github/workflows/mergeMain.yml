@@ -27,10 +27,10 @@ jobs:
 
         - name: 'Populate auth file with SFDX_URL'
           shell: bash
-          run: echo ${{ secrets.SFDX_URL}} > ./SFDX_URL.txt
+          run: echo ${{ secrets.SFDX_URL}} > SFDX_URL
           
         - name: 'Authenticate to Integration Org'
-          run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f ./SFDX_URL.txt -s -a vscodeOrg
+          run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f SFDX_URL -s -a vscodeOrg
           
           
         - name: 'Deploy source'
