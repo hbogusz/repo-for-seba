@@ -1,0 +1,39 @@
+
+name: Deploy to another org after merge
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [closed]
+
+
+jobs:
+  deployAfterMerge:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: 'Checkout source code'
+          uses: actions/checkout@v2
+
+        - uses: actions/setup-node@v2
+          with:
+              node-version: "14"
+
+        - name: 'Install Salesforce CLI'
+          run: |
+              npm install sfdx-cli
+              node_modules/sfdx-cli/bin/run --version
+              node_modules/sfdx-cli/bin/run plugins --core
+
+        - name: 'Populate auth file with SFDX_URL'
+          shell: bash
+          run: echo ${{ secrets.SFDX_URL}} > ./SFDX_URL.txt
+          
+        - name: 'Authenticate to Integration Org'
+          run: sfdx auth:sfdxurl:store -f ./SFDX_URL.txt -s -a integration
+          
+        - name: 'Deploy source'
+          id: Deploy
+          run: node_modules/sfdx-cli/bin/run force:source:deploy -p force-app -u integration --json --loglevel fatal
+
+
