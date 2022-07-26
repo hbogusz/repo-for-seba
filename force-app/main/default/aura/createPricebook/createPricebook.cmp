@@ -1,0 +1,54 @@
+<aura:component controller="PricebookController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="spinner" type="Boolean" />
+    <aura:attribute name="standardId" type="String" />
+    <aura:attribute name="isNotStandard" type="Boolean" default="true" />
+    <aura:registerEvent name="PricebookEdited" type="c:PricebookEdited" />
+    <aura:registerEvent name="PricebookDeleted" type="c:PricebookDeleted" />
+    <aura:registerEvent name="SpinnerOn" type="c:SpinnerOn" />
+    <aura:registerEvent name="SpinnerOff" type="c:SpinnerOff" />
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+
+   <article class="slds-card__body">
+        <aura:set attribute="actions">
+            <lightning:button label="New" onclick="{!c.handleNew}" />
+        </aura:set>
+        <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Pricebook2" onsuccess="{!c.handleSuccess}"
+            onerror="{!c.handleError}" class="slds-p-around--small" recordId="{! v.recordId}">
+            <div class="slds-align--absolute-center">
+                <div class="slds-col slds-p-horizontal--medium">
+                    <lightning:messages />
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-col slds-size--3-of-4">
+                            <lightning:inputField fieldName="Name" class="slds-p-around-small" aura:id="field"  />
+                        </div>
+                        <div class="slds-col">
+                            <lightning:inputField fieldName="IsActive" aura:id="field"  />
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!v.isNotStandard}">
+                        <div class="slds-grid slds-grid--align-spread">
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning:inputField fieldName="Start_Date__c" aura:id="field" />
+                            </div>
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning:inputField fieldName="Expiration_Date__c" aura:id="field"  />
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-align_absolute-center">
+                    <lightning:button class="slds-m-around_small slds-m-bottom_none" onclick="{! c.handleReset}"
+                        label="Cancel" variant="neutral" />
+                    <lightning:button class="slds-m-around_small slds-m-bottom_none" type="submit" label="Save"
+                        variant="brand" />
+                </div>
+            </div>
+        </lightning:recordEditForm>
+    </article>
+</aura:component>
