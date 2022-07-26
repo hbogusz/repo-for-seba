@@ -1,0 +1,18 @@
+<template>
+    <span class="slds-align--absolute-center slds-p-vertical--medium slds-text-heading_large slds-text-title_caps"
+        style="font-size: x-large;">Orders</span>
+    <template if:true={orders}>
+        <lightning-accordion active-section-name="B" class="slds-box--border">
+            <template for:each={orders} for:item="order">
+                <lightning-accordion-section name="A" label={order.OrderNumber} key={order.Id}>
+                    <c-order-item order-id={order.Id} order={order}></c-order-item>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+    </template>
+    <template if:false={orders}>
+        <div class="slds-p-around--small">
+            <span class="slds-p-around--large slds-text-heading_large">You don't have any order yet.</span>
+        </div>
+    </template>
+</template>
