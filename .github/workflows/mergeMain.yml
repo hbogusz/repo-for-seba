@@ -30,10 +30,11 @@ jobs:
           run: echo ${{ secrets.SFDX_URL}} > ./SFDX_URL.txt
           
         - name: 'Authenticate to Integration Org'
-          run: sfdx auth:sfdxurl:store -f ./SFDX_URL.txt -s -a integration
+          run: node_modules/sfdx-cli/bin/run force:auth:sfdxurl:store -f ./SFDX_URL.txt -s -a vscodeOrg
+          
           
         - name: 'Deploy source'
           id: Deploy
-          run: node_modules/sfdx-cli/bin/run force:source:deploy -p force-app -u integration --json --loglevel fatal
+          run: node_modules/sfdx-cli/bin/run force:source:deploy -p force-app -u vscodeOrg --json --loglevel fatal
 
 
