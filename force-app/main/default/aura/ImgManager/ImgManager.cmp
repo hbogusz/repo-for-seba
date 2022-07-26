@@ -1,0 +1,60 @@
+<aura:component controller="ImageUploadHandler"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+    <aura:registerEvent name="ImagesAdded" type="c:ImagesAdded" />
+    <aura:handler event="c:ProductCreated" action="{!c.onInit}" />
+    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg','.webp']" />
+    <aura:attribute name="files" type="ContentDocument[]" />
+    <aura:attribute name="productId" type="String" />
+    <aura:attribute name="selectedImg" type="String" />
+    <aura:attribute name="isSaveDisabled" type="String" />
+    <aura:attribute name="hasFiles" type="Boolean" />
+    <aura:attribute name="spinner" type="boolean" default="false" />
+
+    <div class="slds-grid">
+        <div class="slds-col slds-size--2-of-5">
+            <span class="slds-text-heading--small slds-p-top--medium slds-p-left--medium">Upload images in format
+                4:5</span>
+        </div>
+        <div class="slds-col slds-p-around--small slds-size--1-of-6">
+            <aura:if isTrue="{!v.spinner}">
+                <div aura:id="spinnerId">
+                    <div class="slds-spinner--brand  slds-spinner slds-spinner--small slds-is-relative" role="alert">
+                        <span class="slds-assistive-text">Loading...</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+    <lightning:fileUpload name="fileUploader" multiple="true" accept="{!v.filetype}" recordId="{!v.productId}"
+        onuploadfinished="{!c.UploadFinished}" class="slds-align--absolute-center slds-p-around--medium" />
+    <div class="slds-box">
+        <aura:if isTrue="{!v.hasFiles}">
+            <aura:if isTrue="{!v.files.length > 1}"> 
+            <span>Choose main image of product by clicking it.</span>     
+        </aura:if>
+        <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
+                <aura:iteration items="{!v.files}" var="f">
+                    <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box">
+                        <div class="imgContainer" aura:id="imgItem" data-id="{!f.Id}" id="{!f.Id}"
+                            >
+                            <div href="javascript:void(0)" id="{!f.Id}" onclick="{!c.delFiles}">
+                                <lightning:icon iconName="utility:close" alternativeText="Delete" title="Delete Image"
+                                    class="delete-button" size="small" />
+                            </div>
+                            <img src="{! '/sfc/servlet.shepherd/document/download/' + f.Id}" class="imageBox" onclick="{!c.selectImg}" id="{!f.Id}" data-id="{!f.Id}"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+            <lightning:button label="Save" variant="neutral" onclick="{! c.handleSaving}"
+                class="slds-align--absolute-center" disabled="{! empty(v.files)}">
+            </lightning:button>
+            <aura:set attribute="else">
+                <p>No images added.</p>
+            </aura:set>
+        </aura:if>  
+    </div>
+</aura:component>
