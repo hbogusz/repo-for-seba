@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Welcome to Support</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <senderEmail>hubert.bogusz@britenet.com.pl</senderEmail>
+            <senderName>Customer Suooport</senderName>
+            <template>unfiled$public/SupportCaseResponse</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>
