@@ -238,4 +238,3 @@ public static List<Wrappers.ProductWrapper> convertProductsToWrappers(List<Produ
         return wrappers;
     }
 }
-
