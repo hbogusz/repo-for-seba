@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkSkillRouting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isActive>true</isActive>
+    <masterLabel>Basic Skills</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <workSkillRoutingAttributes>
+        <field>Case.Reason</field>
+        <isAdditionalSkill>false</isAdditionalSkill>
+        <skill>Using_ordering_system</skill>
+        <skillLevel>5</skillLevel>
+        <value>Feedback</value>
+    </workSkillRoutingAttributes>
+    <workSkillRoutingAttributes>
+        <field>Case.Reason</field>
+        <isAdditionalSkill>false</isAdditionalSkill>
+        <skill>Understand_the_return_policy_and_refund_process</skill>
+        <skillLevel>5</skillLevel>
+        <value>Breakdown</value>
+    </workSkillRoutingAttributes>
+</WorkSkillRouting>
