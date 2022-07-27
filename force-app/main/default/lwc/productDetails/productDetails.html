@@ -19,6 +19,7 @@
             </div>
             <template if:true={product}>
 
+
                 <div class="slds-col">
                     <div class="imgContainer">
                         <img src={mainImage} class="tile" />
@@ -58,8 +59,8 @@
                                     <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
                                         for="quantity-field">Quantity</label>
                                     <div class="slds-form-element__control">
-                                        <input type="number" id="quantity-field" placeholder="" value={item.quantity}
-                                            class="slds-input" onchange={setQuantity} />
+                                        <input type="number" min="1" id="quantity-field" placeholder=""
+                                            value={item.quantity} class="slds-input" onchange={setQuantity} />
                                     </div>
                                 </div>
                                 <div
@@ -77,6 +78,7 @@
                                                 <lightning-formatted-number value={product.unitPrice}
                                                     format-style="decimal" minimum-fraction-digits="2">
                                                 </lightning-formatted-number>
+
                                             </h1>
                                         </template>
                                         <template if:false={product.hasDiscount}>

@@ -126,6 +126,6 @@ export default class OrderItem extends NavigationMixin(LightningElement) {
     disableSpinner() {
         this.isLoading = false;
     }
-    
+ 
 
 }
