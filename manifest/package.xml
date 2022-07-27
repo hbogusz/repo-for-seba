@@ -171,10 +171,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>Network</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>NetworkBranding</name>
 	</types>
 	<types>
@@ -187,10 +183,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>PresenceUserConfig</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>Profile</name>
 	</types>
 	<types>
@@ -198,20 +190,8 @@
 		<name>Queue</name>
 	</types>
 	<types>
-		<members>*</members>
-		<name>QueueRoutingConfig</name>
-	</types>
-	<types>
 		<members>CEO</members>
 		<name>Role</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ServiceChannel</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ServicePresenceStatus</name>
 	</types>
 	<types>
 		<members>GoogleApps</members>
@@ -220,10 +200,6 @@
 	<types>
 		<members>*</members>
 		<name>StaticResource</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>UserCriteria</name>
 	</types>
 	<types>
 		<members>*</members>
