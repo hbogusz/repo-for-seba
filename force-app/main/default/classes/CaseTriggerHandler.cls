@@ -27,3 +27,4 @@ public with sharing class CaseTriggerHandler implements ITriggerHandler {
     public void AfterUndelete(Map<Id, SObject> oldItems) {
     }
 }
+
