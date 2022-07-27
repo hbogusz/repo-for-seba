@@ -44,7 +44,7 @@
 		<name>CustomObject</name>
 	</types>
 		<types>
-		<members>Flavour__c</members>
+		<members>Flavour</members>
 		<name>GlobalValueSet</name>
 	</types>
 	<types>
