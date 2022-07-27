@@ -4,49 +4,9 @@
 		<members>*</members>
 		<name>ApexClass</name>
 	</types>
-		<types>
-		<members>*</members>
-		<name>ApexTestSuite</name>
-	</types>
 	<types>
 		<members>*</members>
 		<name>ApexTrigger</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ApprovalProcess</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>AssignmentRules</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>AuraDefinitionBundle</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>AuthProvider</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Community</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ContentAsset</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CorsWhitelistOrigin</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CspTrustedSite</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CustomApplication</name>
 	</types>
 	<types>
 		<members>Case.FitStore__c</members>
@@ -69,10 +29,6 @@
 		<name>CustomField</name>
 	</types>
 	<types>
-		<members>*</members>
-		<name>CustomLabels</name>
-	</types>
-	<types>
 		<members>Account</members>
 		<members>Case</members>
 		<members>Discount_Code__c</members>
@@ -83,128 +39,12 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
-		<members>*</members>
-		<name>CustomSite</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>DataCategoryGroup</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>DuplicateRule</name>
-	</types>
-	<types>
-		<members>Chat_Agents</members>
-		<members>FitStore_Agents</members>
-		<name>EmbeddedServiceConfig</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>EntitlementProcess</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ExperienceBundle</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Flow</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>FlowDefinition</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>GlobalValueSet</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>GlobalValueSetTranslation</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Layout</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>LightningMessageChannel</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ListView</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>LiveChatAgentConfig</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>LiveChatButton</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>LiveChatDeployment</name>
-	</types>
-	<types>
 		<members>cms_document</members>
 		<members>cms_image</members>
 		<members>news</members>
 		<name>ManagedContentType</name>
 	</types>
-	<types>
-		<members>*</members>
-		<name>MilestoneType</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>NetworkBranding</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>PermissionSet</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>PlatformCachePartition</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Profile</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Queue</name>
-	</types>
-	<types>
-		<members>CEO</members>
-		<name>Role</name>
-	</types>
-	<types>
-		<members>GoogleApps</members>
-		<name>Settings</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>StaticResource</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>WebLink</name>
-	</types>
+	
 	<types>
 		<members>Case</members>
 		<members>Review__c</members>
