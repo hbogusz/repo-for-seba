@@ -1,0 +1,203 @@
+<template>
+
+    <div>
+        <template if:true={product}>
+            <span>
+                <span class="link slds-text-heading--small" onclick={navigateCategory}>{product.family}</span> >
+                <span class="slds-text-title_bold slds-truncate"> {product.productName}</span>
+            </span>
+        </template>
+    </div>
+    <div class="slds-grid">
+        <div class="slds-col slds-size--1-of-2 slds-p-around--x-large slds-grid">
+            <div class="slds-col slds-size--1-of-6 slds-p-horizontal--xx-small">
+                <template if:true={images}>
+                    <template for:each={images} for:item="image">
+                        <img key={image.id} src={image.url} onclick={changeImage} data-id={image.id} class="smallImg" />
+                    </template>
+                </template>
+            </div>
+            <template if:true={product}>
+
+
+                <div class="slds-col">
+                    <div class="imgContainer">
+                        <img src={mainImage} class="tile" />
+                    </div>
+                </div>
+
+            </template>
+        </div>
+        <template if:true={product}>
+            <div class="slds-col slds-size--1-of-2 slds-p-around--medium">
+                <div class="slds-p-horizontal--x-small">
+                    <h1 class="slds-text-heading_large slds-p-vertical--x-small">{product.productName}</h1>
+                    <div class="slds-grid slds-p-around--medium slds-grid_vertical-align-center">
+                        <lightning-icon icon-name="utility:favorite" size="large" class="red-star">
+                        </lightning-icon>
+                        <h2 class="slds-p-around--xx-small slds-text-heading_large">{product.reviewAverage}</h2>
+                        <h3 class="slds-p-around--xx-small link" onclick={scrollToReviews}>{product.reviewCount} reviews
+                        </h3>
+                    </div>
+                    <lightning-record-edit-form object-api-name="Product2" record-id={recordId}>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size--3-of-5">
+                                <template if:true={showFlavour}>
+                                    <div
+                                        class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                        <label
+                                            class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Flavour</label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input-field field-name="Flavour__c" value={item.flavour}
+                                                variant="label-hidden" onchange={setFlavour}>
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div
+                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                    <label class="slds-form-element__label slds-text-heading_label slds-text-title_bold"
+                                        for="quantity-field">Quantity</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="number" min="1" id="quantity-field" placeholder=""
+                                            value={item.quantity} class="slds-input" onchange={setQuantity} />
+                                    </div>
+                                </div>
+                                <div
+                                    class="slds-form-element slds-form-element_horizontal slds-m-around--large slds-p-around--medium">
+                                    <label
+                                        class="slds-form-element__label slds-text-heading_label slds-text-title_bold">Price</label>
+                                    <div class="slds-form-element__control slds-grid">
+                                        <template if:true={product.hasDiscount}>
+                                            <h1 class="slds-text-heading_small">$
+                                                <lightning-formatted-number value={product.standardPrice}
+                                                    format-style="decimal" minimum-fraction-digits="2"
+                                                    class="standardPrice"></lightning-formatted-number>
+                                            </h1>
+                                            <h1 class="slds-p-horizontal--medium slds-text-heading_large discount">$
+                                                <lightning-formatted-number value={product.unitPrice}
+                                                    format-style="decimal" minimum-fraction-digits="2">
+                                                </lightning-formatted-number>
+
+                                            </h1>
+                                        </template>
+                                        <template if:false={product.hasDiscount}>
+                                            <h1 class="slds-text-heading_medium">$
+                                                <lightning-formatted-number value={product.unitPrice}
+                                                    format-style="decimal" minimum-fraction-digits="2">
+                                                </lightning-formatted-number>
+                                            </h1>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="slds-align--absolute-center slds-m-left--xx-large slds-p-around--medium">
+                                    <button
+                                        class="slds-button slds-button_destructive slds-p-around--small slds-text-heading--medium"
+                                        onclick={addToCart}>
+                                        <lightning-icon icon-name="utility:cart" class="cart slds-p-right--medium">
+                                        </lightning-icon>Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size--1-of-3">
+                                <lightning-input-field field-name="Family" value={product.family} variant="standard"
+                                    hidden>
+                                </lightning-input-field>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </template>
+    </div>
+    <template if:true={product}>
+        <div>
+            <lightning-card title="Description" icon-name="action:description" class="slds-p-around_small">
+                <div class="slds-p-horizontal--large">
+                    <lightning-formatted-rich-text value={product.description} style="text-align: justify;">
+                    </lightning-formatted-rich-text>
+                </div>
+            </lightning-card>
+            <lightning-card icon-name="action:new_group" data-id="reviewsCard">
+                <h3 slot="title">
+                    Reviews <span>({product.reviewCount})</span>
+                </h3>
+                <lightning-button label="Write a review" variant="brand" slot="actions" onclick={showReviewForm}
+                    disabled={isAddReviewDisabled}>
+                </lightning-button>
+                <template if:true={isReviewFormShown}>
+                    <div class="slds-p-around--small">
+                        <article class="slds-card slds-card slds-p-horizontal--x-large">
+                            <lightning-record-edit-form object-api-name="Review__c">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-size--1-of-8">
+                                        <div class="slds-form-element slds-form-element_readonly">
+                                            <span class="slds-form-element__label">Username</span>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-form-element__static">{name}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-region_narrow">
+                                        <div class="slds-float--right slds-p-around--medium">
+                                            <c-rating-stars onrating={handleRating}></c-rating-stars>
+                                        </div>
+                                    </div>
+                                </div>
+                                <lightning-input-rich-text field-name="Content__c" value={review.content}
+                                    variant="standard" onchange={setContent}>
+                                </lightning-input-rich-text>
+                                <footer class="slds-align--absolute-center">
+                                    <lightning-button variant="neutral" class="slds-m-top_small" label="Cancel"
+                                        onclick={closeReviewForm}>
+                                    </lightning-button>
+                                    <lightning-button variant="brand" class="slds-m-top_small" onclick={handleSubmit}
+                                        label="Save">
+                                    </lightning-button>
+                                </footer>
+                            </lightning-record-edit-form>
+                        </article>
+                    </div>
+                </template>
+                <template if:true={reviews}>
+                    <lightning-layout multiple-rows>
+                        <template for:each={reviews} for:item="review">
+                            <lightning-layout-item key={review.id} padding="around-small" size="12"
+                                small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <template if:true={review.isApproved}>
+                                    <c-review-tile review={review}></c-review-tile>
+                                </template>
+                                <template if:true={isAddReviewDisabled}>
+                                    <template if:false={review.isApproved}>
+                                        <div class="overlay">
+                                            <span class="info">Waiting for approval...</span>
+                                            <div class="overlayReview">
+                                                <c-review-tile review={review}></c-review-tile>
+                                            </div>
+                                        </div>
+
+                                    </template>
+                                </template>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </template>
+                <template if:true={noReviews}>
+                    <span>There is no reviews for this film.</span>
+                </template>
+            </lightning-card>
+
+        </div>
+    </template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container slds-is-fixed">
+                <div role="status" class="slds-spinner slds-spinner_medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>
