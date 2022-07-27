@@ -523,11 +523,6 @@
 		<name>ExternalServiceRegistration</name>
 	</types>
 	<types>
-		<members>Rule810164301425f53035dbfda9a8c7bb9e</members>
-		<members>Ruled9d5af498b19b9af3cfa77edc10b7f38</members>
-		<name>FieldRestrictionRule</name>
-	</types>
-	<types>
 		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
