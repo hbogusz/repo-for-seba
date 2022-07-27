@@ -568,10 +568,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>KeywordList</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>Layout</name>
 	</types>
 	<types>
@@ -618,10 +614,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>ManagedTopics</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>MatchingRules</name>
 	</types>
 	<types>
@@ -643,14 +635,6 @@
 	<types>
 		<members>*</members>
 		<name>NamedCredential</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>NavigationMenu</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Network</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -698,10 +682,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>PresenceUserConfig</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>Profile</name>
 	</types>
 	<types>
@@ -719,10 +699,6 @@
 	<types>
 		<members>*</members>
 		<name>Queue</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>QueueRoutingConfig</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -762,14 +738,6 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>ServiceChannel</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ServicePresenceStatus</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>Settings</name>
 	</types>
 	<types>
@@ -783,10 +751,6 @@
 	<types>
 		<members>*</members>
 		<name>SiteDotCom</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Skill</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -824,10 +788,6 @@
 		<members>Community.Members_without_contribution</members>
 		<members>Community.Partner_and_Customer_members</members>
 		<name>UserCriteria</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>WorkSkillRouting</name>
 	</types>
 	<types>
 		<members>Case</members>
