@@ -118,5 +118,5 @@ public with sharing class Wrappers {
         @AuraEnabled
         public Decimal totalPrice;
     }
-    
 }
+
