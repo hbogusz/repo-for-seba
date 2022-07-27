@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Cappuccino</fullName>
+        <default>false</default>
+        <label>Cappuccino</label>
+    </customValue>
+    <customValue>
+        <fullName>Chocolate</fullName>
+        <default>false</default>
+        <label>Chocolate</label>
+    </customValue>
+    <customValue>
+        <fullName>Cookie</fullName>
+        <default>false</default>
+        <label>Cookie</label>
+    </customValue>
+    <customValue>
+        <fullName>Raspberry</fullName>
+        <default>false</default>
+        <label>Raspberry</label>
+    </customValue>
+    <customValue>
+        <fullName>Salted Caramel</fullName>
+        <default>false</default>
+        <label>Salted Caramel</label>
+    </customValue>
+    <customValue>
+        <fullName>Strawberry</fullName>
+        <default>false</default>
+        <label>Strawberry</label>
+    </customValue>
+    <customValue>
+        <fullName>Vanilla Ice Cream</fullName>
+        <default>false</default>
+        <label>Vanilla Ice Cream</label>
+    </customValue>
+    <customValue>
+        <fullName>White chocolate</fullName>
+        <default>false</default>
+        <label>White chocolate</label>
+    </customValue>
+    <customValue>
+        <fullName>Apple</fullName>
+        <default>false</default>
+        <label>Apple</label>
+    </customValue>
+    <customValue>
+        <fullName>Neutral</fullName>
+        <default>false</default>
+        <label>Neutral</label>
+    </customValue>
+    <customValue>
+        <fullName>Cola</fullName>
+        <default>false</default>
+        <label>Cola</label>
+    </customValue>
+    <masterLabel>Flavour</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
