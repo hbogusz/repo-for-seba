@@ -43,6 +43,10 @@
 		<members>Review__c</members>
 		<name>CustomObject</name>
 	</types>
+		<types>
+		<members>Flavour</members>
+		<name>GlobalValueSet</name>
+	</types>
 	<types>
 		<members>Case</members>
 		<members>Review__c</members>

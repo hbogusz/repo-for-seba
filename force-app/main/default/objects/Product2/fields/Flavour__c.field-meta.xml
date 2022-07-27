@@ -9,64 +9,7 @@
     <valueSet>
         <controllingField>Family</controllingField>
         <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Cappuccino</fullName>
-                <default>false</default>
-                <label>Cappuccino</label>
-            </value>
-            <value>
-                <fullName>Chocolate</fullName>
-                <default>false</default>
-                <label>Chocolate</label>
-            </value>
-            <value>
-                <fullName>Cookie</fullName>
-                <default>false</default>
-                <label>Cookie</label>
-            </value>
-            <value>
-                <fullName>Raspberry</fullName>
-                <default>false</default>
-                <label>Raspberry</label>
-            </value>
-            <value>
-                <fullName>Salted Caramel</fullName>
-                <default>false</default>
-                <label>Salted Caramel</label>
-            </value>
-            <value>
-                <fullName>Strawberry</fullName>
-                <default>false</default>
-                <label>Strawberry</label>
-            </value>
-            <value>
-                <fullName>Vanilla Ice Cream</fullName>
-                <default>false</default>
-                <label>Vanilla Ice Cream</label>
-            </value>
-            <value>
-                <fullName>White chocolate</fullName>
-                <default>false</default>
-                <label>White chocolate</label>
-            </value>
-            <value>
-                <fullName>Apple</fullName>
-                <default>false</default>
-                <label>Apple</label>
-            </value>
-            <value>
-                <fullName>Neutral</fullName>
-                <default>false</default>
-                <label>Neutral</label>
-            </value>
-            <value>
-                <fullName>Cola</fullName>
-                <default>false</default>
-                <label>Cola</label>
-            </value>
-        </valueSetDefinition>
+        <valueSetName>Flavour</valueSetName>
         <valueSettings>
             <controllingFieldValue>Protein</controllingFieldValue>
             <valueName>Cappuccino</valueName>
