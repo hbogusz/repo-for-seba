@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flavour__c</fullName>
+    <externalId>false</externalId>
+    <label>Flavour</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Family</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Flavour</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>Cappuccino</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>Chocolate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>Cookie</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <controllingFieldValue>Pre-Workout</controllingFieldValue>
+            <valueName>Raspberry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>Salted Caramel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <controllingFieldValue>Pre-Workout</controllingFieldValue>
+            <valueName>Strawberry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>Vanilla Ice Cream</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Protein</controllingFieldValue>
+            <valueName>White chocolate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Workout</controllingFieldValue>
+            <controllingFieldValue>Creatine</controllingFieldValue>
+            <valueName>Apple</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Workout</controllingFieldValue>
+            <controllingFieldValue>Creatine</controllingFieldValue>
+            <valueName>Neutral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Workout</controllingFieldValue>
+            <controllingFieldValue>Creatine</controllingFieldValue>
+            <valueName>Cola</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
