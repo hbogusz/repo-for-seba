@@ -8,6 +8,7 @@
 		<members>InternalService</members>
 		<members>ITriggerHandler</members>
 		<members>CaseTriggerHandler</members>
+		<members>PricebookController</members>
 		<members>PricebookControllerTest</members>
 		<members>ProductController</members>
 		<members>ReviewTriggerHandler</members>
