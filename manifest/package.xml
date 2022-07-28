@@ -52,6 +52,7 @@
 		<members>Discount_Code__c.isActive__c</members>
 		<members>Pricebook2.Expiration_Date__c</members>
 		<members>Pricebook2.Start_Date__c</members>
+		<members>Product2.Family</members>
 		<members>Product2.Flavour__c</members>
 		<members>Product2.Image__c</members>
 		<members>Product2.Review_Average__c</members>
