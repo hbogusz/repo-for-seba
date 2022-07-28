@@ -93,12 +93,12 @@ public with sharing class InternalService {
          WHERE OrderId = :orderId
          WITH SECURITY_ENFORCED];
          Set<Id> ids = new Set<Id>();
-         List<Case> cases = [Select Product__r.Id
+         List<Case> cases = [Select Product__c
          FROM Case
          WHERE FitStore__c = true
          WITH SECURITY_ENFORCED];
          for (Case cs : cases) {
-            ids.add(cs.Product__r.Id);
+            ids.add(cs.Product__c);
          }
          List<Wrappers.OrderItemWrapper> itemWrappers = convertOrderItemToWrapper(orderitems, ids);
           return itemWrappers;
