@@ -45,6 +45,7 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
+		<members>Case.AssetWarrantyId</members>
 		<members>Case.FitStore__c</members>
 		<members>Case.Product__c</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
