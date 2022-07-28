@@ -81,6 +81,7 @@
 		<types>
 		<members>Pricebook_Manager</members>
 		<members>Product_Adding</members>
+		<members>FitStore_UtilityBar </members>
 		<name>FlexiPage</name>
 	</types>
 		<types>
