@@ -45,9 +45,8 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
-		<members>Case.AssetWarrantyId</members>
 		<members>Case.FitStore__c</members>
-		<members>Case.Product__r</members>
+		<members>Case.Product__c</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
 		<members>Discount_Code__c.Percent_Value__c</members>
 		<members>Discount_Code__c.Start_Date__c</members>
@@ -77,6 +76,8 @@
 	<types>
 		<members>Pricebook_Manager</members>
 		<members>Product_Adding</members>
+		<members>Discount_Code__c</members>
+		<members>Review__c</members>
 		<name>CustomTab</name>
 	</types>
 		<types>
@@ -106,10 +107,6 @@
 		<members>searchResults</members>
 		<members>slider</members>
 		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>Customers</members>
-		<name>Profile</name>
 	</types>
 	<types>
 		<members>Case</members>
