@@ -3,12 +3,15 @@
 	<types>
 		<members>CartController</members>
 		<members>CaseTriggerHandler</members>
+		<members>CaseTriggerHandlerTest</members>
 		<members>ImageUploadHandler</members>
 		<members>InternalService</members>
 		<members>ITriggerHandler</members>
-		<members>PricebookController</members>
+		<members>CaseTriggerHandler</members>
+		<members>PricebookControllerTest</members>
 		<members>ProductController</members>
 		<members>ReviewTriggerHandler</members>
+		<members>ReviewTriggerHandlerTest</members>
 		<members>TriggerDispatcher</members>
 		<members>Wrappers</members>
 		<name>ApexClass</name>
