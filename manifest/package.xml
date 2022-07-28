@@ -110,7 +110,7 @@
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
-		<members>sl2</members>
+		<members>*</members>
 		<name>StaticResource</name>
 	</types>
 	<types>
