@@ -45,6 +45,7 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
+		<members>Case.AssetWarrantyId</members>
 		<members>Case.FitStore__c</members>
 		<members>Case.Product__c</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
@@ -81,6 +82,7 @@
 		<types>
 		<members>Pricebook_Manager</members>
 		<members>Product_Adding</members>
+		<members>FitStore_UtilityBar </members>
 		<name>FlexiPage</name>
 	</types>
 		<types>
@@ -106,15 +108,7 @@
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
-		<members>Customer Community Login User</members>
-		<members>Customer Community Plus Login User</members>
-		<members>Customer Community Plus User</members>
-		<members>Customer Community User</members>
-		<members>Customer Portal Manager Custom</members>
-		<members>Customer Portal Manager Standard</members>
 		<members>Customers</members>
-		<members>Partner Community Login User</members>
-		<members>Partner Community User</members>
 		<name>Profile</name>
 	</types>
 	<types>
