@@ -19,6 +19,32 @@
 		<name>ApexTrigger</name>
 	</types>
 	<types>
+		<members>*</members>
+		<name>ApprovalProcess</name>
+	</types>
+		<types>
+		<members>createPricebook</members>
+		<members>DiscountModal</members>
+		<members>DiscountSet</members>
+		<members>ImagesAdded</members>
+		<members>ImgManager</members>
+		<members>PricebookContent</members>
+		<members>PricebookEdited</members>
+		<members>PricebookDeleted</members>
+		<members>PricebookManager</members>
+		<members>pricebookSelect</members>
+		<members>PricebookSelected</members>
+		<members>ProductCreated</members>
+		<members>ProductForm</members>
+		<members>SpinnerOff</members>
+		<members>SpinnerOn</members>
+		<name>AuraDefinitionBundle</name>
+	</types>
+	<types>
+		<members>FitStore</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
 		<members>Case.FitStore__c</members>
 		<members>Case.Product__c</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
@@ -47,9 +73,49 @@
 		<members>Review__c</members>
 		<name>CustomObject</name>
 	</types>
+	<types>
+		<members>Pricebook_Manager</members>
+		<members>Product_Adding</members>
+		<name>CustomTab</name>
+	</types>
+		<types>
+		<members>Pricebook_Manager</members>
+		<members>Product_Adding</members>
+		<name>FlexiPage</name>
+	</types>
 		<types>
 		<members>Flavour</members>
 		<name>GlobalValueSet</name>
+	</types>
+		<types>
+		<members>cartButton</members>
+		<members>cartItem</members>
+		<members>cartPage</members>
+		<members>categoryBar</members>
+		<members>categoryPage</members>
+		<members>categoryTile</members>
+		<members>complaints</members>
+		<members>orderItem</members>
+		<members>orders</members>
+		<members>productDetails</members>
+		<members>productTile</members>
+		<members>ratingStars</members>
+		<members>reviewTile</members>
+		<members>searchResults</members>
+		<members>slider</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>Customer Community Login User</members>
+		<members>Customer Community Plus Login User</members>
+		<members>Customer Community Plus User</members>
+		<members>Customer Community User</members>
+		<members>Customer Portal Manager Custom</members>
+		<members>Customer Portal Manager Standard</members>
+		<members>Customers</members>
+		<members>Partner Community Login User</members>
+		<members>Partner Community User</members>
+		<name>Profile</name>
 	</types>
 	<types>
 		<members>Case</members>
