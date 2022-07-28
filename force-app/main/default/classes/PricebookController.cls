@@ -57,7 +57,6 @@ public with sharing class PricebookController {
         WHERE Pricebook2.Id = :pricebookId
         ORDER BY Product2.ProductCode ASC
        ];
-       System.debug('type ' + type);
        if (type == 'percent') {
         for (PricebookEntry pricebookEntry : pricebookEntries) {
             if (newItemsMap.containsKey(pricebookEntry.Product2.Id)) {
