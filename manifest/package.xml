@@ -47,7 +47,7 @@
 	<types>
 		<members>Case.AssetWarrantyId</members>
 		<members>Case.FitStore__c</members>
-		<members>Case.Product__c</members>
+		<members>Case.Product__r</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
 		<members>Discount_Code__c.Percent_Value__c</members>
 		<members>Discount_Code__c.Start_Date__c</members>
