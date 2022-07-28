@@ -39,7 +39,10 @@
 		<name>CustomField</name>
 	</types>
 	<types>
+		<members>case</members>
 		<members>Discount_Code__c</members>
+		<members>Pricebook2</members>
+		<members>Product2</members>
 		<members>Review__c</members>
 		<name>CustomObject</name>
 	</types>
