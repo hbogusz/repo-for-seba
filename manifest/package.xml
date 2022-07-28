@@ -18,10 +18,6 @@
 		<members>ReviewTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
-	<types>
-		<members>*</members>
-		<name>ApprovalProcess</name>
-	</types>
 		<types>
 		<members>createPricebook</members>
 		<members>DiscountModal</members>
@@ -41,18 +37,22 @@
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>
+		<members>Pngtreegym_silhouette_symbol_767086</members>
+		<name>ContentAsset</name>
+	</types>
+	<types>
 		<members>FitStore</members>
 		<name>CustomApplication</name>
 	</types>
 	<types>
 		<members>Case.FitStore__c</members>
-		<members>Case.Product__c</members>
 		<members>Discount_Code__c.Expiration_Date__c</members>
 		<members>Discount_Code__c.Percent_Value__c</members>
 		<members>Discount_Code__c.Start_Date__c</members>
 		<members>Discount_Code__c.isActive__c</members>
 		<members>Pricebook2.Expiration_Date__c</members>
 		<members>Pricebook2.Start_Date__c</members>
+		<members>Product2.Family</members>
 		<members>Product2.Flavour__c</members>
 		<members>Product2.Image__c</members>
 		<members>Product2.Review_Average__c</members>
