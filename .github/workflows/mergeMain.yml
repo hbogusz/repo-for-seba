@@ -36,7 +36,7 @@ jobs:
 
         - name: 'Deploy source'
           id: Deploy
-          run: sfdx force:source:deploy -x manifest/package.xml --loglevel --json
+          run: sfdx force:source:deploy -x manifest/package.xml --testlevel RunLocalTests --json --checkonly
 
 
 
