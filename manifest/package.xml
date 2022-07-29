@@ -13,6 +13,7 @@
 		<members>ProductController</members>
 		<members>ReviewTriggerHandler</members>
 		<members>ReviewTriggerHandlerTest</members>
+		<members>TestDataFactory</members>
 		<members>TriggerDispatcher</members>
 		<members>Wrappers</members>
 		<name>ApexClass</name>
