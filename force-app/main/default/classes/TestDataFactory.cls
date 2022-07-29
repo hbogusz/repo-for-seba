@@ -59,4 +59,15 @@ public class TestDataFactory {
             );
         update standardPricebook;
     }
+    public static Product2 creatSingleProduct() {
+        Product2 product = new Product2(Name='Test');
+        insert product;
+        return product;
+    }
+    public static List<PricebookEntry> getPricebookEntriesForProduct(String productId) {
+        return [
+            SELECT Id, UnitPrice, Product2Id, Pricebook2Id 
+            FROM PricebookEntry 
+            WHERE Product2Id = :productId ];
+    }
 }
