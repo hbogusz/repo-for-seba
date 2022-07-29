@@ -1,7 +1,4 @@
 public with sharing class Wrappers {
-    public Wrappers() {
-
-    }
     public class ProductWrapper{
         @AuraEnabled
         public String id;

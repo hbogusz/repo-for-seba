@@ -1,6 +1,4 @@
 public with sharing class PricebookController {
-    public PricebookController() {
-    }
     @AuraEnabled
     public static List<Pricebook2> getPricebooks(){
         List<Pricebook2> pricebooks = [SELECT Id, Name, Start_Date__c, Expiration_Date__c, IsActive FROM Pricebook2];
