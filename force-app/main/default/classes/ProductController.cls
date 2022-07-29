@@ -1,7 +1,4 @@
 public with sharing class ProductController {
-    public ProductController() {
-
-    }
     @AuraEnabled
     public static void updateCreatedProduct(Product2 product, decimal unitPrice){
         try {
