@@ -11,6 +11,7 @@
 		<members>PricebookController</members>
 		<members>PricebookControllerTest</members>
 		<members>ProductController</members>
+		<members>ProductControllerTest</members>
 		<members>ReviewTriggerHandler</members>
 		<members>ReviewTriggerHandlerTest</members>
 		<members>TestDataFactory</members>
