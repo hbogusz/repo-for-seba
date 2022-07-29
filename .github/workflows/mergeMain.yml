@@ -31,12 +31,12 @@ jobs:
           run: 'echo ${{ secrets.SECRET_URL}} > SFDX_QA'
           
         - name: 'Authenticate to Integration Org'
-          run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a poductionOrg
+          run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a productionOrg
 
 
         - name: 'Deploy source'
           id: Deploy
-          run: sfdx force:source:deploy -x manifest/package.xml -u LRQA --json --loglevel fatal --checkonly -l RunLocalTests
+          run: sfdx force:source:deploy -x manifest/package.xml -u productionOrg --json --loglevel fatal --checkonly -l RunLocalTests
 
 
 
