@@ -20,6 +20,7 @@ public with sharing class CartController {
             cartItems.put(newItem.productId,newItem);
         }              
         sessionPart.put('cart', cartItems);
+        System.debug(cartItems);
     }
     @AuraEnabled(Cacheable=true)
     public static String getItemsFromCart(){
